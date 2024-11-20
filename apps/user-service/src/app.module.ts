@@ -1,3 +1,4 @@
+import { RabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { NotificationModule } from "./notification/notification.module";
@@ -14,6 +15,7 @@ import { AuthModule } from "./auth/auth.module";
 @Module({
   controllers: [],
   imports: [
+    RabbitMQModule,
     ACLModule,
     AuthModule,
     UserModule,
