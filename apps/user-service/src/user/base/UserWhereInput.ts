@@ -13,10 +13,9 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { JsonFilter } from "../../util/JsonFilter";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested, IsEnum } from "class-validator";
+import { IsOptional, IsEnum } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
-import { NotificationListRelationFilter } from "../../notification/base/NotificationListRelationFilter";
 import { EnumUserSex } from "./EnumUserSex";
 
 @InputType()
@@ -75,18 +74,6 @@ class UserWhereInput {
     nullable: true,
   })
   lastName?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => NotificationListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => NotificationListRelationFilter)
-  @IsOptional()
-  @Field(() => NotificationListRelationFilter, {
-    nullable: true,
-  })
-  notifications?: NotificationListRelationFilter;
 
   @ApiProperty({
     required: false,

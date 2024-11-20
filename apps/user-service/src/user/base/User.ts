@@ -17,13 +17,11 @@ import {
   IsDate,
   IsString,
   MaxLength,
-  ValidateNested,
   IsEnum,
 } from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
 import { Type } from "class-transformer";
-import { Notification } from "../../notification/base/Notification";
 import { EnumUserSex } from "./EnumUserSex";
 
 @ObjectType()
@@ -88,15 +86,6 @@ class User {
     nullable: true,
   })
   lastName!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => [Notification],
-  })
-  @ValidateNested()
-  @Type(() => Notification)
-  @IsOptional()
-  notifications?: Array<Notification>;
 
   @ApiProperty({
     required: false,

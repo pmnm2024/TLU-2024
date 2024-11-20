@@ -12,17 +12,9 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsJSONValue } from "../../validators";
-import {
-  IsOptional,
-  IsString,
-  MaxLength,
-  ValidateNested,
-  IsEnum,
-} from "class-validator";
+import { IsOptional, IsString, MaxLength, IsEnum } from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
-import { NotificationUpdateManyWithoutUsersInput } from "./NotificationUpdateManyWithoutUsersInput";
-import { Type } from "class-transformer";
 import { EnumUserSex } from "./EnumUserSex";
 
 @InputType()
@@ -71,18 +63,6 @@ class UserUpdateInput {
     nullable: true,
   })
   lastName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => NotificationUpdateManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => NotificationUpdateManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => NotificationUpdateManyWithoutUsersInput, {
-    nullable: true,
-  })
-  notifications?: NotificationUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
