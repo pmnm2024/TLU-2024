@@ -38,6 +38,7 @@ export class NotificationControllerBase {
         message: true,
         title: true,
         updatedAt: true,
+        user: true,
       },
     });
   }
@@ -55,6 +56,7 @@ export class NotificationControllerBase {
         message: true,
         title: true,
         updatedAt: true,
+        user: true,
       },
     });
   }
@@ -73,6 +75,7 @@ export class NotificationControllerBase {
         message: true,
         title: true,
         updatedAt: true,
+        user: true,
       },
     });
     if (result === null) {
@@ -100,6 +103,7 @@ export class NotificationControllerBase {
           message: true,
           title: true,
           updatedAt: true,
+          user: true,
         },
       });
     } catch (error) {
@@ -127,6 +131,7 @@ export class NotificationControllerBase {
           message: true,
           title: true,
           updatedAt: true,
+          user: true,
         },
       });
     } catch (error) {
