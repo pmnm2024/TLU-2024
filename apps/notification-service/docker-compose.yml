@@ -11,7 +11,7 @@ services:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
     depends_on:
-      - migrate
+      - redis
     restart: on-failure
   migrate:
     build:
@@ -52,5 +52,22 @@ services:
       timeout: 10s
     volumes:
       - mongo:/var/lib/mongosql/data
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - 5672:5672
+      - 15672:15672
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis:7
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis:/data
 volumes:
   mongo: ~
+  redis:
+    driver: local

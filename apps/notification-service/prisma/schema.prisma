@@ -13,4 +13,5 @@ model Notification {
   message   String?
   title     String?
   updatedAt DateTime @updatedAt
+  user      String?
 }
