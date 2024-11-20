@@ -1,0 +1,31 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model SupportRequest {
+  city                 String
+  createdAt            DateTime @default(now())
+  description          String?
+  detailAdrdess        String?
+  district             String
+  email                String
+  fullname             String
+  id                   String   @id @default(cuid())
+  phone                String
+  quantity             Int?
+  supportRequestTypeId String
+  updatedAt            DateTime @updatedAt
+  ward                 String
+}
+
+model SupportRequestType {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String?
+  updatedAt DateTime @updatedAt
+}
