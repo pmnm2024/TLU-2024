@@ -38,6 +38,18 @@ class NotificationCreateInput {
     nullable: true,
   })
   title?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  user?: string | null;
 }
 
 export { NotificationCreateInput as NotificationCreateInput };

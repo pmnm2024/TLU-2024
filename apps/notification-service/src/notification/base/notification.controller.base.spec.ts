@@ -23,6 +23,7 @@ const CREATE_INPUT = {
   message: "exampleMessage",
   title: "exampleTitle",
   updatedAt: new Date(),
+  user: "exampleUser",
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
@@ -30,6 +31,7 @@ const CREATE_RESULT = {
   message: "exampleMessage",
   title: "exampleTitle",
   updatedAt: new Date(),
+  user: "exampleUser",
 };
 const FIND_MANY_RESULT = [
   {
@@ -38,6 +40,7 @@ const FIND_MANY_RESULT = [
     message: "exampleMessage",
     title: "exampleTitle",
     updatedAt: new Date(),
+    user: "exampleUser",
   },
 ];
 const FIND_ONE_RESULT = {
@@ -46,6 +49,7 @@ const FIND_ONE_RESULT = {
   message: "exampleMessage",
   title: "exampleTitle",
   updatedAt: new Date(),
+  user: "exampleUser",
 };
 
 const service = {
