@@ -35,7 +35,7 @@ export class UserControllerBase {
   constructor(
     protected readonly service: UserService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: User })
@@ -235,7 +235,11 @@ export class UserControllerBase {
   async ResetPassword(
     @common.Body()
     body: ResetPasswordInput
-  ): Promise<ResetPasswordOutput> {
-    return this.service.ResetPassword(body);
+  ){
+    try {
+      return ""
+    } catch (error) {
+      throw error
+    }
   }
 }
