@@ -15,6 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 
 @InputType()
 class NotificationWhereInput {
@@ -39,6 +40,17 @@ class NotificationWhereInput {
     nullable: true,
   })
   message?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: BooleanNullableFilter,
+  })
+  @Type(() => BooleanNullableFilter)
+  @IsOptional()
+  @Field(() => BooleanNullableFilter, {
+    nullable: true,
+  })
+  status?: BooleanNullableFilter;
 
   @ApiProperty({
     required: false,
