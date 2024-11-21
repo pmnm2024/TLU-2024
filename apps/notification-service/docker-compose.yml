@@ -6,6 +6,9 @@ services:
         NPM_LOG_LEVEL: notice
     ports:
       - ${PORT}:8001
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory inside the container
+      - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: ${DB_URL}
@@ -50,9 +53,13 @@ services:
       interval: 10s
       timeout: 10s
     volumes:
-      - mongo:/var/lib/mongosql/data
+      - mongo_data:/data/db 
+      - mongo_config:/data/configdb 
 networks:
   app-network:
     external: true
 volumes:
-  mongo: ~
+  mongo_data:
+    external: false # Volume lưu dữ liệu MongoDB
+  mongo_config:
+    external: false # Volume lưu cấu hình MongoDB
