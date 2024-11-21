@@ -15,8 +15,8 @@ import {
   IsDate,
   IsString,
   MaxLength,
-  IsOptional,
   ValidateNested,
+  IsOptional,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { SupportRequest } from "../../supportRequest/base/SupportRequest";
@@ -40,19 +40,16 @@ class SupportRequestType {
   id!: string;
 
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  name!: string | null;
+  @Field(() => String)
+  name!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: () => [SupportRequest],
   })
   @ValidateNested()

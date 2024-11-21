@@ -139,7 +139,7 @@ class SupportRequestCreateInput {
   @ValidateNested()
   @Type(() => SupportRequestTypeWhereUniqueInput)
   @Field(() => SupportRequestTypeWhereUniqueInput)
-  supportRequestTypeId!: SupportRequestTypeWhereUniqueInput;
+  supportRequestTypeID!: SupportRequestTypeWhereUniqueInput;
 
   @ApiProperty({
     required: true,
