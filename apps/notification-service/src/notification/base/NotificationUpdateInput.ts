@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional } from "class-validator";
+import { IsString, MaxLength, IsOptional, IsBoolean } from "class-validator";
 
 @InputType()
 class NotificationUpdateInput {
@@ -26,6 +26,17 @@ class NotificationUpdateInput {
     nullable: true,
   })
   message?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  status?: boolean | null;
 
   @ApiProperty({
     required: false,
