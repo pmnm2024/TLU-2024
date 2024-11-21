@@ -14,15 +14,17 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsDate,
   IsString,
+  IsInt,
+  Min,
+  Max,
   MaxLength,
   ValidateNested,
-  IsOptional,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { SupportRequest } from "../../supportRequest/base/SupportRequest";
 
 @ObjectType()
-class SupportRequestType {
+class SupportRequestDetail {
   @ApiProperty({
     required: true,
   })
@@ -41,21 +43,48 @@ class SupportRequestType {
 
   @ApiProperty({
     required: true,
+    type: Number,
+  })
+  @IsInt()
+  @Min(-999999999)
+  @Max(999999999)
+  @Field(() => Number)
+  quantity!: number;
+
+  @ApiProperty({
+    required: true,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
   @Field(() => String)
-  name!: string;
+  reliefItemId!: string;
 
   @ApiProperty({
-    required: false,
-    type: () => [SupportRequest],
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  reliefItemName!: string;
+
+  @ApiProperty({
+    required: true,
+    type: () => SupportRequest,
   })
   @ValidateNested()
   @Type(() => SupportRequest)
-  @IsOptional()
-  supportRequests?: Array<SupportRequest>;
+  supportRequestId?: SupportRequest;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  unit!: string;
 
   @ApiProperty({
     required: true,
@@ -66,4 +95,4 @@ class SupportRequestType {
   updatedAt!: Date;
 }
 
-export { SupportRequestType as SupportRequestType };
+export { SupportRequestDetail as SupportRequestDetail };

@@ -14,10 +14,11 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
-import { SupportRequestListRelationFilter } from "../../supportRequest/base/SupportRequestListRelationFilter";
+import { IntFilter } from "../../util/IntFilter";
+import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
 @InputType()
-class SupportRequestTypeWhereInput {
+class SupportRequestDetailWhereInput {
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -31,6 +32,17 @@ class SupportRequestTypeWhereInput {
 
   @ApiProperty({
     required: false,
+    type: IntFilter,
+  })
+  @Type(() => IntFilter)
+  @IsOptional()
+  @Field(() => IntFilter, {
+    nullable: true,
+  })
+  quantity?: IntFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -38,19 +50,41 @@ class SupportRequestTypeWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  name?: StringFilter;
+  reliefItemId?: StringFilter;
 
   @ApiProperty({
     required: false,
-    type: () => SupportRequestListRelationFilter,
+    type: StringFilter,
   })
-  @ValidateNested()
-  @Type(() => SupportRequestListRelationFilter)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => SupportRequestListRelationFilter, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  supportRequests?: SupportRequestListRelationFilter;
+  reliefItemName?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportRequestWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestWhereUniqueInput)
+  @IsOptional()
+  @Field(() => SupportRequestWhereUniqueInput, {
+    nullable: true,
+  })
+  supportRequestId?: SupportRequestWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  unit?: StringFilter;
 }
 
-export { SupportRequestTypeWhereInput as SupportRequestTypeWhereInput };
+export { SupportRequestDetailWhereInput as SupportRequestDetailWhereInput };
