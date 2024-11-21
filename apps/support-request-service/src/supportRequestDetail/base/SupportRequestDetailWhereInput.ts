@@ -14,11 +14,11 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { IntFilter } from "../../util/IntFilter";
 import { SupportRequestListRelationFilter } from "../../supportRequest/base/SupportRequestListRelationFilter";
 
 @InputType()
-class SupportRequestTypeWhereInput {
+class SupportRequestDetailWhereInput {
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -32,14 +32,36 @@ class SupportRequestTypeWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: IntFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => IntFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => IntFilter, {
     nullable: true,
   })
-  name?: StringNullableFilter;
+  quantity?: IntFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  reliefItemId?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  reliefItemName?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -51,7 +73,18 @@ class SupportRequestTypeWhereInput {
   @Field(() => SupportRequestListRelationFilter, {
     nullable: true,
   })
-  supportRequests?: SupportRequestListRelationFilter;
+  supportRequestId?: SupportRequestListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  unit?: StringFilter;
 }
 
-export { SupportRequestTypeWhereInput as SupportRequestTypeWhereInput };
+export { SupportRequestDetailWhereInput as SupportRequestDetailWhereInput };

@@ -12,76 +12,56 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { SupportRequestController } from "../supportRequest.controller";
-import { SupportRequestService } from "../supportRequest.service";
+import { SupportRequestDetailController } from "../supportRequestDetail.controller";
+import { SupportRequestDetailService } from "../supportRequestDetail.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
-  city: "exampleCity",
   createdAt: new Date(),
-  description: "exampleDescription",
-  detailAdrdess: "exampleDetailAdrdess",
-  district: "exampleDistrict",
-  email: "exampleEmail",
-  fullname: "exampleFullname",
   id: "exampleId",
-  phone: "examplePhone",
   quantity: 42,
+  reliefItemId: "exampleReliefItemId",
+  reliefItemName: "exampleReliefItemName",
+  unit: "exampleUnit",
   updatedAt: new Date(),
-  ward: "exampleWard",
 };
 const CREATE_RESULT = {
-  city: "exampleCity",
   createdAt: new Date(),
-  description: "exampleDescription",
-  detailAdrdess: "exampleDetailAdrdess",
-  district: "exampleDistrict",
-  email: "exampleEmail",
-  fullname: "exampleFullname",
   id: "exampleId",
-  phone: "examplePhone",
   quantity: 42,
+  reliefItemId: "exampleReliefItemId",
+  reliefItemName: "exampleReliefItemName",
+  unit: "exampleUnit",
   updatedAt: new Date(),
-  ward: "exampleWard",
 };
 const FIND_MANY_RESULT = [
   {
-    city: "exampleCity",
     createdAt: new Date(),
-    description: "exampleDescription",
-    detailAdrdess: "exampleDetailAdrdess",
-    district: "exampleDistrict",
-    email: "exampleEmail",
-    fullname: "exampleFullname",
     id: "exampleId",
-    phone: "examplePhone",
     quantity: 42,
+    reliefItemId: "exampleReliefItemId",
+    reliefItemName: "exampleReliefItemName",
+    unit: "exampleUnit",
     updatedAt: new Date(),
-    ward: "exampleWard",
   },
 ];
 const FIND_ONE_RESULT = {
-  city: "exampleCity",
   createdAt: new Date(),
-  description: "exampleDescription",
-  detailAdrdess: "exampleDetailAdrdess",
-  district: "exampleDistrict",
-  email: "exampleEmail",
-  fullname: "exampleFullname",
   id: "exampleId",
-  phone: "examplePhone",
   quantity: 42,
+  reliefItemId: "exampleReliefItemId",
+  reliefItemName: "exampleReliefItemName",
+  unit: "exampleUnit",
   updatedAt: new Date(),
-  ward: "exampleWard",
 };
 
 const service = {
-  createSupportRequest() {
+  createSupportRequestDetail() {
     return CREATE_RESULT;
   },
-  supportRequests: () => FIND_MANY_RESULT,
-  supportRequest: ({ where }: { where: { id: string } }) => {
+  supportRequestDetails: () => FIND_MANY_RESULT,
+  supportRequestDetail: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -123,18 +103,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("SupportRequest", () => {
+describe("SupportRequestDetail", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: SupportRequestService,
+          provide: SupportRequestDetailService,
           useValue: service,
         },
       ],
-      controllers: [SupportRequestController],
+      controllers: [SupportRequestDetailController],
       imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -151,9 +131,9 @@ describe("SupportRequest", () => {
     await app.init();
   });
 
-  test("POST /supportRequests", async () => {
+  test("POST /supportRequestDetails", async () => {
     await request(app.getHttpServer())
-      .post("/supportRequests")
+      .post("/supportRequestDetails")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -163,9 +143,9 @@ describe("SupportRequest", () => {
       });
   });
 
-  test("GET /supportRequests", async () => {
+  test("GET /supportRequestDetails", async () => {
     await request(app.getHttpServer())
-      .get("/supportRequests")
+      .get("/supportRequestDetails")
       .expect(HttpStatus.OK)
       .expect([
         {
@@ -176,9 +156,9 @@ describe("SupportRequest", () => {
       ]);
   });
 
-  test("GET /supportRequests/:id non existing", async () => {
+  test("GET /supportRequestDetails/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/supportRequests"}/${nonExistingId}`)
+      .get(`${"/supportRequestDetails"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -187,9 +167,9 @@ describe("SupportRequest", () => {
       });
   });
 
-  test("GET /supportRequests/:id existing", async () => {
+  test("GET /supportRequestDetails/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/supportRequests"}/${existingId}`)
+      .get(`${"/supportRequestDetails"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
@@ -198,10 +178,10 @@ describe("SupportRequest", () => {
       });
   });
 
-  test("POST /supportRequests existing resource", async () => {
+  test("POST /supportRequestDetails existing resource", async () => {
     const agent = request(app.getHttpServer());
     await agent
-      .post("/supportRequests")
+      .post("/supportRequestDetails")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -211,7 +191,7 @@ describe("SupportRequest", () => {
       })
       .then(function () {
         agent
-          .post("/supportRequests")
+          .post("/supportRequestDetails")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({
