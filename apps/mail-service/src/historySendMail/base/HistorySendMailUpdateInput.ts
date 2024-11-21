@@ -11,10 +11,18 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional, IsBoolean } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  IsDate,
+  IsEnum,
+} from "class-validator";
+import { Type } from "class-transformer";
+import { EnumHistorySendMailStatus } from "./EnumHistorySendMailStatus";
 
 @InputType()
-class NotificationCreateInput {
+class HistorySendMailUpdateInput {
   @ApiProperty({
     required: false,
     type: String,
@@ -25,18 +33,40 @@ class NotificationCreateInput {
   @Field(() => String, {
     nullable: true,
   })
-  message?: string | null;
+  body?: string | null;
 
   @ApiProperty({
     required: false,
-    type: Boolean,
+    type: String,
   })
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  @Field(() => Boolean, {
+  @Field(() => String, {
     nullable: true,
   })
-  status?: boolean | null;
+  email?: string | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  sentAt?: Date | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumHistorySendMailStatus,
+  })
+  @IsEnum(EnumHistorySendMailStatus)
+  @IsOptional()
+  @Field(() => EnumHistorySendMailStatus, {
+    nullable: true,
+  })
+  status?: "Option1" | null;
 
   @ApiProperty({
     required: false,
@@ -48,19 +78,7 @@ class NotificationCreateInput {
   @Field(() => String, {
     nullable: true,
   })
-  title?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  user?: string | null;
+  subject?: string | null;
 }
 
-export { NotificationCreateInput as NotificationCreateInput };
+export { HistorySendMailUpdateInput as HistorySendMailUpdateInput };

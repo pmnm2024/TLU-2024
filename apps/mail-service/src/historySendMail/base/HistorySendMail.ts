@@ -12,16 +12,29 @@ https://docs.amplication.com/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsDate,
   IsString,
   MaxLength,
   IsOptional,
-  IsBoolean,
+  IsDate,
+  IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { EnumHistorySendMailStatus } from "./EnumHistorySendMailStatus";
 
 @ObjectType()
-class Notification {
+class HistorySendMail {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  body!: string | null;
+
   @ApiProperty({
     required: true,
   })
@@ -29,6 +42,17 @@ class Notification {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email!: string | null;
 
   @ApiProperty({
     required: true,
@@ -40,6 +64,28 @@ class Notification {
 
   @ApiProperty({
     required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  sentAt!: Date | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumHistorySendMailStatus,
+  })
+  @IsEnum(EnumHistorySendMailStatus)
+  @IsOptional()
+  @Field(() => EnumHistorySendMailStatus, {
+    nullable: true,
+  })
+  status?: "Option1" | null;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -48,30 +94,7 @@ class Notification {
   @Field(() => String, {
     nullable: true,
   })
-  message!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: Boolean,
-  })
-  @IsBoolean()
-  @IsOptional()
-  @Field(() => Boolean, {
-    nullable: true,
-  })
-  status!: boolean | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  title!: string | null;
+  subject!: string | null;
 
   @ApiProperty({
     required: true,
@@ -80,18 +103,6 @@ class Notification {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  user!: string | null;
 }
 
-export { Notification as Notification };
+export { HistorySendMail as HistorySendMail };

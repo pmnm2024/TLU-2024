@@ -11,14 +11,37 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
-import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
+import { Type } from "class-transformer";
+import { IsOptional, IsEnum } from "class-validator";
+import { StringFilter } from "../../util/StringFilter";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { EnumHistorySendMailStatus } from "./EnumHistorySendMailStatus";
 
 @InputType()
-class NotificationWhereInput {
+class HistorySendMailWhereInput {
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  body?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  email?: StringNullableFilter;
+
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -32,36 +55,25 @@ class NotificationWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: DateTimeNullableFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => DateTimeNullableFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => DateTimeNullableFilter, {
     nullable: true,
   })
-  message?: StringNullableFilter;
+  sentAt?: DateTimeNullableFilter;
 
   @ApiProperty({
     required: false,
-    type: BooleanNullableFilter,
+    enum: EnumHistorySendMailStatus,
   })
-  @Type(() => BooleanNullableFilter)
+  @IsEnum(EnumHistorySendMailStatus)
   @IsOptional()
-  @Field(() => BooleanNullableFilter, {
+  @Field(() => EnumHistorySendMailStatus, {
     nullable: true,
   })
-  status?: BooleanNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
-  title?: StringNullableFilter;
+  status?: "Option1";
 
   @ApiProperty({
     required: false,
@@ -72,7 +84,7 @@ class NotificationWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  user?: StringNullableFilter;
+  subject?: StringNullableFilter;
 }
 
-export { NotificationWhereInput as NotificationWhereInput };
+export { HistorySendMailWhereInput as HistorySendMailWhereInput };

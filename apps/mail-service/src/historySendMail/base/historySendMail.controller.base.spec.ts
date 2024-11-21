@@ -12,56 +12,56 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { NotificationController } from "../notification.controller";
-import { NotificationService } from "../notification.service";
+import { HistorySendMailController } from "../historySendMail.controller";
+import { HistorySendMailService } from "../historySendMail.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  body: "exampleBody",
   createdAt: new Date(),
+  email: "exampleEmail",
   id: "exampleId",
-  message: "exampleMessage",
-  status: "true",
-  title: "exampleTitle",
+  sentAt: new Date(),
+  subject: "exampleSubject",
   updatedAt: new Date(),
-  user: "exampleUser",
 };
 const CREATE_RESULT = {
+  body: "exampleBody",
   createdAt: new Date(),
+  email: "exampleEmail",
   id: "exampleId",
-  message: "exampleMessage",
-  status: "true",
-  title: "exampleTitle",
+  sentAt: new Date(),
+  subject: "exampleSubject",
   updatedAt: new Date(),
-  user: "exampleUser",
 };
 const FIND_MANY_RESULT = [
   {
+    body: "exampleBody",
     createdAt: new Date(),
+    email: "exampleEmail",
     id: "exampleId",
-    message: "exampleMessage",
-    status: "true",
-    title: "exampleTitle",
+    sentAt: new Date(),
+    subject: "exampleSubject",
     updatedAt: new Date(),
-    user: "exampleUser",
   },
 ];
 const FIND_ONE_RESULT = {
+  body: "exampleBody",
   createdAt: new Date(),
+  email: "exampleEmail",
   id: "exampleId",
-  message: "exampleMessage",
-  status: "true",
-  title: "exampleTitle",
+  sentAt: new Date(),
+  subject: "exampleSubject",
   updatedAt: new Date(),
-  user: "exampleUser",
 };
 
 const service = {
-  createNotification() {
+  createHistorySendMail() {
     return CREATE_RESULT;
   },
-  notifications: () => FIND_MANY_RESULT,
-  notification: ({ where }: { where: { id: string } }) => {
+  historySendMails: () => FIND_MANY_RESULT,
+  historySendMail: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -103,18 +103,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("Notification", () => {
+describe("HistorySendMail", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: NotificationService,
+          provide: HistorySendMailService,
           useValue: service,
         },
       ],
-      controllers: [NotificationController],
+      controllers: [HistorySendMailController],
       imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -131,34 +131,36 @@ describe("Notification", () => {
     await app.init();
   });
 
-  test("POST /notifications", async () => {
+  test("POST /historySendMails", async () => {
     await request(app.getHttpServer())
-      .post("/notifications")
+      .post("/historySendMails")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        sentAt: CREATE_RESULT.sentAt.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
 
-  test("GET /notifications", async () => {
+  test("GET /historySendMails", async () => {
     await request(app.getHttpServer())
-      .get("/notifications")
+      .get("/historySendMails")
       .expect(HttpStatus.OK)
       .expect([
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          sentAt: FIND_MANY_RESULT[0].sentAt.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
   });
 
-  test("GET /notifications/:id non existing", async () => {
+  test("GET /historySendMails/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/notifications"}/${nonExistingId}`)
+      .get(`${"/historySendMails"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -167,31 +169,33 @@ describe("Notification", () => {
       });
   });
 
-  test("GET /notifications/:id existing", async () => {
+  test("GET /historySendMails/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/notifications"}/${existingId}`)
+      .get(`${"/historySendMails"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        sentAt: FIND_ONE_RESULT.sentAt.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });
 
-  test("POST /notifications existing resource", async () => {
+  test("POST /historySendMails existing resource", async () => {
     const agent = request(app.getHttpServer());
     await agent
-      .post("/notifications")
+      .post("/historySendMails")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        sentAt: CREATE_RESULT.sentAt.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })
       .then(function () {
         agent
-          .post("/notifications")
+          .post("/historySendMails")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({

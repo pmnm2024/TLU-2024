@@ -18,7 +18,18 @@ import { SortOrder } from "../../util/SortOrder";
   isAbstract: true,
   description: undefined,
 })
-class NotificationOrderByInput {
+class HistorySendMailOrderByInput {
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  body?: SortOrder;
+
   @ApiProperty({
     required: false,
     enum: ["asc", "desc"],
@@ -29,6 +40,17 @@ class NotificationOrderByInput {
     nullable: true,
   })
   createdAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  email?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -50,7 +72,7 @@ class NotificationOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  message?: SortOrder;
+  sentAt?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -72,7 +94,7 @@ class NotificationOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  title?: SortOrder;
+  subject?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -84,17 +106,6 @@ class NotificationOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  user?: SortOrder;
 }
 
-export { NotificationOrderByInput as NotificationOrderByInput };
+export { HistorySendMailOrderByInput as HistorySendMailOrderByInput };
