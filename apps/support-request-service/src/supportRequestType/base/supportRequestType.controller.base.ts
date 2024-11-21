@@ -161,7 +161,7 @@ export class SupportRequestTypeControllerBase {
         quantity: true,
         status: true,
 
-        supportRequestTypeId: {
+        supportRequestTypeID: {
           select: {
             id: true,
           },

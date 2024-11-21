@@ -37,8 +37,8 @@ export class SupportRequestControllerBase {
       data: {
         ...data,
 
-        supportRequestTypeId: {
-          connect: data.supportRequestTypeId,
+        supportRequestTypeID: {
+          connect: data.supportRequestTypeID,
         },
       },
       select: {
@@ -54,7 +54,7 @@ export class SupportRequestControllerBase {
         quantity: true,
         status: true,
 
-        supportRequestTypeId: {
+        supportRequestTypeID: {
           select: {
             id: true,
           },
@@ -88,7 +88,7 @@ export class SupportRequestControllerBase {
         quantity: true,
         status: true,
 
-        supportRequestTypeId: {
+        supportRequestTypeID: {
           select: {
             id: true,
           },
@@ -121,7 +121,7 @@ export class SupportRequestControllerBase {
         quantity: true,
         status: true,
 
-        supportRequestTypeId: {
+        supportRequestTypeID: {
           select: {
             id: true,
           },
@@ -152,8 +152,8 @@ export class SupportRequestControllerBase {
         data: {
           ...data,
 
-          supportRequestTypeId: {
-            connect: data.supportRequestTypeId,
+          supportRequestTypeID: {
+            connect: data.supportRequestTypeID,
           },
         },
         select: {
@@ -169,7 +169,7 @@ export class SupportRequestControllerBase {
           quantity: true,
           status: true,
 
-          supportRequestTypeId: {
+          supportRequestTypeID: {
             select: {
               id: true,
             },
@@ -211,7 +211,7 @@ export class SupportRequestControllerBase {
           quantity: true,
           status: true,
 
-          supportRequestTypeId: {
+          supportRequestTypeID: {
             select: {
               id: true,
             },

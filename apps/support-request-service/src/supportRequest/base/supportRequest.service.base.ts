@@ -71,6 +71,6 @@ export class SupportRequestServiceBase {
       .findUnique({
         where: { id: parentId },
       })
-      .supportRequestTypeId();
+      .supportRequestTypeID();
   }
 }
