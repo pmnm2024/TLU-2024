@@ -20,7 +20,7 @@ RUN npm install -g prisma
 RUN npm run prisma:generate
 
 # Expose cổng để kết nối đến container
-ENV PORT=3000
+ENV PORT=8001
 EXPOSE ${PORT}
 
 # Set NODE_ENV thành development
