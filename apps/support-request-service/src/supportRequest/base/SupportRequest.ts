@@ -11,6 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+
 import {
   IsString,
   MaxLength,
@@ -19,8 +20,14 @@ import {
   IsInt,
   Min,
   Max,
+  IsEnum,
+  ValidateNested,
 } from "class-validator";
+
 import { Type } from "class-transformer";
+import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
+import { SupportRequestDetail } from "../../supportRequestDetail/base/SupportRequestDetail";
+import { SupportRequestType } from "../../supportRequestType/base/SupportRequestType";
 
 @ObjectType()
 class SupportRequest {
@@ -123,12 +130,30 @@ class SupportRequest {
 
   @ApiProperty({
     required: true,
-    type: String,
+    enum: EnumSupportRequestStatus,
   })
-  @IsString()
-  @MaxLength(1000)
-  @Field(() => String)
-  supportRequestTypeId!: string;
+  @IsEnum(EnumSupportRequestStatus)
+  @Field(() => EnumSupportRequestStatus, {
+    nullable: true,
+  })
+  status?: "Pending" | "Processed";
+
+  @ApiProperty({
+    required: false,
+    type: () => [SupportRequestDetail],
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestDetail)
+  @IsOptional()
+  supportRequestDetails?: Array<SupportRequestDetail>;
+
+  @ApiProperty({
+    required: true,
+    type: () => SupportRequestType,
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestType)
+  supportRequestTypeID?: SupportRequestType;
 
   @ApiProperty({
     required: true,

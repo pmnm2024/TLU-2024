@@ -13,9 +13,12 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, IsEnum, ValidateNested } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
+import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
+import { SupportRequestDetailListRelationFilter } from "../../supportRequestDetail/base/SupportRequestDetailListRelationFilter";
+import { SupportRequestTypeWhereUniqueInput } from "../../supportRequestType/base/SupportRequestTypeWhereUniqueInput";
 
 @InputType()
 class SupportRequestWhereInput {
@@ -120,14 +123,38 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringFilter,
+    enum: EnumSupportRequestStatus,
   })
-  @Type(() => StringFilter)
+  @IsEnum(EnumSupportRequestStatus)
   @IsOptional()
-  @Field(() => StringFilter, {
+  @Field(() => EnumSupportRequestStatus, {
     nullable: true,
   })
-  supportRequestTypeId?: StringFilter;
+  status?: "Pending" | "Processed";
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportRequestDetailListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestDetailListRelationFilter)
+  @IsOptional()
+  @Field(() => SupportRequestDetailListRelationFilter, {
+    nullable: true,
+  })
+  supportRequestDetails?: SupportRequestDetailListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportRequestTypeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestTypeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => SupportRequestTypeWhereUniqueInput, {
+    nullable: true,
+  })
+  supportRequestTypeID?: SupportRequestTypeWhereUniqueInput;
 
   @ApiProperty({
     required: false,

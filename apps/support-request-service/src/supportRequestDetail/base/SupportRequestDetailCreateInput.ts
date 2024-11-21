@@ -9,35 +9,30 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-import { ObjectType, Field } from "@nestjs/graphql";
+import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsDate,
+  IsInt,
+  Min,
+  Max,
   IsString,
   MaxLength,
   ValidateNested,
-  IsOptional,
 } from "class-validator";
+import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 import { Type } from "class-transformer";
-import { SupportRequest } from "../../supportRequest/base/SupportRequest";
 
-@ObjectType()
-class SupportRequestType {
+@InputType()
+class SupportRequestDetailCreateInput {
   @ApiProperty({
     required: true,
+    type: Number,
   })
-  @IsDate()
-  @Type(() => Date)
-  @Field(() => Date)
-  createdAt!: Date;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @Field(() => String)
-  id!: string;
+  @IsInt()
+  @Min(-999999999)
+  @Max(999999999)
+  @Field(() => Number)
+  quantity!: number;
 
   @ApiProperty({
     required: true,
@@ -46,24 +41,34 @@ class SupportRequestType {
   @IsString()
   @MaxLength(1000)
   @Field(() => String)
-  name!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => [SupportRequest],
-  })
-  @ValidateNested()
-  @Type(() => SupportRequest)
-  @IsOptional()
-  supportRequests?: Array<SupportRequest>;
+  reliefItemId!: string;
 
   @ApiProperty({
     required: true,
+    type: String,
   })
-  @IsDate()
-  @Type(() => Date)
-  @Field(() => Date)
-  updatedAt!: Date;
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  reliefItemName!: string;
+
+  @ApiProperty({
+    required: true,
+    type: () => SupportRequestWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportRequestWhereUniqueInput)
+  @Field(() => SupportRequestWhereUniqueInput)
+  supportRequestId!: SupportRequestWhereUniqueInput;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  unit!: string;
 }
 
-export { SupportRequestType as SupportRequestType };
+export { SupportRequestDetailCreateInput as SupportRequestDetailCreateInput };
