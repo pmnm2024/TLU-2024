@@ -20,7 +20,7 @@ import {
   MaxLength,
   ValidateNested,
 } from "class-validator";
-import { SupportRequestUpdateManyWithoutSupportRequestDetailsInput } from "./SupportRequestUpdateManyWithoutSupportRequestDetailsInput";
+import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 import { Type } from "class-transformer";
 
 @InputType()
@@ -64,15 +64,15 @@ class SupportRequestDetailUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => SupportRequestUpdateManyWithoutSupportRequestDetailsInput,
+    type: () => SupportRequestWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => SupportRequestUpdateManyWithoutSupportRequestDetailsInput)
+  @Type(() => SupportRequestWhereUniqueInput)
   @IsOptional()
-  @Field(() => SupportRequestUpdateManyWithoutSupportRequestDetailsInput, {
+  @Field(() => SupportRequestWhereUniqueInput, {
     nullable: true,
   })
-  supportRequestId?: SupportRequestUpdateManyWithoutSupportRequestDetailsInput;
+  supportRequestId?: SupportRequestWhereUniqueInput;
 
   @ApiProperty({
     required: false,

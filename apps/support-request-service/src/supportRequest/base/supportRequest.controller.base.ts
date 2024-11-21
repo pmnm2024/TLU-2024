@@ -246,6 +246,13 @@ export class SupportRequestControllerBase {
         quantity: true,
         reliefItemId: true,
         reliefItemName: true,
+
+        supportRequestId: {
+          select: {
+            id: true,
+          },
+        },
+
         unit: true,
         updatedAt: true,
       },
