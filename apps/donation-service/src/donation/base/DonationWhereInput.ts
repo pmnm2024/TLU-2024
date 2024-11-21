@@ -17,6 +17,7 @@ import { IsOptional, IsEnum } from "class-validator";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { EnumDonationPaymentMethod } from "./EnumDonationPaymentMethod";
+import { EnumDonationStatus } from "./EnumDonationStatus";
 
 @InputType()
 class DonationWhereInput {
@@ -156,6 +157,17 @@ class DonationWhereInput {
     nullable: true,
   })
   phone?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumDonationStatus,
+  })
+  @IsEnum(EnumDonationStatus)
+  @IsOptional()
+  @Field(() => EnumDonationStatus, {
+    nullable: true,
+  })
+  status?: "Pending" | "Processed" | "Refused";
 
   @ApiProperty({
     required: false,
