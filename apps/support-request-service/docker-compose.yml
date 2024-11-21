@@ -57,11 +57,10 @@ services:
       retries: 10
     volumes:
     - mysql-data:/var/lib/mysql
-    app-network: 
-    - app-network
+
 volumes:
   mysql-data:
   support-request-data:
 networks:
   app-network:
-    external: true
+    external: false
