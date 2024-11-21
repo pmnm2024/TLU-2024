@@ -16,69 +16,74 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
-import { NotificationService } from "../notification.service";
-import { NotificationCreateInput } from "./NotificationCreateInput";
-import { Notification } from "./Notification";
-import { NotificationFindManyArgs } from "./NotificationFindManyArgs";
-import { NotificationWhereUniqueInput } from "./NotificationWhereUniqueInput";
-import { NotificationUpdateInput } from "./NotificationUpdateInput";
+import { HistorySendMailService } from "../historySendMail.service";
+import { HistorySendMailCreateInput } from "./HistorySendMailCreateInput";
+import { HistorySendMail } from "./HistorySendMail";
+import { HistorySendMailFindManyArgs } from "./HistorySendMailFindManyArgs";
+import { HistorySendMailWhereUniqueInput } from "./HistorySendMailWhereUniqueInput";
+import { HistorySendMailUpdateInput } from "./HistorySendMailUpdateInput";
 
-export class NotificationControllerBase {
-  constructor(protected readonly service: NotificationService) {}
+export class HistorySendMailControllerBase {
+  constructor(protected readonly service: HistorySendMailService) {}
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: Notification })
-  async createNotification(
-    @common.Body() data: NotificationCreateInput
-  ): Promise<Notification> {
-    return await this.service.createNotification({
+  @swagger.ApiCreatedResponse({ type: HistorySendMail })
+  async createHistorySendMail(
+    @common.Body() data: HistorySendMailCreateInput
+  ): Promise<HistorySendMail> {
+    return await this.service.createHistorySendMail({
       data: data,
       select: {
+        body: true,
         createdAt: true,
+        email: true,
         id: true,
-        message: true,
+        sentAt: true,
         status: true,
-        title: true,
+        subject: true,
         updatedAt: true,
-        user: true,
       },
     });
   }
 
   @common.Get()
-  @swagger.ApiOkResponse({ type: [Notification] })
-  @ApiNestedQuery(NotificationFindManyArgs)
-  async notifications(@common.Req() request: Request): Promise<Notification[]> {
-    const args = plainToClass(NotificationFindManyArgs, request.query);
-    return this.service.notifications({
+  @swagger.ApiOkResponse({ type: [HistorySendMail] })
+  @ApiNestedQuery(HistorySendMailFindManyArgs)
+  async historySendMails(
+    @common.Req() request: Request
+  ): Promise<HistorySendMail[]> {
+    const args = plainToClass(HistorySendMailFindManyArgs, request.query);
+    return this.service.historySendMails({
       ...args,
       select: {
+        body: true,
         createdAt: true,
+        email: true,
         id: true,
-        message: true,
+        sentAt: true,
         status: true,
-        title: true,
+        subject: true,
         updatedAt: true,
-        user: true,
       },
     });
   }
 
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: Notification })
+  @swagger.ApiOkResponse({ type: HistorySendMail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async notification(
-    @common.Param() params: NotificationWhereUniqueInput
-  ): Promise<Notification | null> {
-    const result = await this.service.notification({
+  async historySendMail(
+    @common.Param() params: HistorySendMailWhereUniqueInput
+  ): Promise<HistorySendMail | null> {
+    const result = await this.service.historySendMail({
       where: params,
       select: {
+        body: true,
         createdAt: true,
+        email: true,
         id: true,
-        message: true,
+        sentAt: true,
         status: true,
-        title: true,
+        subject: true,
         updatedAt: true,
-        user: true,
       },
     });
     if (result === null) {
@@ -90,24 +95,25 @@ export class NotificationControllerBase {
   }
 
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: Notification })
+  @swagger.ApiOkResponse({ type: HistorySendMail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async updateNotification(
-    @common.Param() params: NotificationWhereUniqueInput,
-    @common.Body() data: NotificationUpdateInput
-  ): Promise<Notification | null> {
+  async updateHistorySendMail(
+    @common.Param() params: HistorySendMailWhereUniqueInput,
+    @common.Body() data: HistorySendMailUpdateInput
+  ): Promise<HistorySendMail | null> {
     try {
-      return await this.service.updateNotification({
+      return await this.service.updateHistorySendMail({
         where: params,
         data: data,
         select: {
+          body: true,
           createdAt: true,
+          email: true,
           id: true,
-          message: true,
+          sentAt: true,
           status: true,
-          title: true,
+          subject: true,
           updatedAt: true,
-          user: true,
         },
       });
     } catch (error) {
@@ -121,22 +127,23 @@ export class NotificationControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: Notification })
+  @swagger.ApiOkResponse({ type: HistorySendMail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async deleteNotification(
-    @common.Param() params: NotificationWhereUniqueInput
-  ): Promise<Notification | null> {
+  async deleteHistorySendMail(
+    @common.Param() params: HistorySendMailWhereUniqueInput
+  ): Promise<HistorySendMail | null> {
     try {
-      return await this.service.deleteNotification({
+      return await this.service.deleteHistorySendMail({
         where: params,
         select: {
+          body: true,
           createdAt: true,
+          email: true,
           id: true,
-          message: true,
+          sentAt: true,
           status: true,
-          title: true,
+          subject: true,
           updatedAt: true,
-          user: true,
         },
       });
     } catch (error) {
