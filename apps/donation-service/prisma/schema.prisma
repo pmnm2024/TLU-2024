@@ -21,6 +21,7 @@ model Donation {
   id                     String                     @id @default(auto()) @map("_id") @db.ObjectId
   paymentMethod          EnumDonationPaymentMethod?
   phone                  String?
+  status                 EnumDonationStatus
   supportRequestTypeId   String?
   supportRequestTypeName String?
   updatedAt              DateTime                   @updatedAt
@@ -34,4 +35,10 @@ enum EnumDonationPaymentMethod {
   BankTransfer
   MobilePayment
   EWallet
+}
+
+enum EnumDonationStatus {
+  Pending
+  Processed
+  Refused
 }
