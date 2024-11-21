@@ -21,6 +21,7 @@ import {
   IsEnum,
 } from "class-validator";
 import { EnumDonationPaymentMethod } from "./EnumDonationPaymentMethod";
+import { EnumDonationStatus } from "./EnumDonationStatus";
 
 @InputType()
 class DonationCreateInput {
@@ -160,6 +161,14 @@ class DonationCreateInput {
     nullable: true,
   })
   phone?: string | null;
+
+  @ApiProperty({
+    required: true,
+    enum: EnumDonationStatus,
+  })
+  @IsEnum(EnumDonationStatus)
+  @Field(() => EnumDonationStatus)
+  status!: "Pending" | "Processed" | "Refused";
 
   @ApiProperty({
     required: false,
