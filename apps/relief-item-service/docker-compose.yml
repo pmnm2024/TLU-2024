@@ -1,12 +1,15 @@
 version: "3"
 services:
-  server:
+  relief:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${PORT}:3000
+      - ${PORT}:8002
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory inside the container
+      - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
@@ -51,5 +54,8 @@ services:
       timeout: 45s
       interval: 10s
       retries: 10
+    volumes:
+      - mysql_data:/data/db 
 volumes:
-  mysql: ~
+  mongo_data:
+    external: false
