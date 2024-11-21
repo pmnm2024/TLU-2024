@@ -8,7 +8,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
   controllers: [],
@@ -18,7 +18,7 @@ import { ConfigModule } from "@nestjs/config";
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env', }),
     ServeStaticModule.forRootAsync({
       useClass: ServeStaticOptionsService,
     }),
@@ -27,18 +27,16 @@ import { ConfigModule } from "@nestjs/config";
       imports: [ConfigModule],
 
       useFactory: async (configService: ConfigService) => {
-        const host = configService.get("REDIS_HOST");
-        const port = configService.get("REDIS_PORT");
-        const username = configService.get("REDIS_USERNAME");
-        const password = configService.get("REDIS_PASSWORD");
-        const ttl = configService.get("REDIS_TTL", 5000);
+        const host = configService.get<string>('REDIS_HOST', 'redis');
+        const port = configService.get<number>('REDIS_PORT', 6379);
+        const ttl = configService.get<number>('REDIS_TTL', 5000);
 
         return {
           store: await redisStore({
             host: host,
             port: port,
-            username: username,
-            password: password,
+            // username: username,
+            // password: password,
             ttl: ttl,
           }),
         };
@@ -49,4 +47,4 @@ import { ConfigModule } from "@nestjs/config";
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
