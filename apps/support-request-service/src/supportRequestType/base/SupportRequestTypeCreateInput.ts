@@ -14,8 +14,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsString,
   MaxLength,
-  IsOptional,
   ValidateNested,
+  IsOptional,
 } from "class-validator";
 import { SupportRequestCreateNestedManyWithoutSupportRequestTypesInput } from "./SupportRequestCreateNestedManyWithoutSupportRequestTypesInput";
 import { Type } from "class-transformer";
@@ -23,19 +23,16 @@ import { Type } from "class-transformer";
 @InputType()
 class SupportRequestTypeCreateInput {
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  name?: string | null;
+  @Field(() => String)
+  name!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: () => SupportRequestCreateNestedManyWithoutSupportRequestTypesInput,
   })
   @ValidateNested()

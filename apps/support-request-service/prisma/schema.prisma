@@ -20,7 +20,7 @@ model SupportRequest {
   quantity              Int?
   status                EnumSupportRequestStatus
   supportRequestDetails SupportRequestDetail[]
-  supportRequestTypeId  SupportRequestType       @relation(fields: [SupportRequestTypeID], references: [id])
+  supportRequestTypeID  SupportRequestType       @relation(fields: [SupportRequestTypeID], references: [id])
   SupportRequestTypeID  String
   updatedAt             DateTime                 @updatedAt
   ward                  String
@@ -29,7 +29,7 @@ model SupportRequest {
 model SupportRequestType {
   createdAt       DateTime         @default(now())
   id              String           @id @default(cuid())
-  name            String?
+  name            String
   supportRequests SupportRequest[]
   updatedAt       DateTime         @updatedAt
 }

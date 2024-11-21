@@ -157,7 +157,7 @@ class SupportRequestUpdateInput {
   @Field(() => SupportRequestTypeWhereUniqueInput, {
     nullable: true,
   })
-  supportRequestTypeId?: SupportRequestTypeWhereUniqueInput;
+  supportRequestTypeID?: SupportRequestTypeWhereUniqueInput;
 
   @ApiProperty({
     required: false,

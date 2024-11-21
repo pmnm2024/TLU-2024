@@ -153,7 +153,7 @@ class SupportRequest {
   })
   @ValidateNested()
   @Type(() => SupportRequestType)
-  supportRequestTypeId?: SupportRequestType;
+  supportRequestTypeID?: SupportRequestType;
 
   @ApiProperty({
     required: true,
