@@ -15,7 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { IntFilter } from "../../util/IntFilter";
-import { SupportRequestListRelationFilter } from "../../supportRequest/base/SupportRequestListRelationFilter";
+import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
 @InputType()
 class SupportRequestDetailWhereInput {
@@ -65,15 +65,15 @@ class SupportRequestDetailWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => SupportRequestListRelationFilter,
+    type: () => SupportRequestWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => SupportRequestListRelationFilter)
+  @Type(() => SupportRequestWhereUniqueInput)
   @IsOptional()
-  @Field(() => SupportRequestListRelationFilter, {
+  @Field(() => SupportRequestWhereUniqueInput, {
     nullable: true,
   })
-  supportRequestId?: SupportRequestListRelationFilter;
+  supportRequestId?: SupportRequestWhereUniqueInput;
 
   @ApiProperty({
     required: false,

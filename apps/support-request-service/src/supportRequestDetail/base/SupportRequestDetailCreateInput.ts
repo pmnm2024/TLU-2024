@@ -18,9 +18,8 @@ import {
   IsString,
   MaxLength,
   ValidateNested,
-  IsOptional,
 } from "class-validator";
-import { SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput } from "./SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput";
+import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 import { Type } from "class-transformer";
 
 @InputType()
@@ -54,19 +53,13 @@ class SupportRequestDetailCreateInput {
   reliefItemName!: string;
 
   @ApiProperty({
-    required: false,
-    type: () => SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput,
+    required: true,
+    type: () => SupportRequestWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput)
-  @IsOptional()
-  @Field(
-    () => SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput,
-    {
-      nullable: true,
-    }
-  )
-  supportRequestId?: SupportRequestCreateNestedManyWithoutSupportRequestDetailsInput;
+  @Type(() => SupportRequestWhereUniqueInput)
+  @Field(() => SupportRequestWhereUniqueInput)
+  supportRequestId!: SupportRequestWhereUniqueInput;
 
   @ApiProperty({
     required: true,

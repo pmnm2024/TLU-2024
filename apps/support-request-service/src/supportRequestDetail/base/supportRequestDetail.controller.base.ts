@@ -22,9 +22,6 @@ import { SupportRequestDetail } from "./SupportRequestDetail";
 import { SupportRequestDetailFindManyArgs } from "./SupportRequestDetailFindManyArgs";
 import { SupportRequestDetailWhereUniqueInput } from "./SupportRequestDetailWhereUniqueInput";
 import { SupportRequestDetailUpdateInput } from "./SupportRequestDetailUpdateInput";
-import { SupportRequestFindManyArgs } from "../../supportRequest/base/SupportRequestFindManyArgs";
-import { SupportRequest } from "../../supportRequest/base/SupportRequest";
-import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
 export class SupportRequestDetailControllerBase {
   constructor(protected readonly service: SupportRequestDetailService) {}
@@ -34,13 +31,26 @@ export class SupportRequestDetailControllerBase {
     @common.Body() data: SupportRequestDetailCreateInput
   ): Promise<SupportRequestDetail> {
     return await this.service.createSupportRequestDetail({
-      data: data,
+      data: {
+        ...data,
+
+        supportRequestId: {
+          connect: data.supportRequestId,
+        },
+      },
       select: {
         createdAt: true,
         id: true,
         quantity: true,
         reliefItemId: true,
         reliefItemName: true,
+
+        supportRequestId: {
+          select: {
+            id: true,
+          },
+        },
+
         unit: true,
         updatedAt: true,
       },
@@ -62,6 +72,13 @@ export class SupportRequestDetailControllerBase {
         quantity: true,
         reliefItemId: true,
         reliefItemName: true,
+
+        supportRequestId: {
+          select: {
+            id: true,
+          },
+        },
+
         unit: true,
         updatedAt: true,
       },
@@ -82,6 +99,13 @@ export class SupportRequestDetailControllerBase {
         quantity: true,
         reliefItemId: true,
         reliefItemName: true,
+
+        supportRequestId: {
+          select: {
+            id: true,
+          },
+        },
+
         unit: true,
         updatedAt: true,
       },
@@ -104,13 +128,26 @@ export class SupportRequestDetailControllerBase {
     try {
       return await this.service.updateSupportRequestDetail({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          supportRequestId: {
+            connect: data.supportRequestId,
+          },
+        },
         select: {
           createdAt: true,
           id: true,
           quantity: true,
           reliefItemId: true,
           reliefItemName: true,
+
+          supportRequestId: {
+            select: {
+              id: true,
+            },
+          },
+
           unit: true,
           updatedAt: true,
         },
@@ -140,6 +177,13 @@ export class SupportRequestDetailControllerBase {
           quantity: true,
           reliefItemId: true,
           reliefItemName: true,
+
+          supportRequestId: {
+            select: {
+              id: true,
+            },
+          },
+
           unit: true,
           updatedAt: true,
         },
@@ -152,96 +196,5 @@ export class SupportRequestDetailControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/supportRequestId")
-  @ApiNestedQuery(SupportRequestFindManyArgs)
-  async findSupportRequestId(
-    @common.Req() request: Request,
-    @common.Param() params: SupportRequestDetailWhereUniqueInput
-  ): Promise<SupportRequest[]> {
-    const query = plainToClass(SupportRequestFindManyArgs, request.query);
-    const results = await this.service.findSupportRequestId(params.id, {
-      ...query,
-      select: {
-        city: true,
-        createdAt: true,
-        description: true,
-        detailAdrdess: true,
-        district: true,
-        email: true,
-        fullname: true,
-        id: true,
-        phone: true,
-        quantity: true,
-        status: true,
-
-        supportRequestTypeId: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-        ward: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/supportRequestId")
-  async connectSupportRequestId(
-    @common.Param() params: SupportRequestDetailWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequestId: {
-        connect: body,
-      },
-    };
-    await this.service.updateSupportRequestDetail({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/supportRequestId")
-  async updateSupportRequestId(
-    @common.Param() params: SupportRequestDetailWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequestId: {
-        set: body,
-      },
-    };
-    await this.service.updateSupportRequestDetail({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/supportRequestId")
-  async disconnectSupportRequestId(
-    @common.Param() params: SupportRequestDetailWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequestId: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateSupportRequestDetail({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

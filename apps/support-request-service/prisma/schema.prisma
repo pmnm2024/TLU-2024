@@ -35,14 +35,15 @@ model SupportRequestType {
 }
 
 model SupportRequestDetail {
-  createdAt        DateTime         @default(now())
-  id               String           @id @default(cuid())
+  createdAt        DateTime       @default(now())
+  id               String         @id @default(cuid())
   quantity         Int
   reliefItemId     String
   reliefItemName   String
-  supportRequestId SupportRequest[]
+  supportRequestId SupportRequest @relation(fields: [SupportRequestID], references: [id])
+  SupportRequestID String
   unit             String
-  updatedAt        DateTime         @updatedAt
+  updatedAt        DateTime       @updatedAt
 }
 
 enum EnumSupportRequestStatus {
