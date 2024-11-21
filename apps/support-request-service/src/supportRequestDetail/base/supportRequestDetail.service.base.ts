@@ -52,14 +52,13 @@ export class SupportRequestDetailServiceBase {
     return this.prisma.supportRequestDetail.delete(args);
   }
 
-  async findSupportRequestId(
-    parentId: string,
-    args: Prisma.SupportRequestFindManyArgs
-  ): Promise<PrismaSupportRequest[]> {
+  async getSupportRequestId(
+    parentId: string
+  ): Promise<PrismaSupportRequest | null> {
     return this.prisma.supportRequestDetail
-      .findUniqueOrThrow({
+      .findUnique({
         where: { id: parentId },
       })
-      .supportRequestId(args);
+      .supportRequestId();
   }
 }

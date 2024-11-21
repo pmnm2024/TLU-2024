@@ -19,7 +19,6 @@ import {
   Max,
   MaxLength,
   ValidateNested,
-  IsOptional,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { SupportRequest } from "../../supportRequest/base/SupportRequest";
@@ -71,13 +70,12 @@ class SupportRequestDetail {
   reliefItemName!: string;
 
   @ApiProperty({
-    required: false,
-    type: () => [SupportRequest],
+    required: true,
+    type: () => SupportRequest,
   })
   @ValidateNested()
   @Type(() => SupportRequest)
-  @IsOptional()
-  supportRequestId?: Array<SupportRequest>;
+  supportRequestId?: SupportRequest;
 
   @ApiProperty({
     required: true,
