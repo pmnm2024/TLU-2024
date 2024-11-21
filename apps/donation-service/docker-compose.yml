@@ -1,35 +1,37 @@
-version: "3"
+version: "3.3"
 services:
-  server:
+  donation:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${PORT}:3000
+      - ${PORT}:8004
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
+      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27020/${DB_NAME}?authSource=admin
     depends_on:
       - migrate
     restart: on-failure
+    networks:
+      - app-network
   migrate:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     command: npm run db:init
-    working_dir: /app/server
+    working_dir: /app/donation
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
+      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27020/${DB_NAME}?authSource=admin
     depends_on:
       db:
         condition: service_healthy
   db:
     image: mongo
     ports:
-      - ${DB_PORT}:27017
+      - ${DB_PORT}:27020
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -54,3 +56,6 @@ services:
       - mongo:/var/lib/mongosql/data
 volumes:
   mongo: ~
+networks:
+  app-network:
+    external: true
