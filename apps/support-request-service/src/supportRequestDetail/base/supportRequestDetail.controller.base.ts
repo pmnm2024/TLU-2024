@@ -16,64 +16,73 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
-import { SupportRequestTypeService } from "../supportRequestType.service";
-import { SupportRequestTypeCreateInput } from "./SupportRequestTypeCreateInput";
-import { SupportRequestType } from "./SupportRequestType";
-import { SupportRequestTypeFindManyArgs } from "./SupportRequestTypeFindManyArgs";
-import { SupportRequestTypeWhereUniqueInput } from "./SupportRequestTypeWhereUniqueInput";
-import { SupportRequestTypeUpdateInput } from "./SupportRequestTypeUpdateInput";
+import { SupportRequestDetailService } from "../supportRequestDetail.service";
+import { SupportRequestDetailCreateInput } from "./SupportRequestDetailCreateInput";
+import { SupportRequestDetail } from "./SupportRequestDetail";
+import { SupportRequestDetailFindManyArgs } from "./SupportRequestDetailFindManyArgs";
+import { SupportRequestDetailWhereUniqueInput } from "./SupportRequestDetailWhereUniqueInput";
+import { SupportRequestDetailUpdateInput } from "./SupportRequestDetailUpdateInput";
 import { SupportRequestFindManyArgs } from "../../supportRequest/base/SupportRequestFindManyArgs";
 import { SupportRequest } from "../../supportRequest/base/SupportRequest";
 import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
-export class SupportRequestTypeControllerBase {
-  constructor(protected readonly service: SupportRequestTypeService) {}
+export class SupportRequestDetailControllerBase {
+  constructor(protected readonly service: SupportRequestDetailService) {}
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: SupportRequestType })
-  async createSupportRequestType(
-    @common.Body() data: SupportRequestTypeCreateInput
-  ): Promise<SupportRequestType> {
-    return await this.service.createSupportRequestType({
+  @swagger.ApiCreatedResponse({ type: SupportRequestDetail })
+  async createSupportRequestDetail(
+    @common.Body() data: SupportRequestDetailCreateInput
+  ): Promise<SupportRequestDetail> {
+    return await this.service.createSupportRequestDetail({
       data: data,
       select: {
         createdAt: true,
         id: true,
-        name: true,
+        quantity: true,
+        reliefItemId: true,
+        reliefItemName: true,
+        unit: true,
         updatedAt: true,
       },
     });
   }
 
   @common.Get()
-  @swagger.ApiOkResponse({ type: [SupportRequestType] })
-  @ApiNestedQuery(SupportRequestTypeFindManyArgs)
-  async supportRequestTypes(
+  @swagger.ApiOkResponse({ type: [SupportRequestDetail] })
+  @ApiNestedQuery(SupportRequestDetailFindManyArgs)
+  async supportRequestDetails(
     @common.Req() request: Request
-  ): Promise<SupportRequestType[]> {
-    const args = plainToClass(SupportRequestTypeFindManyArgs, request.query);
-    return this.service.supportRequestTypes({
+  ): Promise<SupportRequestDetail[]> {
+    const args = plainToClass(SupportRequestDetailFindManyArgs, request.query);
+    return this.service.supportRequestDetails({
       ...args,
       select: {
         createdAt: true,
         id: true,
-        name: true,
+        quantity: true,
+        reliefItemId: true,
+        reliefItemName: true,
+        unit: true,
         updatedAt: true,
       },
     });
   }
 
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: SupportRequestDetail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async supportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
-  ): Promise<SupportRequestType | null> {
-    const result = await this.service.supportRequestType({
+  async supportRequestDetail(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput
+  ): Promise<SupportRequestDetail | null> {
+    const result = await this.service.supportRequestDetail({
       where: params,
       select: {
         createdAt: true,
         id: true,
-        name: true,
+        quantity: true,
+        reliefItemId: true,
+        reliefItemName: true,
+        unit: true,
         updatedAt: true,
       },
     });
@@ -86,20 +95,23 @@ export class SupportRequestTypeControllerBase {
   }
 
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: SupportRequestDetail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async updateSupportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
-    @common.Body() data: SupportRequestTypeUpdateInput
-  ): Promise<SupportRequestType | null> {
+  async updateSupportRequestDetail(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput,
+    @common.Body() data: SupportRequestDetailUpdateInput
+  ): Promise<SupportRequestDetail | null> {
     try {
-      return await this.service.updateSupportRequestType({
+      return await this.service.updateSupportRequestDetail({
         where: params,
         data: data,
         select: {
           createdAt: true,
           id: true,
-          name: true,
+          quantity: true,
+          reliefItemId: true,
+          reliefItemName: true,
+          unit: true,
           updatedAt: true,
         },
       });
@@ -114,18 +126,21 @@ export class SupportRequestTypeControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: SupportRequestDetail })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async deleteSupportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
-  ): Promise<SupportRequestType | null> {
+  async deleteSupportRequestDetail(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput
+  ): Promise<SupportRequestDetail | null> {
     try {
-      return await this.service.deleteSupportRequestType({
+      return await this.service.deleteSupportRequestDetail({
         where: params,
         select: {
           createdAt: true,
           id: true,
-          name: true,
+          quantity: true,
+          reliefItemId: true,
+          reliefItemName: true,
+          unit: true,
           updatedAt: true,
         },
       });
@@ -139,14 +154,14 @@ export class SupportRequestTypeControllerBase {
     }
   }
 
-  @common.Get("/:id/supportRequests")
+  @common.Get("/:id/supportRequestId")
   @ApiNestedQuery(SupportRequestFindManyArgs)
-  async findSupportRequests(
+  async findSupportRequestId(
     @common.Req() request: Request,
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
+    @common.Param() params: SupportRequestDetailWhereUniqueInput
   ): Promise<SupportRequest[]> {
     const query = plainToClass(SupportRequestFindManyArgs, request.query);
-    const results = await this.service.findSupportRequests(params.id, {
+    const results = await this.service.findSupportRequestId(params.id, {
       ...query,
       select: {
         city: true,
@@ -179,51 +194,51 @@ export class SupportRequestTypeControllerBase {
     return results;
   }
 
-  @common.Post("/:id/supportRequests")
-  async connectSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
+  @common.Post("/:id/supportRequestId")
+  async connectSupportRequestId(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput,
     @common.Body() body: SupportRequestWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      supportRequests: {
+      supportRequestId: {
         connect: body,
       },
     };
-    await this.service.updateSupportRequestType({
+    await this.service.updateSupportRequestDetail({
       where: params,
       data,
       select: { id: true },
     });
   }
 
-  @common.Patch("/:id/supportRequests")
-  async updateSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
+  @common.Patch("/:id/supportRequestId")
+  async updateSupportRequestId(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput,
     @common.Body() body: SupportRequestWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      supportRequests: {
+      supportRequestId: {
         set: body,
       },
     };
-    await this.service.updateSupportRequestType({
+    await this.service.updateSupportRequestDetail({
       where: params,
       data,
       select: { id: true },
     });
   }
 
-  @common.Delete("/:id/supportRequests")
-  async disconnectSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
+  @common.Delete("/:id/supportRequestId")
+  async disconnectSupportRequestId(
+    @common.Param() params: SupportRequestDetailWhereUniqueInput,
     @common.Body() body: SupportRequestWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      supportRequests: {
+      supportRequestId: {
         disconnect: body,
       },
     };
-    await this.service.updateSupportRequestType({
+    await this.service.updateSupportRequestDetail({
       where: params,
       data,
       select: { id: true },

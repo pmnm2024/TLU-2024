@@ -8,24 +8,44 @@ generator client {
 }
 
 model SupportRequest {
-  city                 String
-  createdAt            DateTime @default(now())
-  description          String?
-  detailAdrdess        String?
-  district             String
-  email                String
-  fullname             String
-  id                   String   @id @default(cuid())
-  phone                String
-  quantity             Int?
-  supportRequestTypeId String
-  updatedAt            DateTime @updatedAt
-  ward                 String
+  city                  String
+  createdAt             DateTime                 @default(now())
+  description           String?
+  detailAdrdess         String?
+  district              String
+  email                 String
+  fullname              String
+  id                    String                   @id @default(cuid())
+  phone                 String
+  quantity              Int?
+  status                EnumSupportRequestStatus
+  supportRequestDetails SupportRequestDetail[]
+  supportRequestTypeId  SupportRequestType       @relation(fields: [SupportRequestTypeID], references: [id])
+  SupportRequestTypeID  String
+  updatedAt             DateTime                 @updatedAt
+  ward                  String
 }
 
 model SupportRequestType {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  name      String?
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  id              String           @id @default(cuid())
+  name            String?
+  supportRequests SupportRequest[]
+  updatedAt       DateTime         @updatedAt
+}
+
+model SupportRequestDetail {
+  createdAt        DateTime         @default(now())
+  id               String           @id @default(cuid())
+  quantity         Int
+  reliefItemId     String
+  reliefItemName   String
+  supportRequestId SupportRequest[]
+  unit             String
+  updatedAt        DateTime         @updatedAt
+}
+
+enum EnumSupportRequestStatus {
+  Pending
+  Processed
 }
