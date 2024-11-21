@@ -61,7 +61,12 @@ export class UserServiceBase {
   async deleteUser(args: Prisma.UserDeleteArgs): Promise<PrismaUser> {
     return this.prisma.user.delete(args);
   }
-  async ResetPassword(args: ResetPasswordInput): Promise<ResetPasswordOutput> {
-    throw new Error("Not implemented");
+  // async ResetPassword(args: ResetPasswordInput): Promise<ResetPasswordOutput> {
+  //   // throw new Error("Not implemented");
+  //   return;
+  // }
+  async ResetPassword(args: ResetPasswordInput) {
+    // throw new Error("Not implemented");
+    return;
   }
 }

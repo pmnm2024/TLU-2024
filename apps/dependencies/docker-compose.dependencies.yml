@@ -1,0 +1,83 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "5672:5672"     # RabbitMQ AMQP port
+      - "15672:15672"   # RabbitMQ Management UI
+    restart: always
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"  # Sử dụng cổng cố định cho Redis
+    volumes:
+      - redis-data:/data  # Đồng bộ volume với tên trong phần volumes
+    networks:
+      - app-network
+
+  # db:
+  #   image: mongo:6
+  #   container_name: mongodb
+  #   ports:
+  #     - "27017:27017" 
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+  #     MONGO_INITDB_DATABASE: ${DB_NAME}
+  #     MONGO_REPLICA_SET_NAME: rs0
+  #   restart: always
+  #   entrypoint:
+  #     - /bin/bash
+  #     - -c
+  #     - |
+  #       openssl rand -base64 741 > /data/cert.crt
+  #       chmod 400 /data/cert.crt
+  #       chown 999 /data/cert.crt
+  #       /usr/local/bin/docker-entrypoint.sh mongod --bind_ip_all --keyFile /data/cert.crt --replSet rs0
+  #   healthcheck:
+  #     test: >
+  #       test $$(mongosh --quiet -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --eval "try {
+  #       rs.initiate({ _id: 'rs0',members: [{ _id: 0, host: 'user-db' }] }).ok 
+  #       } catch (_) { rs.status().ok }") -eq 1
+  #     start_period: 5s
+  #     interval: 10s
+  #     timeout: 10s
+  #   volumes:
+  #     - mongo-data:/var/lib/mongo  # Đồng bộ volume với tên trong phần volumes
+  #   networks:
+  #     - app-network
+  # mongodb:
+  #   image: mongo:6
+  #   container_name: mongodb
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  #     # MONGO_INITDB_DATABASE: user-db
+  #   command: >
+  #     bash -c "mongod --bind_ip_all --replSet rs0"
+  #   healthcheck:
+  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+    # networks:
+    #   - app-network
+
+networks:
+  app-network:
+    external: true  # Sử dụng mạng Docker bên ngoài
+
+volumes:
+  redis-data:
+    driver: local
+  mongo-data:
+    driver: local

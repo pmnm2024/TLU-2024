@@ -1,4 +1,4 @@
-version: "3"
+# version: "3.3"
 services:
   server:
     build:
@@ -10,9 +10,17 @@ services:
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      RABBITMQ_URLS: ${RABBITMQ_URLS}
     depends_on:
-      - redis
+      db:
+        condition: service_healthy
+      # rabbitmq:
+      #   condition: service_healthy
     restart: on-failure
+    networks:
+      - app-network
   migrate:
     build:
       context: .
@@ -52,22 +60,11 @@ services:
       timeout: 10s
     volumes:
       - mongo:/var/lib/mongosql/data
-  rabbitmq:
-    image: rabbitmq:3-management
-    environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
-    ports:
-      - 5672:5672
-      - 15672:15672
-  redis:
-    container_name: ${REDIS_HOST}
-    image: redis:7
-    ports:
-      - ${REDIS_PORT}:6379
-    volumes:
-      - redis:/data
+    networks:
+      - app-network
+networks:
+  app-network:
+    external: true  
+
 volumes:
   mongo: ~
-  redis:
-    driver: local
