@@ -20,11 +20,11 @@ RUN npm run prisma:generate
 # RUN npm run db:init
 
 # Expose cổng để kết nối đến container
-ENV PORT=3000
+ENV PORT=8000
 EXPOSE ${PORT}
 
 # Set NODE_ENV thành development
 ENV NODE_ENV=development
 
 # Lệnh khởi chạy ứng dụng trong chế độ dev
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "start:watch" ]
