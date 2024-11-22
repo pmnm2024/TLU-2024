@@ -11,6 +11,7 @@ model Notification {
   createdAt DateTime @default(now())
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   message   String?
+  status    Boolean?
   title     String?
   updatedAt DateTime @updatedAt
   user      String?
