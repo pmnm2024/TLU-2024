@@ -31,7 +31,7 @@ sleep 5
 
 
 # # Khởi động từng service
-SERVICES=("user-service" "notification-service")
+SERVICES=("user-service" "mail-service" "notification-service")
 for service in "${SERVICES[@]}"; do
   echo "Starting service: $service..."
   cd ../"$service" || exit
