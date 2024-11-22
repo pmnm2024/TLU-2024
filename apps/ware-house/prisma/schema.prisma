@@ -1,0 +1,19 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Warehouse {
+  createdAt              DateTime @default(now())
+  id                     String   @id @default(cuid())
+  name                   String
+  quantity               Int
+  supportRequestTypeId   String
+  supportRequestTypeName String
+  unit                   String
+  updatedAt              DateTime @updatedAt
+}
