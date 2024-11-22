@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Dừng từng service
-SERVICES=("user-service" "notification-service")
+SERVICES=("user-service" "mail-service" "notification-service")
 echo "Stopping all services..."
 for service in "${SERVICES[@]}"; do
   echo "Stopping service: $service..."
