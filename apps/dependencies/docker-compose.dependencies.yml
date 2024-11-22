@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -6,8 +8,8 @@ services:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
     ports:
-      - "5672:5672"     # RabbitMQ AMQP port
-      - "15672:15672"   # RabbitMQ Management UI
+      - "${RABBITMQ_AMQP_PORT}:${RABBITMQ_AMQP_PORT}"     # RabbitMQ AMQP port
+      - "${RABBITMQ_UI_PORT}:${RABBITMQ_UI_PORT}"         # RabbitMQ Management UI
     restart: always
     networks:
       - app-network
@@ -16,61 +18,61 @@ services:
     image: redis:7
     container_name: redis
     ports:
-      - "6379:6379"  # Sử dụng cổng cố định cho Redis
+      - "${REDIS_PORT}:${REDIS_PORT}"  # Redis Port
     volumes:
-      - redis-data:/data  # Đồng bộ volume với tên trong phần volumes
+      - redis-data:/data
     networks:
       - app-network
 
-  # db:
-  #   image: mongo:6
-  #   container_name: mongodb
-  #   ports:
-  #     - "27017:27017" 
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-  #     MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-  #     MONGO_INITDB_DATABASE: ${DB_NAME}
-  #     MONGO_REPLICA_SET_NAME: rs0
-  #   restart: always
-  #   entrypoint:
-  #     - /bin/bash
-  #     - -c
-  #     - |
-  #       openssl rand -base64 741 > /data/cert.crt
-  #       chmod 400 /data/cert.crt
-  #       chown 999 /data/cert.crt
-  #       /usr/local/bin/docker-entrypoint.sh mongod --bind_ip_all --keyFile /data/cert.crt --replSet rs0
-  #   healthcheck:
-  #     test: >
-  #       test $$(mongosh --quiet -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --eval "try {
-  #       rs.initiate({ _id: 'rs0',members: [{ _id: 0, host: 'user-db' }] }).ok 
-  #       } catch (_) { rs.status().ok }") -eq 1
-  #     start_period: 5s
-  #     interval: 10s
-  #     timeout: 10s
-  #   volumes:
-  #     - mongo-data:/var/lib/mongo  # Đồng bộ volume với tên trong phần volumes
-  #   networks:
-  #     - app-network
-  # mongodb:
-  #   image: mongo:6
-  #   container_name: mongodb
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: admin
-  #     MONGO_INITDB_ROOT_PASSWORD: admin
-  #     # MONGO_INITDB_DATABASE: user-db
-  #   command: >
-  #     bash -c "mongod --bind_ip_all --replSet rs0"
-  #   healthcheck:
-  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-    # networks:
-    #   - app-network
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    restart: always
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "kong"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kong:
+    image: kong
+    container_name: kong
+    depends_on:
+      - postgres
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: postgres
+      KONG_PG_USER: ${POSTGRES_USER}
+      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: "0.0.0.0:${KONG_ADMIN_PORT}"
+      KONG_PROXY_LISTEN: "0.0.0.0:${KONG_PROXY_PORT}"
+    ports:
+      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"           # Kong Proxy Port
+      - "${KONG_PROXY_PORT_SSL}:${KONG_PROXY_PORT_SSL}"   # Kong Proxy SSL Port
+      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"           # Kong Admin Port
+      - "${KONG_ADMIN_PORT_SSL}:${KONG_ADMIN_PORT_SSL}"   # Kong Admin SSL Port
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
 
 networks:
   app-network:
@@ -79,5 +81,5 @@ networks:
 volumes:
   redis-data:
     driver: local
-  mongo-data:
+  postgres-data:
     driver: local
