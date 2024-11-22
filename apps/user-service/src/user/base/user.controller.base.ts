@@ -222,6 +222,23 @@ export class UserControllerBase {
     }
   }
 
+  @common.Get("/:id/information")
+  @swagger.ApiOkResponse({
+    type: String,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async Information(
+    @common.Body()
+    body: string
+  ): Promise<string> {
+    return this.service.Information(body);
+  }
+
   @common.Post("/reset-password")
   @swagger.ApiOkResponse({
     type: ResetPasswordOutput,
