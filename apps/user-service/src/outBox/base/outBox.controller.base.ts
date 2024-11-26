@@ -18,115 +18,104 @@ import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
 import * as nestAccessControl from "nest-access-control";
 import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
-import { UserService } from "../user.service";
+import { OutBoxService } from "../outBox.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { UserCreateInput } from "./UserCreateInput";
-import { User } from "./User";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
-import { UserUpdateInput } from "./UserUpdateInput";
-import { ResetPasswordInput } from "../ResetPasswordInput";
-import { ResetPasswordOutput } from "../ResetPasswordOutput";
+import { OutBoxCreateInput } from "./OutBoxCreateInput";
+import { OutBox } from "./OutBox";
+import { OutBoxFindManyArgs } from "./OutBoxFindManyArgs";
+import { OutBoxWhereUniqueInput } from "./OutBoxWhereUniqueInput";
+import { OutBoxUpdateInput } from "./OutBoxUpdateInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
-export class UserControllerBase {
+export class OutBoxControllerBase {
   constructor(
-    protected readonly service: UserService,
+    protected readonly service: OutBoxService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) { }
+  ) {}
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: User })
+  @swagger.ApiCreatedResponse({ type: OutBox })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "OutBox",
     action: "create",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createUser(@common.Body() data: UserCreateInput): Promise<User> {
-    return await this.service.createUser({
+  async createOutBox(@common.Body() data: OutBoxCreateInput): Promise<OutBox> {
+    return await this.service.createOutBox({
       data: data,
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        eventType: true,
         id: true,
-        lastName: true,
-        phone: true,
-        roles: true,
-        sex: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
-        username: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
-  @swagger.ApiOkResponse({ type: [User] })
-  @ApiNestedQuery(UserFindManyArgs)
+  @swagger.ApiOkResponse({ type: [OutBox] })
+  @ApiNestedQuery(OutBoxFindManyArgs)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "OutBox",
     action: "read",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async users(@common.Req() request: Request): Promise<User[]> {
-    const args = plainToClass(UserFindManyArgs, request.query);
-    return this.service.users({
+  async outBoxes(@common.Req() request: Request): Promise<OutBox[]> {
+    const args = plainToClass(OutBoxFindManyArgs, request.query);
+    return this.service.outBoxes({
       ...args,
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        eventType: true,
         id: true,
-        lastName: true,
-        phone: true,
-        roles: true,
-        sex: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
-        username: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "OutBox",
     action: "read",
     possession: "own",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async user(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
-    const result = await this.service.user({
+  async outBox(
+    @common.Param() params: OutBoxWhereUniqueInput
+  ): Promise<OutBox | null> {
+    const result = await this.service.outBox({
       where: params,
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        eventType: true,
         id: true,
-        lastName: true,
-        phone: true,
-        roles: true,
-        sex: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
-        username: true,
       },
     });
     if (result === null) {
@@ -139,36 +128,33 @@ export class UserControllerBase {
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "OutBox",
     action: "update",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updateUser(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() data: UserUpdateInput
-  ): Promise<User | null> {
+  async updateOutBox(
+    @common.Param() params: OutBoxWhereUniqueInput,
+    @common.Body() data: OutBoxUpdateInput
+  ): Promise<OutBox | null> {
     try {
-      return await this.service.updateUser({
+      return await this.service.updateOutBox({
         where: params,
         data: data,
         select: {
-          address: true,
           createdAt: true,
-          email: true,
-          firstName: true,
+          eventType: true,
           id: true,
-          lastName: true,
-          phone: true,
-          roles: true,
-          sex: true,
+          payload: true,
+          processedDate: true,
+          retry: true,
+          status: true,
           updatedAt: true,
-          username: true,
         },
       });
     } catch (error) {
@@ -182,34 +168,31 @@ export class UserControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "OutBox",
     action: "delete",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deleteUser(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
+  async deleteOutBox(
+    @common.Param() params: OutBoxWhereUniqueInput
+  ): Promise<OutBox | null> {
     try {
-      return await this.service.deleteUser({
+      return await this.service.deleteOutBox({
         where: params,
         select: {
-          address: true,
           createdAt: true,
-          email: true,
-          firstName: true,
+          eventType: true,
           id: true,
-          lastName: true,
-          phone: true,
-          roles: true,
-          sex: true,
+          payload: true,
+          processedDate: true,
+          retry: true,
+          status: true,
           updatedAt: true,
-          username: true,
         },
       });
     } catch (error) {
@@ -219,44 +202,6 @@ export class UserControllerBase {
         );
       }
       throw error;
-    }
-  }
-
-  @common.Get("/:id/information")
-  @swagger.ApiOkResponse({
-    type: String,
-  })
-  @swagger.ApiNotFoundResponse({
-    type: errors.NotFoundException,
-  })
-  @swagger.ApiForbiddenResponse({
-    type: errors.ForbiddenException,
-  })
-  async Information(
-    @common.Body()
-    body: string
-  ): Promise<string> {
-    return this.service.Information(body);
-  }
-
-  @common.Post("/reset-password")
-  @swagger.ApiOkResponse({
-    type: ResetPasswordOutput,
-  })
-  @swagger.ApiNotFoundResponse({
-    type: errors.NotFoundException,
-  })
-  @swagger.ApiForbiddenResponse({
-    type: errors.ForbiddenException,
-  })
-  async ResetPassword(
-    @common.Body()
-    body: ResetPasswordInput
-  ){
-    try {
-      return ""
-    } catch (error) {
-      throw error
     }
   }
 }
