@@ -23,21 +23,17 @@ model User {
 }
 
 model OutBox {
-  createdAt     DateTime          @default(now())
+  createdAt     DateTime  @default(now())
   eventType     String?
-  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   payload       Json?
   processedDate DateTime?
   retry         Int?
-  status        EnumOutBoxStatus?
-  updatedAt     DateTime          @updatedAt
+  status        String?
+  updatedAt     DateTime  @updatedAt
 }
 
 enum EnumUserSex {
   Male
   Female
-}
-
-enum EnumOutBoxStatus {
-  Option1
 }

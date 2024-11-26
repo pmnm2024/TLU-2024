@@ -13,12 +13,11 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
-import { IsOptional, IsEnum } from "class-validator";
+import { IsOptional } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
 import { JsonFilter } from "../../util/JsonFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
-import { EnumOutBoxStatus } from "./EnumOutBoxStatus";
 
 @InputType()
 class OutBoxWhereInput {
@@ -79,14 +78,14 @@ class OutBoxWhereInput {
 
   @ApiProperty({
     required: false,
-    enum: EnumOutBoxStatus,
+    type: StringNullableFilter,
   })
-  @IsEnum(EnumOutBoxStatus)
+  @Type(() => StringNullableFilter)
   @IsOptional()
-  @Field(() => EnumOutBoxStatus, {
+  @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  status?: "Option1";
+  status?: StringNullableFilter;
 }
 
 export { OutBoxWhereInput as OutBoxWhereInput };

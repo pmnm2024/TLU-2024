@@ -18,13 +18,11 @@ import {
   IsOptional,
   IsInt,
   Max,
-  IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
-import { EnumOutBoxStatus } from "./EnumOutBoxStatus";
 
 @ObjectType()
 class OutBox {
@@ -91,14 +89,15 @@ class OutBox {
 
   @ApiProperty({
     required: false,
-    enum: EnumOutBoxStatus,
+    type: String,
   })
-  @IsEnum(EnumOutBoxStatus)
+  @IsString()
+  @MaxLength(256)
   @IsOptional()
-  @Field(() => EnumOutBoxStatus, {
+  @Field(() => String, {
     nullable: true,
   })
-  status?: "Option1" | null;
+  status!: string | null;
 
   @ApiProperty({
     required: true,
