@@ -11,16 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsInt,
-  Min,
-  Max,
-  IsString,
-  MaxLength,
-  ValidateNested,
-} from "class-validator";
-import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
-import { Type } from "class-transformer";
+import { IsInt, Min, Max, IsString, MaxLength } from "class-validator";
 
 @InputType()
 class SupportRequestDetailCreateInput {
@@ -41,25 +32,7 @@ class SupportRequestDetailCreateInput {
   @IsString()
   @MaxLength(1000)
   @Field(() => String)
-  reliefItemId!: string;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @Field(() => String)
-  reliefItemName!: string;
-
-  @ApiProperty({
-    required: true,
-    type: () => SupportRequestWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestWhereUniqueInput)
-  @Field(() => SupportRequestWhereUniqueInput)
-  supportRequestId!: SupportRequestWhereUniqueInput;
+  supportRequestID!: string;
 
   @ApiProperty({
     required: true,
@@ -69,6 +42,24 @@ class SupportRequestDetailCreateInput {
   @MaxLength(1000)
   @Field(() => String)
   unit!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  wareHouseId!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  wareHouseName!: string;
 }
 
 export { SupportRequestDetailCreateInput as SupportRequestDetailCreateInput };

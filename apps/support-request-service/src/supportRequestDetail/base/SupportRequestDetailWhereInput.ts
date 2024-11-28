@@ -13,9 +13,8 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { IsOptional } from "class-validator";
 import { IntFilter } from "../../util/IntFilter";
-import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
 @InputType()
 class SupportRequestDetailWhereInput {
@@ -50,30 +49,7 @@ class SupportRequestDetailWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  reliefItemId?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringFilter,
-  })
-  @Type(() => StringFilter)
-  @IsOptional()
-  @Field(() => StringFilter, {
-    nullable: true,
-  })
-  reliefItemName?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestWhereUniqueInput)
-  @IsOptional()
-  @Field(() => SupportRequestWhereUniqueInput, {
-    nullable: true,
-  })
-  supportRequestId?: SupportRequestWhereUniqueInput;
+  supportRequestID?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -85,6 +61,28 @@ class SupportRequestDetailWhereInput {
     nullable: true,
   })
   unit?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  wareHouseId?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  wareHouseName?: StringFilter;
 }
 
 export { SupportRequestDetailWhereInput as SupportRequestDetailWhereInput };
