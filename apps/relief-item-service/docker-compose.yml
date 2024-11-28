@@ -1,28 +1,33 @@
-version: "3"
+version: "3.3"
 services:
-  server:
+  relief-item:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${PORT}:3000
+      - ${PORT}:8002
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory inside the container
+      - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
+      DB_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:33061/${DB_NAME}
     depends_on:
       - migrate
     restart: on-failure
+    networks:
+      - app-network
   migrate:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     command: npm run db:init
-    working_dir: /app/server
+    working_dir: /app/relief-item
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
+      DB_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:33061/${DB_NAME}
     depends_on:
       db:
         condition: service_healthy
@@ -36,7 +41,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - ${DB_PORT}:3306
+      - ${DB_PORT}:33061
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     healthcheck:
@@ -51,5 +56,11 @@ services:
       timeout: 45s
       interval: 10s
       retries: 10
+    volumes:
+    - mysql-data:/var/lib/mysql
 volumes:
-  mysql: ~
+  mysql-data:
+  relief-item-data:
+networks:
+  app-network:
+    external: false
