@@ -16,3 +16,14 @@ model Notification {
   updatedAt DateTime @updatedAt
   user      String?
 }
+
+model Outbox {
+  createdAt     DateTime  @default(now())
+  eventType     String?
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  payload       Json?
+  processedDate DateTime?
+  retry         Int?
+  status        Boolean?
+  updatedAt     DateTime  @updatedAt
+}
