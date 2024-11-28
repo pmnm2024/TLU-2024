@@ -9,20 +9,22 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-import { InputType, Field } from "@nestjs/graphql";
+import { ArgsType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength } from "class-validator";
+import { OutBoxCreateInput } from "./OutBoxCreateInput";
+import { ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
-@InputType()
-class SupportRequestTypeCreateInput {
+@ArgsType()
+class CreateOutBoxArgs {
   @ApiProperty({
     required: true,
-    type: String,
+    type: () => OutBoxCreateInput,
   })
-  @IsString()
-  @MaxLength(1000)
-  @Field(() => String)
-  name!: string;
+  @ValidateNested()
+  @Type(() => OutBoxCreateInput)
+  @Field(() => OutBoxCreateInput, { nullable: false })
+  data!: OutBoxCreateInput;
 }
 
-export { SupportRequestTypeCreateInput as SupportRequestTypeCreateInput };
+export { CreateOutBoxArgs as CreateOutBoxArgs };

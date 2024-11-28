@@ -12,60 +12,56 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { SupportRequestDetailController } from "../supportRequestDetail.controller";
-import { SupportRequestDetailService } from "../supportRequestDetail.service";
+import { OutBoxController } from "../outBox.controller";
+import { OutBoxService } from "../outBox.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   createdAt: new Date(),
+  eventType: "exampleEventType",
   id: "exampleId",
-  quantity: 42,
-  supportRequestID: "exampleSupportRequestId",
-  unit: "exampleUnit",
+  processedDate: new Date(),
+  retry: 42,
+  status: "exampleStatus",
   updatedAt: new Date(),
-  wareHouseId: "exampleWareHouseId",
-  wareHouseName: "exampleWareHouseName",
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
+  eventType: "exampleEventType",
   id: "exampleId",
-  quantity: 42,
-  supportRequestID: "exampleSupportRequestId",
-  unit: "exampleUnit",
+  processedDate: new Date(),
+  retry: 42,
+  status: "exampleStatus",
   updatedAt: new Date(),
-  wareHouseId: "exampleWareHouseId",
-  wareHouseName: "exampleWareHouseName",
 };
 const FIND_MANY_RESULT = [
   {
     createdAt: new Date(),
+    eventType: "exampleEventType",
     id: "exampleId",
-    quantity: 42,
-    supportRequestID: "exampleSupportRequestId",
-    unit: "exampleUnit",
+    processedDate: new Date(),
+    retry: 42,
+    status: "exampleStatus",
     updatedAt: new Date(),
-    wareHouseId: "exampleWareHouseId",
-    wareHouseName: "exampleWareHouseName",
   },
 ];
 const FIND_ONE_RESULT = {
   createdAt: new Date(),
+  eventType: "exampleEventType",
   id: "exampleId",
-  quantity: 42,
-  supportRequestID: "exampleSupportRequestId",
-  unit: "exampleUnit",
+  processedDate: new Date(),
+  retry: 42,
+  status: "exampleStatus",
   updatedAt: new Date(),
-  wareHouseId: "exampleWareHouseId",
-  wareHouseName: "exampleWareHouseName",
 };
 
 const service = {
-  createSupportRequestDetail() {
+  createOutBox() {
     return CREATE_RESULT;
   },
-  supportRequestDetails: () => FIND_MANY_RESULT,
-  supportRequestDetail: ({ where }: { where: { id: string } }) => {
+  outBoxes: () => FIND_MANY_RESULT,
+  outBox: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -107,18 +103,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("SupportRequestDetail", () => {
+describe("OutBox", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: SupportRequestDetailService,
+          provide: OutBoxService,
           useValue: service,
         },
       ],
-      controllers: [SupportRequestDetailController],
+      controllers: [OutBoxController],
       imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -135,34 +131,36 @@ describe("SupportRequestDetail", () => {
     await app.init();
   });
 
-  test("POST /supportRequestDetails", async () => {
+  test("POST /outBoxes", async () => {
     await request(app.getHttpServer())
-      .post("/supportRequestDetails")
+      .post("/outBoxes")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        processedDate: CREATE_RESULT.processedDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
 
-  test("GET /supportRequestDetails", async () => {
+  test("GET /outBoxes", async () => {
     await request(app.getHttpServer())
-      .get("/supportRequestDetails")
+      .get("/outBoxes")
       .expect(HttpStatus.OK)
       .expect([
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          processedDate: FIND_MANY_RESULT[0].processedDate.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
   });
 
-  test("GET /supportRequestDetails/:id non existing", async () => {
+  test("GET /outBoxes/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/supportRequestDetails"}/${nonExistingId}`)
+      .get(`${"/outBoxes"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -171,31 +169,33 @@ describe("SupportRequestDetail", () => {
       });
   });
 
-  test("GET /supportRequestDetails/:id existing", async () => {
+  test("GET /outBoxes/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/supportRequestDetails"}/${existingId}`)
+      .get(`${"/outBoxes"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        processedDate: FIND_ONE_RESULT.processedDate.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });
 
-  test("POST /supportRequestDetails existing resource", async () => {
+  test("POST /outBoxes existing resource", async () => {
     const agent = request(app.getHttpServer());
     await agent
-      .post("/supportRequestDetails")
+      .post("/outBoxes")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        processedDate: CREATE_RESULT.processedDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })
       .then(function () {
         agent
-          .post("/supportRequestDetails")
+          .post("/outBoxes")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({

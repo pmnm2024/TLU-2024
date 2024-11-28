@@ -10,13 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-
-import {
-  Prisma,
-  SupportRequest as PrismaSupportRequest,
-  SupportRequestDetail as PrismaSupportRequestDetail,
-  SupportRequestType as PrismaSupportRequestType,
-} from "@prisma/client";
+import { Prisma, SupportRequest as PrismaSupportRequest } from "@prisma/client";
 
 export class SupportRequestServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -51,26 +45,5 @@ export class SupportRequestServiceBase {
     args: Prisma.SupportRequestDeleteArgs
   ): Promise<PrismaSupportRequest> {
     return this.prisma.supportRequest.delete(args);
-  }
-
-  async findSupportRequestDetails(
-    parentId: string,
-    args: Prisma.SupportRequestDetailFindManyArgs
-  ): Promise<PrismaSupportRequestDetail[]> {
-    return this.prisma.supportRequest
-      .findUniqueOrThrow({
-        where: { id: parentId },
-      })
-      .supportRequestDetails(args);
-  }
-
-  async getSupportRequestTypeId(
-    parentId: string
-  ): Promise<PrismaSupportRequestType | null> {
-    return this.prisma.supportRequest
-      .findUnique({
-        where: { id: parentId },
-      })
-      .supportRequestTypeID();
   }
 }

@@ -19,12 +19,8 @@ import {
   Min,
   Max,
   IsEnum,
-  ValidateNested,
 } from "class-validator";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
-import { SupportRequestDetailUpdateManyWithoutSupportRequestsInput } from "./SupportRequestDetailUpdateManyWithoutSupportRequestsInput";
-import { Type } from "class-transformer";
-import { SupportRequestTypeWhereUniqueInput } from "../../supportRequestType/base/SupportRequestTypeWhereUniqueInput";
 
 @InputType()
 class SupportRequestUpdateInput {
@@ -50,7 +46,7 @@ class SupportRequestUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  description?: string | null;
+  descripton?: string;
 
   @ApiProperty({
     required: false,
@@ -62,7 +58,7 @@ class SupportRequestUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  detailAdrdess?: string | null;
+  detailAddress?: string | null;
 
   @ApiProperty({
     required: false,
@@ -137,27 +133,15 @@ class SupportRequestUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => SupportRequestDetailUpdateManyWithoutSupportRequestsInput,
+    type: String,
   })
-  @ValidateNested()
-  @Type(() => SupportRequestDetailUpdateManyWithoutSupportRequestsInput)
+  @IsString()
+  @MaxLength(1000)
   @IsOptional()
-  @Field(() => SupportRequestDetailUpdateManyWithoutSupportRequestsInput, {
+  @Field(() => String, {
     nullable: true,
   })
-  supportRequestDetails?: SupportRequestDetailUpdateManyWithoutSupportRequestsInput;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestTypeWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestTypeWhereUniqueInput)
-  @IsOptional()
-  @Field(() => SupportRequestTypeWhereUniqueInput, {
-    nullable: true,
-  })
-  supportRequestTypeID?: SupportRequestTypeWhereUniqueInput;
+  supportRequestTypeId?: string;
 
   @ApiProperty({
     required: false,

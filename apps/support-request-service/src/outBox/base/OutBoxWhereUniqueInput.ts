@@ -11,18 +11,17 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength } from "class-validator";
+import { IsString } from "class-validator";
 
 @InputType()
-class SupportRequestTypeCreateInput {
+class OutBoxWhereUniqueInput {
   @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
-  @MaxLength(1000)
   @Field(() => String)
-  name!: string;
+  id!: string;
 }
 
-export { SupportRequestTypeCreateInput as SupportRequestTypeCreateInput };
+export { OutBoxWhereUniqueInput as OutBoxWhereUniqueInput };

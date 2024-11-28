@@ -11,17 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsDate,
-  IsString,
-  IsInt,
-  Min,
-  Max,
-  MaxLength,
-  ValidateNested,
-} from "class-validator";
+import { IsDate, IsString, IsInt, Min, Max, MaxLength } from "class-validator";
 import { Type } from "class-transformer";
-import { SupportRequest } from "../../supportRequest/base/SupportRequest";
 
 @ObjectType()
 class SupportRequestDetail {
@@ -58,24 +49,7 @@ class SupportRequestDetail {
   @IsString()
   @MaxLength(1000)
   @Field(() => String)
-  reliefItemId!: string;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @Field(() => String)
-  reliefItemName!: string;
-
-  @ApiProperty({
-    required: true,
-    type: () => SupportRequest,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequest)
-  supportRequestId?: SupportRequest;
+  supportRequestID!: string;
 
   @ApiProperty({
     required: true,
@@ -93,6 +67,24 @@ class SupportRequestDetail {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  wareHouseId!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  wareHouseName!: string;
 }
 
 export { SupportRequestDetail as SupportRequestDetail };
