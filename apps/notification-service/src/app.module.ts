@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { CacheModule } from "@nestjs/cache-manager";
 import { redisStore } from "cache-manager-ioredis-yet";
 import { NotificationModule } from "./notification/notification.module";
+import { OutboxModule } from "./outbox/outbox.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,6 +16,7 @@ import { ConfigModule } from "@nestjs/config";
   imports: [
     RabbitMQModule,
     NotificationModule,
+    OutboxModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
