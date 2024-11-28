@@ -13,8 +13,7 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
-import { SupportRequestListRelationFilter } from "../../supportRequest/base/SupportRequestListRelationFilter";
+import { IsOptional } from "class-validator";
 
 @InputType()
 class SupportRequestTypeWhereInput {
@@ -39,18 +38,6 @@ class SupportRequestTypeWhereInput {
     nullable: true,
   })
   name?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestListRelationFilter)
-  @IsOptional()
-  @Field(() => SupportRequestListRelationFilter, {
-    nullable: true,
-  })
-  supportRequests?: SupportRequestListRelationFilter;
 }
 
 export { SupportRequestTypeWhereInput as SupportRequestTypeWhereInput };

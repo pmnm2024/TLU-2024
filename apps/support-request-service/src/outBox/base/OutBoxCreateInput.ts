@@ -12,28 +12,64 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsInt,
-  Min,
-  Max,
-  IsOptional,
   IsString,
   MaxLength,
+  IsOptional,
+  IsDate,
+  IsInt,
+  Max,
 } from "class-validator";
+import { IsJSONValue } from "../../validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
+import { Type } from "class-transformer";
 
 @InputType()
-class SupportRequestDetailUpdateInput {
+class OutBoxCreateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  eventType?: string | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  payload?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  processedDate?: Date | null;
+
   @ApiProperty({
     required: false,
     type: Number,
   })
   @IsInt()
-  @Min(-999999999)
-  @Max(999999999)
+  @Max(99999999999)
   @IsOptional()
   @Field(() => Number, {
     nullable: true,
   })
-  quantity?: number;
+  retry?: number | null;
 
   @ApiProperty({
     required: false,
@@ -45,43 +81,7 @@ class SupportRequestDetailUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  supportRequestID?: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  unit?: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  wareHouseId?: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  wareHouseName?: string;
+  status?: string | null;
 }
 
-export { SupportRequestDetailUpdateInput as SupportRequestDetailUpdateInput };
+export { OutBoxCreateInput as OutBoxCreateInput };

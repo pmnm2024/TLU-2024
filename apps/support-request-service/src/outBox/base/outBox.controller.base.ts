@@ -16,61 +16,69 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
-import { SupportRequestTypeService } from "../supportRequestType.service";
-import { SupportRequestTypeCreateInput } from "./SupportRequestTypeCreateInput";
-import { SupportRequestType } from "./SupportRequestType";
-import { SupportRequestTypeFindManyArgs } from "./SupportRequestTypeFindManyArgs";
-import { SupportRequestTypeWhereUniqueInput } from "./SupportRequestTypeWhereUniqueInput";
-import { SupportRequestTypeUpdateInput } from "./SupportRequestTypeUpdateInput";
+import { OutBoxService } from "../outBox.service";
+import { OutBoxCreateInput } from "./OutBoxCreateInput";
+import { OutBox } from "./OutBox";
+import { OutBoxFindManyArgs } from "./OutBoxFindManyArgs";
+import { OutBoxWhereUniqueInput } from "./OutBoxWhereUniqueInput";
+import { OutBoxUpdateInput } from "./OutBoxUpdateInput";
 
-export class SupportRequestTypeControllerBase {
-  constructor(protected readonly service: SupportRequestTypeService) {}
+export class OutBoxControllerBase {
+  constructor(protected readonly service: OutBoxService) {}
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: SupportRequestType })
-  async createSupportRequestType(
-    @common.Body() data: SupportRequestTypeCreateInput
-  ): Promise<SupportRequestType> {
-    return await this.service.createSupportRequestType({
+  @swagger.ApiCreatedResponse({ type: OutBox })
+  async createOutBox(@common.Body() data: OutBoxCreateInput): Promise<OutBox> {
+    return await this.service.createOutBox({
       data: data,
       select: {
         createdAt: true,
+        eventType: true,
         id: true,
-        name: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
       },
     });
   }
 
   @common.Get()
-  @swagger.ApiOkResponse({ type: [SupportRequestType] })
-  @ApiNestedQuery(SupportRequestTypeFindManyArgs)
-  async supportRequestTypes(
-    @common.Req() request: Request
-  ): Promise<SupportRequestType[]> {
-    const args = plainToClass(SupportRequestTypeFindManyArgs, request.query);
-    return this.service.supportRequestTypes({
+  @swagger.ApiOkResponse({ type: [OutBox] })
+  @ApiNestedQuery(OutBoxFindManyArgs)
+  async outBoxes(@common.Req() request: Request): Promise<OutBox[]> {
+    const args = plainToClass(OutBoxFindManyArgs, request.query);
+    return this.service.outBoxes({
       ...args,
       select: {
         createdAt: true,
+        eventType: true,
         id: true,
-        name: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
       },
     });
   }
 
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async supportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
-  ): Promise<SupportRequestType | null> {
-    const result = await this.service.supportRequestType({
+  async outBox(
+    @common.Param() params: OutBoxWhereUniqueInput
+  ): Promise<OutBox | null> {
+    const result = await this.service.outBox({
       where: params,
       select: {
         createdAt: true,
+        eventType: true,
         id: true,
-        name: true,
+        payload: true,
+        processedDate: true,
+        retry: true,
+        status: true,
         updatedAt: true,
       },
     });
@@ -83,20 +91,24 @@ export class SupportRequestTypeControllerBase {
   }
 
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async updateSupportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
-    @common.Body() data: SupportRequestTypeUpdateInput
-  ): Promise<SupportRequestType | null> {
+  async updateOutBox(
+    @common.Param() params: OutBoxWhereUniqueInput,
+    @common.Body() data: OutBoxUpdateInput
+  ): Promise<OutBox | null> {
     try {
-      return await this.service.updateSupportRequestType({
+      return await this.service.updateOutBox({
         where: params,
         data: data,
         select: {
           createdAt: true,
+          eventType: true,
           id: true,
-          name: true,
+          payload: true,
+          processedDate: true,
+          retry: true,
+          status: true,
           updatedAt: true,
         },
       });
@@ -111,18 +123,22 @@ export class SupportRequestTypeControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: SupportRequestType })
+  @swagger.ApiOkResponse({ type: OutBox })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async deleteSupportRequestType(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
-  ): Promise<SupportRequestType | null> {
+  async deleteOutBox(
+    @common.Param() params: OutBoxWhereUniqueInput
+  ): Promise<OutBox | null> {
     try {
-      return await this.service.deleteSupportRequestType({
+      return await this.service.deleteOutBox({
         where: params,
         select: {
           createdAt: true,
+          eventType: true,
           id: true,
-          name: true,
+          payload: true,
+          processedDate: true,
+          retry: true,
+          status: true,
           updatedAt: true,
         },
       });
