@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";
@@ -46,37 +46,82 @@ export class UserService extends UserServiceBase {
     return createdUser
   }
 
+  // async resetPassword(email: string): Promise<ResetPasswordOutput> {
+  //   const session = await this.prisma.$transaction();
+  //   try {
+  //     if (!email) {
+  //       throw new Error("Email is require")
+  //     }
+
+  //     const user = await this.prisma.user.findUnique({
+  //       where: { email: email },
+  //     });
+
+  //     if (!user) {
+  //       throw new Error("User not found")
+  //     }
+
+  //     // const accessToken = await this.tokenService.createToken({
+  //     //   id: user.id,
+  //     //   username: user.username,
+  //     //   password: user.password,
+  //     // });
+
+  //     await this.rabbitProducer.emitMessage(MyMessageBrokerTopics.ResetPassword,
+  //       {
+  //         userId: user.id,
+  //         email: user.email,
+  //         name: `${user.firstName} ${user.lastName}`,
+  //         token: 'accessToken'
+  //       }
+  //     )
+
+  //     return {
+  //       success: true,
+  //       message: "Forgot password success"
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   async resetPassword(email: string): Promise<ResetPasswordOutput> {
-    if (!email) {
-      throw new Error("Email is require")
-    }
-
-    const user = await this.prisma.user.findUnique({
-      where: { email: email },
-    });
-
-    if (!user) {
-      throw new Error("User not found")
-    }
-
-    // const accessToken = await this.tokenService.createToken({
-    //   id: user.id,
-    //   username: user.username,
-    //   password: user.password,
-    // });
-
-    await this.rabbitProducer.emitMessage(MyMessageBrokerTopics.ResetPassword,
-      {
-        userId: user.id,
-        email: user.email,
-        name: `${user.firstName} ${user.lastName}`,
-        token: 'accessToken'
+    try {
+      if (!email) {
+        throw new BadRequestException("Email is required");
       }
-    )
+  
+      const user = await this.prisma.user.findUnique({
+        where: { email: email },
+      });
+  
+      if (!user) {
+        throw new BadRequestException("User not found");
+      }
+  
+      await this.prisma.$transaction([
+        this.prisma.outBox.create({
+          data: {
+            eventType: MyMessageBrokerTopics.ResetPassword,
+            payload: {
+              userId: user.id,
+              email: user.email,
+              name: `${user.firstName} ${user.lastName}`,
+              token: 'accessToken1', 
 
-    return {
-      success: true,
-      message: "Forgot password success"
+            },
+            retry: 3,
+            status: "pending"
+          },
+        }),
+      ]);
+  
+      return {
+        success: true,
+        message: "Forgot password success",
+      };
+    } catch (error) {
+      throw error;
     }
   }
+  
 }

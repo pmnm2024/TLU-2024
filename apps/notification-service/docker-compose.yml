@@ -7,7 +7,7 @@ services:
     ports:
       - ${PORT}:8001
     volumes:
-      - .:/app  # Mount the current directory to the /app directory inside the container
+      - .:/app 
       - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}

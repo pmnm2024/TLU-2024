@@ -10,6 +10,8 @@ import { SecretsManagerModule } from "./providers/secrets/secretsManager.module"
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TasksModule } from "./tasks/task.module";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   controllers: [],
@@ -46,6 +48,8 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
+    TasksModule
   ],
   providers: [],
 })

@@ -52,8 +52,14 @@ export class UserController extends UserControllerBase {
     try {
       const result = await this.service.resetPassword(email)
       return result
-    } catch (error) {
-      throw error
+    } catch (error: any) {
+      throw new common.HttpException(
+        {
+          status: error.status,
+          error: error.message,
+        },
+        error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
+      ); 
     }
   }
 }
