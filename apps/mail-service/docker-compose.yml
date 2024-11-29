@@ -16,6 +16,8 @@ services:
     depends_on:
       - migrate
     restart: on-failure
+    networks:
+      - app-network
   migrate:
     build:
       context: .
@@ -61,3 +63,7 @@ volumes:
     external: false # Volume lưu dữ liệu MongoDB
   mongo_config:
     external: false # Volume lưu cấu hình MongoDB
+
+networks:
+  app-network:
+    external: true  

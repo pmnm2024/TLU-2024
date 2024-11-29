@@ -20,19 +20,9 @@ export class NotificationController extends NotificationControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-      const { userId, email, token, name } = data
-      const payLoad = {
-        data: {
-          user: userId,
-          message: `${userId} reset password send`,
-          title: MyMessageBrokerTopics.ResetPassword
-        },
-        select: {},
-      }
-      await this.service.createNotification(
-        payLoad
-      )
-      await this.service.publishMessage(data)
+      console.log("🚀 ~ NotificationController ~ data:", data)
+
+      await this.service.customCreate(data);
       return;
     } catch (error) {
       throw error;

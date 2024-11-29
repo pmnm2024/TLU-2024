@@ -1,5 +1,5 @@
 # Base image
-FROM node:18.13.0
+FROM node:20.18.0
 
 # Set working directory
 WORKDIR /app
@@ -18,6 +18,9 @@ RUN npm install -g prisma
 
 # generate the prisma client based on the schema
 RUN npm run prisma:generate
+
+# generate the prisma client based on the schema
+RUN npx prisma generate
 
 # Expose cổng để kết nối đến container
 ENV PORT=8001

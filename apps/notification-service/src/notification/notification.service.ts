@@ -16,4 +16,49 @@ export class NotificationService extends NotificationServiceBase {
       data
     )
   }
+
+  async customCreate(data: any) {
+    try {
+      const { userId, email } = data
+      const notification = await this.prisma.notification.findFirst({
+        where: {
+          user: userId,
+          status: false
+        }
+      })
+      if (notification) {
+        throw new Error("Email sent")
+      }
+
+      const payLoad = {
+        data: {
+          user: userId,
+          message: `${userId} reset password send`,
+          title: MyMessageBrokerTopics.ResetPassword
+        },
+        // select: {},
+      }
+
+      await this.prisma.$transaction([
+        this.prisma.notification.create(
+          payLoad
+        ),
+
+        this.prisma.outbox.create({
+          data: {
+            eventType: MyMessageBrokerTopics.SendMail,
+            payload: {
+              userId: userId,
+              email: email,
+              description: 'Send mail',
+            },
+            retry: 3,
+            status: "pending"
+          },
+        }),
+      ]);
+    } catch (error) {
+      throw error
+    }
+  }
 }
