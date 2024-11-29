@@ -61,7 +61,7 @@ RUN npm install --production
 USER ${user}
 
 # expose a specific port on the docker container
-ENV PORT=8004
+ENV PORT=8005
 EXPOSE ${PORT}
 
 # start the server using the previously build application
