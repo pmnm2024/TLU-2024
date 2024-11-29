@@ -18,7 +18,6 @@ import { StringFilter } from "../../util/StringFilter";
 import { JsonFilter } from "../../util/JsonFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 
 @InputType()
 class OutboxWhereInput {
@@ -79,14 +78,14 @@ class OutboxWhereInput {
 
   @ApiProperty({
     required: false,
-    type: BooleanNullableFilter,
+    type: StringNullableFilter,
   })
-  @Type(() => BooleanNullableFilter)
+  @Type(() => StringNullableFilter)
   @IsOptional()
-  @Field(() => BooleanNullableFilter, {
+  @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  status?: BooleanNullableFilter;
+  status?: StringNullableFilter;
 }
 
 export { OutboxWhereInput as OutboxWhereInput };
