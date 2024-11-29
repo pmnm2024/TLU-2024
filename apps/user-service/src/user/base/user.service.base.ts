@@ -67,4 +67,5 @@ export class UserServiceBase {
   async ResetPassword(args: ResetPasswordInput): Promise<ResetPasswordOutput> {
     throw new Error("Not implemented");
   }
+ 
 }

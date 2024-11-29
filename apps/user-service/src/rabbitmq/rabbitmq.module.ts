@@ -19,6 +19,7 @@ import { ConfigService } from "@nestjs/config";
       inject: [ConfigService],
     },
     RabbitMQProducerService,
+    // DLQConsumerService
   ],
   controllers: [RabbitMQController],
   exports: [RabbitMQProducerService],

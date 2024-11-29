@@ -13,6 +13,8 @@ import { ConfigModule } from "@nestjs/config";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from "./tasks/task.module";
 
 @Module({
   controllers: [],
@@ -53,6 +55,8 @@ import { AuthModule } from "./auth/auth.module";
 
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
+    TasksModule
   ],
   providers: [],
 })
