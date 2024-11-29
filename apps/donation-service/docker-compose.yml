@@ -6,9 +6,10 @@ services:
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${PORT}:8004
+      - ${PORT}:8005
     volumes:
-    - ./server:/app/user
+      - .:/app 
+      - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27020/${DB_NAME}?authSource=admin
