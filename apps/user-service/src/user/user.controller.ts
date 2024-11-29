@@ -50,7 +50,7 @@ export class UserController extends UserControllerBase {
   @common.Post("/forgot-password")
   async forgotPassword(@common.Body("email") email: string) {
     try {
-      const result = await this.service.resetPassword(email)
+      const result = await this.service.forgotPassword(email)
       return result
     } catch (error: any) {
       throw new common.HttpException(
@@ -59,7 +59,28 @@ export class UserController extends UserControllerBase {
           error: error.message,
         },
         error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
-      ); 
+      );
+    }
+  }
+
+
+  // @Public()
+  @common.Post("/reset-password")
+  async resetPassword(@common.Request() req: any, @common.Body("passwordNew") passwordNew: string) {
+    try {
+      const { id } = req.user
+      const result = await this.service.resetPassword(id, passwordNew)
+      return {
+        message: "Reset password successfull"
+      }
+    } catch (error: any) {
+      throw new common.HttpException(
+        {
+          status: error.status,
+          error: error.message,
+        },
+        error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
