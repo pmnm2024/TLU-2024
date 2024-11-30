@@ -61,29 +61,7 @@ class SupportRequestDetailOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  reliefItemId?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  reliefItemName?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  SupportRequestID?: SortOrder;
+  supportRequestID?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -106,6 +84,28 @@ class SupportRequestDetailOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  wareHouseId?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  wareHouseName?: SortOrder;
 }
 
 export { SupportRequestDetailOrderByInput as SupportRequestDetailOrderByInput };

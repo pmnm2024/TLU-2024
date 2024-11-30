@@ -31,28 +31,16 @@ export class SupportRequestDetailControllerBase {
     @common.Body() data: SupportRequestDetailCreateInput
   ): Promise<SupportRequestDetail> {
     return await this.service.createSupportRequestDetail({
-      data: {
-        ...data,
-
-        supportRequestId: {
-          connect: data.supportRequestId,
-        },
-      },
+      data: data,
       select: {
         createdAt: true,
         id: true,
         quantity: true,
-        reliefItemId: true,
-        reliefItemName: true,
-
-        supportRequestId: {
-          select: {
-            id: true,
-          },
-        },
-
+        supportRequestID: true,
         unit: true,
         updatedAt: true,
+        wareHouseId: true,
+        wareHouseName: true,
       },
     });
   }
@@ -70,17 +58,11 @@ export class SupportRequestDetailControllerBase {
         createdAt: true,
         id: true,
         quantity: true,
-        reliefItemId: true,
-        reliefItemName: true,
-
-        supportRequestId: {
-          select: {
-            id: true,
-          },
-        },
-
+        supportRequestID: true,
         unit: true,
         updatedAt: true,
+        wareHouseId: true,
+        wareHouseName: true,
       },
     });
   }
@@ -97,17 +79,11 @@ export class SupportRequestDetailControllerBase {
         createdAt: true,
         id: true,
         quantity: true,
-        reliefItemId: true,
-        reliefItemName: true,
-
-        supportRequestId: {
-          select: {
-            id: true,
-          },
-        },
-
+        supportRequestID: true,
         unit: true,
         updatedAt: true,
+        wareHouseId: true,
+        wareHouseName: true,
       },
     });
     if (result === null) {
@@ -128,28 +104,16 @@ export class SupportRequestDetailControllerBase {
     try {
       return await this.service.updateSupportRequestDetail({
         where: params,
-        data: {
-          ...data,
-
-          supportRequestId: {
-            connect: data.supportRequestId,
-          },
-        },
+        data: data,
         select: {
           createdAt: true,
           id: true,
           quantity: true,
-          reliefItemId: true,
-          reliefItemName: true,
-
-          supportRequestId: {
-            select: {
-              id: true,
-            },
-          },
-
+          supportRequestID: true,
           unit: true,
           updatedAt: true,
+          wareHouseId: true,
+          wareHouseName: true,
         },
       });
     } catch (error) {
@@ -175,17 +139,11 @@ export class SupportRequestDetailControllerBase {
           createdAt: true,
           id: true,
           quantity: true,
-          reliefItemId: true,
-          reliefItemName: true,
-
-          supportRequestId: {
-            select: {
-              id: true,
-            },
-          },
-
+          supportRequestID: true,
           unit: true,
           updatedAt: true,
+          wareHouseId: true,
+          wareHouseName: true,
         },
       });
     } catch (error) {

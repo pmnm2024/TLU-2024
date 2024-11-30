@@ -18,10 +18,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  ValidateNested,
 } from "class-validator";
-import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
-import { Type } from "class-transformer";
 
 @InputType()
 class SupportRequestDetailUpdateInput {
@@ -48,31 +45,7 @@ class SupportRequestDetailUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  reliefItemId?: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  reliefItemName?: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestWhereUniqueInput)
-  @IsOptional()
-  @Field(() => SupportRequestWhereUniqueInput, {
-    nullable: true,
-  })
-  supportRequestId?: SupportRequestWhereUniqueInput;
+  supportRequestID?: string;
 
   @ApiProperty({
     required: false,
@@ -85,6 +58,30 @@ class SupportRequestDetailUpdateInput {
     nullable: true,
   })
   unit?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  wareHouseId?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  wareHouseName?: string;
 }
 
 export { SupportRequestDetailUpdateInput as SupportRequestDetailUpdateInput };

@@ -50,7 +50,7 @@ class SupportRequestOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  description?: SortOrder;
+  descripton?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -61,7 +61,7 @@ class SupportRequestOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  detailAdrdess?: SortOrder;
+  detailAddress?: SortOrder;
 
   @ApiProperty({
     required: false,
@@ -149,7 +149,7 @@ class SupportRequestOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  SupportRequestTypeID?: SortOrder;
+  supportRequestTypeId?: SortOrder;
 
   @ApiProperty({
     required: false,

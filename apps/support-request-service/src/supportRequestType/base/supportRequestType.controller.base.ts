@@ -22,9 +22,6 @@ import { SupportRequestType } from "./SupportRequestType";
 import { SupportRequestTypeFindManyArgs } from "./SupportRequestTypeFindManyArgs";
 import { SupportRequestTypeWhereUniqueInput } from "./SupportRequestTypeWhereUniqueInput";
 import { SupportRequestTypeUpdateInput } from "./SupportRequestTypeUpdateInput";
-import { SupportRequestFindManyArgs } from "../../supportRequest/base/SupportRequestFindManyArgs";
-import { SupportRequest } from "../../supportRequest/base/SupportRequest";
-import { SupportRequestWhereUniqueInput } from "../../supportRequest/base/SupportRequestWhereUniqueInput";
 
 export class SupportRequestTypeControllerBase {
   constructor(protected readonly service: SupportRequestTypeService) {}
@@ -137,96 +134,5 @@ export class SupportRequestTypeControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/supportRequests")
-  @ApiNestedQuery(SupportRequestFindManyArgs)
-  async findSupportRequests(
-    @common.Req() request: Request,
-    @common.Param() params: SupportRequestTypeWhereUniqueInput
-  ): Promise<SupportRequest[]> {
-    const query = plainToClass(SupportRequestFindManyArgs, request.query);
-    const results = await this.service.findSupportRequests(params.id, {
-      ...query,
-      select: {
-        city: true,
-        createdAt: true,
-        description: true,
-        detailAdrdess: true,
-        district: true,
-        email: true,
-        fullname: true,
-        id: true,
-        phone: true,
-        quantity: true,
-        status: true,
-
-        supportRequestTypeID: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-        ward: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/supportRequests")
-  async connectSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequests: {
-        connect: body,
-      },
-    };
-    await this.service.updateSupportRequestType({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/supportRequests")
-  async updateSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequests: {
-        set: body,
-      },
-    };
-    await this.service.updateSupportRequestType({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/supportRequests")
-  async disconnectSupportRequests(
-    @common.Param() params: SupportRequestTypeWhereUniqueInput,
-    @common.Body() body: SupportRequestWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      supportRequests: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateSupportRequestType({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

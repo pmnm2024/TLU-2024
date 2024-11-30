@@ -11,14 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsString,
-  MaxLength,
-  IsOptional,
-  ValidateNested,
-} from "class-validator";
-import { SupportRequestUpdateManyWithoutSupportRequestTypesInput } from "./SupportRequestUpdateManyWithoutSupportRequestTypesInput";
-import { Type } from "class-transformer";
+import { IsString, MaxLength, IsOptional } from "class-validator";
 
 @InputType()
 class SupportRequestTypeUpdateInput {
@@ -33,18 +26,6 @@ class SupportRequestTypeUpdateInput {
     nullable: true,
   })
   name?: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestUpdateManyWithoutSupportRequestTypesInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestUpdateManyWithoutSupportRequestTypesInput)
-  @IsOptional()
-  @Field(() => SupportRequestUpdateManyWithoutSupportRequestTypesInput, {
-    nullable: true,
-  })
-  supportRequests?: SupportRequestUpdateManyWithoutSupportRequestTypesInput;
 }
 
 export { SupportRequestTypeUpdateInput as SupportRequestTypeUpdateInput };
