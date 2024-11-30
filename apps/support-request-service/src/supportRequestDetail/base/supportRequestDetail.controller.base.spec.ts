@@ -21,39 +21,43 @@ const CREATE_INPUT = {
   createdAt: new Date(),
   id: "exampleId",
   quantity: 42,
-  reliefItemId: "exampleReliefItemId",
-  reliefItemName: "exampleReliefItemName",
+  supportRequestID: "exampleSupportRequestId",
   unit: "exampleUnit",
   updatedAt: new Date(),
+  wareHouseId: "exampleWareHouseId",
+  wareHouseName: "exampleWareHouseName",
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
   id: "exampleId",
   quantity: 42,
-  reliefItemId: "exampleReliefItemId",
-  reliefItemName: "exampleReliefItemName",
+  supportRequestID: "exampleSupportRequestId",
   unit: "exampleUnit",
   updatedAt: new Date(),
+  wareHouseId: "exampleWareHouseId",
+  wareHouseName: "exampleWareHouseName",
 };
 const FIND_MANY_RESULT = [
   {
     createdAt: new Date(),
     id: "exampleId",
     quantity: 42,
-    reliefItemId: "exampleReliefItemId",
-    reliefItemName: "exampleReliefItemName",
+    supportRequestID: "exampleSupportRequestId",
     unit: "exampleUnit",
     updatedAt: new Date(),
+    wareHouseId: "exampleWareHouseId",
+    wareHouseName: "exampleWareHouseName",
   },
 ];
 const FIND_ONE_RESULT = {
   createdAt: new Date(),
   id: "exampleId",
   quantity: 42,
-  reliefItemId: "exampleReliefItemId",
-  reliefItemName: "exampleReliefItemName",
+  supportRequestID: "exampleSupportRequestId",
   unit: "exampleUnit",
   updatedAt: new Date(),
+  wareHouseId: "exampleWareHouseId",
+  wareHouseName: "exampleWareHouseName",
 };
 
 const service = {

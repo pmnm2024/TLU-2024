@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { SupportRequestModule } from "./supportRequest/supportRequest.module";
 import { SupportRequestTypeModule } from "./supportRequestType/supportRequestType.module";
 import { SupportRequestDetailModule } from "./supportRequestDetail/supportRequestDetail.module";
+import { OutBoxModule } from "./outBox/outBox.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,6 +16,7 @@ import { ConfigModule } from "@nestjs/config";
     SupportRequestModule,
     SupportRequestTypeModule,
     SupportRequestDetailModule,
+    OutBoxModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

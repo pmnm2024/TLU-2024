@@ -19,12 +19,8 @@ import {
   Min,
   Max,
   IsEnum,
-  ValidateNested,
 } from "class-validator";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
-import { SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput } from "./SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput";
-import { Type } from "class-transformer";
-import { SupportRequestTypeWhereUniqueInput } from "../../supportRequestType/base/SupportRequestTypeWhereUniqueInput";
 
 @InputType()
 class SupportRequestCreateInput {
@@ -38,16 +34,13 @@ class SupportRequestCreateInput {
   city!: string;
 
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  description?: string | null;
+  @Field(() => String)
+  descripton!: string;
 
   @ApiProperty({
     required: false,
@@ -59,7 +52,7 @@ class SupportRequestCreateInput {
   @Field(() => String, {
     nullable: true,
   })
-  detailAdrdess?: string | null;
+  detailAddress?: string | null;
 
   @ApiProperty({
     required: true,
@@ -118,28 +111,13 @@ class SupportRequestCreateInput {
   status!: "Pending" | "Processed";
 
   @ApiProperty({
-    required: false,
-    type: () => SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput)
-  @IsOptional()
-  @Field(
-    () => SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput,
-    {
-      nullable: true,
-    }
-  )
-  supportRequestDetails?: SupportRequestDetailCreateNestedManyWithoutSupportRequestsInput;
-
-  @ApiProperty({
     required: true,
-    type: () => SupportRequestTypeWhereUniqueInput,
+    type: String,
   })
-  @ValidateNested()
-  @Type(() => SupportRequestTypeWhereUniqueInput)
-  @Field(() => SupportRequestTypeWhereUniqueInput)
-  supportRequestTypeID!: SupportRequestTypeWhereUniqueInput;
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  supportRequestTypeId!: string;
 
   @ApiProperty({
     required: true,

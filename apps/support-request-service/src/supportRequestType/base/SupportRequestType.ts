@@ -11,15 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsDate,
-  IsString,
-  MaxLength,
-  ValidateNested,
-  IsOptional,
-} from "class-validator";
+import { IsDate, IsString, MaxLength } from "class-validator";
 import { Type } from "class-transformer";
-import { SupportRequest } from "../../supportRequest/base/SupportRequest";
 
 @ObjectType()
 class SupportRequestType {
@@ -47,15 +40,6 @@ class SupportRequestType {
   @MaxLength(1000)
   @Field(() => String)
   name!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => [SupportRequest],
-  })
-  @ValidateNested()
-  @Type(() => SupportRequest)
-  @IsOptional()
-  supportRequests?: Array<SupportRequest>;
 
   @ApiProperty({
     required: true,

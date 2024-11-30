@@ -11,14 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsString,
-  MaxLength,
-  ValidateNested,
-  IsOptional,
-} from "class-validator";
-import { SupportRequestCreateNestedManyWithoutSupportRequestTypesInput } from "./SupportRequestCreateNestedManyWithoutSupportRequestTypesInput";
-import { Type } from "class-transformer";
+import { IsString, MaxLength } from "class-validator";
 
 @InputType()
 class SupportRequestTypeCreateInput {
@@ -30,18 +23,6 @@ class SupportRequestTypeCreateInput {
   @MaxLength(1000)
   @Field(() => String)
   name!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestCreateNestedManyWithoutSupportRequestTypesInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestCreateNestedManyWithoutSupportRequestTypesInput)
-  @IsOptional()
-  @Field(() => SupportRequestCreateNestedManyWithoutSupportRequestTypesInput, {
-    nullable: true,
-  })
-  supportRequests?: SupportRequestCreateNestedManyWithoutSupportRequestTypesInput;
 }
 
 export { SupportRequestTypeCreateInput as SupportRequestTypeCreateInput };

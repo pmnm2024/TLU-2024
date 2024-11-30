@@ -13,12 +13,10 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional, IsEnum, ValidateNested } from "class-validator";
+import { IsOptional, IsEnum } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
-import { SupportRequestDetailListRelationFilter } from "../../supportRequestDetail/base/SupportRequestDetailListRelationFilter";
-import { SupportRequestTypeWhereUniqueInput } from "../../supportRequestType/base/SupportRequestTypeWhereUniqueInput";
 
 @InputType()
 class SupportRequestWhereInput {
@@ -35,14 +33,14 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: StringFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  description?: StringNullableFilter;
+  descripton?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -53,7 +51,7 @@ class SupportRequestWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  detailAdrdess?: StringNullableFilter;
+  detailAddress?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -134,27 +132,14 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => SupportRequestDetailListRelationFilter,
+    type: StringFilter,
   })
-  @ValidateNested()
-  @Type(() => SupportRequestDetailListRelationFilter)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => SupportRequestDetailListRelationFilter, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  supportRequestDetails?: SupportRequestDetailListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => SupportRequestTypeWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => SupportRequestTypeWhereUniqueInput)
-  @IsOptional()
-  @Field(() => SupportRequestTypeWhereUniqueInput, {
-    nullable: true,
-  })
-  supportRequestTypeID?: SupportRequestTypeWhereUniqueInput;
+  supportRequestTypeId?: StringFilter;
 
   @ApiProperty({
     required: false,
