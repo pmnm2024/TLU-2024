@@ -29,6 +29,17 @@ model Donation {
   ward                   String?
 }
 
+model OutBox {
+  createdAt     DateTime  @default(now())
+  eventType     String?
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  payload       Json?
+  processedDate DateTime?
+  retry         Int?
+  status        String?
+  updatedAt     DateTime  @updatedAt
+}
+
 enum EnumDonationPaymentMethod {
   CreditCard
   DebitCard
