@@ -1,3 +1,4 @@
+
 version: "3.3"
 services:
   donation:
@@ -24,6 +25,7 @@ services:
       args:
         NPM_LOG_LEVEL: notice
     command: npm run db:init
+
     working_dir: /app/donation
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
@@ -58,6 +60,8 @@ services:
     volumes:
       - mongo_data:/data/db # Lưu dữ liệu MongoDB tại volume `mongo_data`
       - mongo_config:/data/configdb # Lưu trữ cấu hình MongoDB
+    networks:
+      - app-network 
 #   redis:
 #     container_name: ${REDIS_HOST}
 #     image: redis:7
