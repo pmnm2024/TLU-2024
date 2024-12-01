@@ -13,13 +13,14 @@ services:
       - /app/node_modules
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27020/${DB_NAME}?authSource=admin
+      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
       RABBITMQ_URLS: ${RABBITMQ_URLS}
       RABBITMQ_SUBSCRIBE_GROUP: ${RABBITMQ_SUBSCRIBE_GROUP}
       REDIS_URL: ${REDIS_URL}
     restart: on-failure
     networks:
       - app-network
+      - service_d_network
   migrate:
     build:
       context: .
@@ -30,14 +31,14 @@ services:
     working_dir: /app/donation
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27020/${DB_NAME}?authSource=admin
+      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
     depends_on:
       db:
         condition: service_healthy
   db:
     image: mongo
-    ports:
-      - ${DB_PORT}:27020
+    # ports:
+    #   - ${DB_PORT}:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -62,7 +63,7 @@ services:
       - mongo_data:/data/db # Lưu dữ liệu MongoDB tại volume `mongo_data`
       - mongo_config:/data/configdb # Lưu trữ cấu hình MongoDB
     networks:
-      - app-network 
+      - service_d_network
 #   redis:
 #     container_name: ${REDIS_HOST}
 #     image: redis:7
@@ -92,4 +93,6 @@ volumes:
 networks:
   app-network:
     external: true
+  service_d_network:
+    driver: bridge  
 

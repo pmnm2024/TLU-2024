@@ -64,12 +64,24 @@ pipelines:
     apiEndpoints:
       - account
     policies:
+<<<<<<< config
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
+=======
       # - cors:
       #     - action:
       #         origin: "*"
       #         methods: "*"
       #         preflightContinue: false
       #         optionsSuccessStatus: 204
+>>>>>>> main
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -100,7 +112,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  user: req.user
+                  # user: req.user
       - proxy:
           - action:
               serviceEndpoint: authService
@@ -119,7 +131,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  user: req.user.sub
+                  user: req.user
       - proxy:
           - action:
               serviceEndpoint: notificationService
