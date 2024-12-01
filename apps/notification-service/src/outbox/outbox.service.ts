@@ -22,7 +22,7 @@ export class OutboxService extends OutboxServiceBase {
           await this.rabbitProducer.emitMessage(event.eventType as MyMessageBrokerTopics, event.payload);
 
           // Update the status to 'processed'
-          await prisma.outbox.update({
+          await this.prisma.outbox.update({
             where: { id: event.id },
             data: {
               status: 'processed',
