@@ -59,6 +59,9 @@ pipelines:
     apiEndpoints:
       - account
     policies:
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
       - cors:
           - action:
               origin: "*"
@@ -95,7 +98,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  user: req.user
+                  # user: req.user
       - proxy:
           - action:
               serviceEndpoint: authService
@@ -124,7 +127,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  user: req.user.sub
+                  user: req.user
       - proxy:
           - action:
               serviceEndpoint: notificationService

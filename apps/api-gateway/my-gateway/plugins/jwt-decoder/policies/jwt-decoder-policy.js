@@ -18,7 +18,7 @@ module.exports = {
   policy: (actionParams) => {
     return (req, res, next) => {
       const token = req.headers['authorization']?.split(' ')[1];  // Lấy token từ header "Authorization"
-      console.log("🚀 ~ return ~ token:", token)
+      // console.log("🚀 ~ return ~ token:", token)
 
       if (!token) {
         return res.status(401).json({ error: 'Token không tồn tại trong header.' });  // Token không tồn tại
@@ -31,8 +31,9 @@ module.exports = {
         }
         
         // Nếu token hợp lệ, lưu thông tin decoded vào req.user
+        console.log("🚀 ~ return ~ decoded:", decoded)
         req.user = decoded;
-
+      
         // Tiến hành tiếp theo
         next();
       });
