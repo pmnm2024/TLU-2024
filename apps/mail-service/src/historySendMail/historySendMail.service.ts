@@ -9,6 +9,7 @@ export class HistorySendMailService extends HistorySendMailServiceBase {
     super(prisma);
   }
 
+
   async processSendMail(payload: any) {
     try {
       const { email, userId, description } = payload
@@ -18,4 +19,5 @@ export class HistorySendMailService extends HistorySendMailServiceBase {
       throw error
     }
   }
+
 }
