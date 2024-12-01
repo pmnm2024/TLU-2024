@@ -9,8 +9,9 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
-import { ConfigModule } from "@nestjs/config";
-
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TasksModule } from "./tasks/task.module";
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   controllers: [],
   imports: [
@@ -48,6 +49,8 @@ import { ConfigModule } from "@nestjs/config";
 
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
+    TasksModule
   ],
   providers: [],
 })
