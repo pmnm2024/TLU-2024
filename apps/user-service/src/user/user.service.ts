@@ -80,7 +80,7 @@ export class UserService extends UserServiceBase {
               userId: user.id,
               email: user.email,
               name: `${user.firstName} ${user.lastName}`,
-              token: `<!DOCTYPE html>
+              description: `<!DOCTYPE html>
               <html lang="en">
               <head>
                 <meta charset="UTF-8">

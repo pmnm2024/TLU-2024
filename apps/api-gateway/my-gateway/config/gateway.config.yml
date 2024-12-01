@@ -13,6 +13,10 @@ apiEndpoints:
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/user*"
+  register:
+    methods: ["POST"]
+    host: "*"
+    paths: "/api/user*"
   auth:
     methods: ["POST"]
     host: "*"
@@ -38,8 +42,9 @@ policies:
   - log
   - proxy
   - request-transformer
-  - jwt
+  # - jwt
   - jwt-decoder-policy
+  - rate-limit
 
   # - express-gateway-plugin-example
 
@@ -59,6 +64,7 @@ pipelines:
     apiEndpoints:
       - account
     policies:
+<<<<<<< config
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
@@ -68,6 +74,14 @@ pipelines:
               methods: "*"
               preflightContinue: false
               optionsSuccessStatus: 204
+=======
+      # - cors:
+      #     - action:
+      #         origin: "*"
+      #         methods: "*"
+      #         preflightContinue: false
+      #         optionsSuccessStatus: 204
+>>>>>>> main
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -106,19 +120,9 @@ pipelines:
     apiEndpoints:
       - notification
     policies:
-      # - jwt:
-      #     action:
-      #       secretOrPublicKey: 'asasasa'
-      #       checkCredentialExistence: false
       - jwt-decoder-policy:
           action:
               secret: 'asasasa'
-      - cors:
-          - action:
-              origin: "*"
-              methods: "*"
-              preflightContinue: false
-              optionsSuccessStatus: 204
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"

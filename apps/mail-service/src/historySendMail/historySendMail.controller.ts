@@ -22,7 +22,7 @@ export class HistorySendMailController extends HistorySendMailControllerBase {
       const { data } = message as any;
       console.log("🚀 ~ NotificationController ~ data:", data)
 
-      // await this.service.customCreate(data);
+      await this.service.processSendMail(data)
       return;
     } catch (error) {
       throw error;
