@@ -9,11 +9,12 @@ export class TokenService extends TokenServiceBase implements ITokenService {
         if (!username) return Promise.reject(INVALID_USERNAME_ERROR);
         if (!password) return Promise.reject(INVALID_PASSWORD_ERROR);
 
-        const payload: ITokenPayload = {
-            id,
+        const payload = {
+            sub: id,
             username,
             password,
-            jti: `${id}-${Date.now()}`
+            jti: `${id}-${Date.now()}`,
+            key: 'test2024'
         };
         return this.jwtService.signAsync(payload);
     }

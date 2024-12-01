@@ -18,6 +18,7 @@ services:
     restart: on-failure
     networks:
       - app-network
+      - service_a_network
   migrate:
     build:
       context: .
@@ -31,7 +32,7 @@ services:
   db:
     image: mongo
     ports:
-      - ${DB_PORT}:27018
+      - ${DB_PORT}:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -55,9 +56,13 @@ services:
     volumes:
       - mongo_data:/data/db 
       - mongo_config:/data/configdb 
+    networks:
+      - service_a_network
 networks:
   app-network:
     external: true
+  service_a_network:
+    driver: bridge  
 volumes:
   mongo_data:
     external: false # Volume lưu dữ liệu MongoDB
