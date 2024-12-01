@@ -7,4 +7,5 @@ export class HistorySendMailService extends HistorySendMailServiceBase {
   constructor(protected readonly prisma: PrismaService) {
     super(prisma);
   }
+  
 }

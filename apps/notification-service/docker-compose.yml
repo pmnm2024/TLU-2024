@@ -31,8 +31,8 @@ services:
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27018/${DB_NAME}?authSource=admin
   db:
     image: mongo
-    ports:
-      - ${DB_PORT}:27017
+    # ports:
+    #   - ${DB_PORT}:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
