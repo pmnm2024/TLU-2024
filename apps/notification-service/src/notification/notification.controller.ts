@@ -20,7 +20,6 @@ export class NotificationController extends NotificationControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-      console.log("🚀 ~ NotificationController ~ data:", data)
 
       await this.service.customCreate(data);
       return;

@@ -19,7 +19,7 @@ export class NotificationService extends NotificationServiceBase {
 
   async customCreate(data: any) {
     try {
-      const { userId, email } = data
+      const { userId, email, description } = data
       const notification = await this.prisma.notification.findFirst({
         where: {
           user: userId,
@@ -50,7 +50,7 @@ export class NotificationService extends NotificationServiceBase {
             payload: {
               userId: userId,
               email: email,
-              description: 'Send mail',
+              description: description
             },
             retry: 3,
             status: "pending"

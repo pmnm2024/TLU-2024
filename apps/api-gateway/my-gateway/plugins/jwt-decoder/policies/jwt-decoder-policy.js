@@ -31,7 +31,7 @@ module.exports = {
         }
         
         // Nếu token hợp lệ, lưu thông tin decoded vào req.user
-        req.user = decoded;
+        req.user = JSON.stringify(decoded);
 
         // Tiến hành tiếp theo
         next();
