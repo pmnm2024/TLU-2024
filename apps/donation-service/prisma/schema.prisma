@@ -1,0 +1,44 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Donation {
+  accountNumber          String?
+  amount                 Float?
+  bank                   String?
+  city                   String?
+  createdAt              DateTime                   @default(now())
+  description            String?
+  detailAddress          String?
+  district               String?
+  email                  String?
+  fullName               String?
+  id                     String                     @id @default(auto()) @map("_id") @db.ObjectId
+  paymentMethod          EnumDonationPaymentMethod?
+  phone                  String?
+  status                 EnumDonationStatus
+  supportRequestTypeId   String?
+  supportRequestTypeName String?
+  updatedAt              DateTime                   @updatedAt
+  userId                 String?
+  ward                   String?
+}
+
+enum EnumDonationPaymentMethod {
+  CreditCard
+  DebitCard
+  BankTransfer
+  MobilePayment
+  EWallet
+}
+
+enum EnumDonationStatus {
+  Pending
+  Processed
+  Refused
+}

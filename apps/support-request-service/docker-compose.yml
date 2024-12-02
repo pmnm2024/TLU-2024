@@ -1,25 +1,29 @@
-version: "3"
+version: "3.3"
 services:
-  server:
+  support-request:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${PORT}:3000
+      - ${PORT}:8003
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
     depends_on:
       - migrate
     restart: on-failure
+    volumes:
+      - support-request-data:/app/data 
+    networks:
+      - app-network
   migrate:
     build:
       context: .
       args:
         NPM_LOG_LEVEL: notice
     command: npm run db:init
-    working_dir: /app/server
+    working_dir: /app/support-request
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
@@ -29,7 +33,9 @@ services:
   db:
     image: mongo
     ports:
+
       - ${DB_PORT}:27017
+
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -54,3 +60,4 @@ services:
       - mongo:/var/lib/mongosql/data
 volumes:
   mongo: ~
+
