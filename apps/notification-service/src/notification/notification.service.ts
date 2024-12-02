@@ -61,4 +61,48 @@ export class NotificationService extends NotificationServiceBase {
       throw error
     }
   }
+
+  async addDonation(data: any) {
+    try {
+      const { email, description } = data
+      const notification = await this.prisma.notification.findFirst({
+        where: {
+          user: email,
+          status: false
+        }
+      })
+      if (notification) {
+        throw new Error("Email sent")
+      }
+
+      const payLoad = {
+        data: {
+          user: email,
+          message: `${email} thank for donation send`,
+          title: MyMessageBrokerTopics.Donate
+        },
+        // select: {},
+      }
+
+      await this.prisma.$transaction([
+        this.prisma.notification.create(
+          payLoad
+        ),
+
+        this.prisma.outbox.create({
+          data: {
+            eventType: MyMessageBrokerTopics.SendMail,
+            payload: {
+              email: email,
+              description: description
+            },
+            retry: 3,
+            status: "pending"
+          },
+        }),
+      ]);
+    } catch (error) {
+      throw error
+    }
+  }
 }
