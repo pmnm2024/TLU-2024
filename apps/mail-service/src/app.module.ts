@@ -1,6 +1,7 @@
 import { RabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { Module } from "@nestjs/common";
 import { HistorySendMailModule } from "./historySendMail/historySendMail.module";
+import { OutBoxModule } from "./outBox/outBox.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -13,6 +14,7 @@ import { ConfigModule } from "@nestjs/config";
   imports: [
     RabbitMQModule,
     HistorySendMailModule,
+    OutBoxModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

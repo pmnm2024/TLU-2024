@@ -18,6 +18,17 @@ model HistorySendMail {
   updatedAt DateTime                   @updatedAt
 }
 
+model OutBox {
+  createdAt     DateTime  @default(now())
+  eventType     String?
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  payload       Json?
+  processedDate DateTime?
+  retry         Int?
+  status        Boolean?
+  updatedAt     DateTime  @updatedAt
+}
+
 enum EnumHistorySendMailStatus {
   Option1
 }
