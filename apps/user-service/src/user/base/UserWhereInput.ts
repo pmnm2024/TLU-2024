@@ -13,9 +13,11 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { JsonFilter } from "../../util/JsonFilter";
 import { Type } from "class-transformer";
-import { IsOptional, IsEnum } from "class-validator";
+import { IsOptional, ValidateNested, IsEnum } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { RankUserWhereUniqueInput } from "../../rankUser/base/RankUserWhereUniqueInput";
+import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumUserSex } from "./EnumUserSex";
 
 @InputType()
@@ -85,6 +87,29 @@ class UserWhereInput {
     nullable: true,
   })
   phone?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => RankUserWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => RankUserWhereUniqueInput)
+  @IsOptional()
+  @Field(() => RankUserWhereUniqueInput, {
+    nullable: true,
+  })
+  rank?: RankUserWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: IntNullableFilter,
+  })
+  @Type(() => IntNullableFilter)
+  @IsOptional()
+  @Field(() => IntNullableFilter, {
+    nullable: true,
+  })
+  score?: IntNullableFilter;
 
   @ApiProperty({
     required: false,

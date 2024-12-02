@@ -28,5 +28,4 @@ export class RabbitMQ extends ServerRMQ implements CustomTransportStrategy {
     );
     callback();
   }
- 
 }

@@ -12,9 +12,19 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsJSONValue } from "../../validators";
-import { IsOptional, IsString, MaxLength, IsEnum } from "class-validator";
+import {
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateNested,
+  IsInt,
+  Max,
+  IsEnum,
+} from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { RankUserWhereUniqueInput } from "../../rankUser/base/RankUserWhereUniqueInput";
+import { Type } from "class-transformer";
 import { EnumUserSex } from "./EnumUserSex";
 
 @InputType()
@@ -89,6 +99,18 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: () => RankUserWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => RankUserWhereUniqueInput)
+  @IsOptional()
+  @Field(() => RankUserWhereUniqueInput, {
+    nullable: true,
+  })
+  rank?: RankUserWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
   })
   @IsJSONValue()
   @IsOptional()
@@ -96,6 +118,18 @@ class UserUpdateInput {
     nullable: true,
   })
   roles?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
+  @Max(99999999999)
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  score?: number | null;
 
   @ApiProperty({
     required: false,

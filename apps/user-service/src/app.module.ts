@@ -4,6 +4,7 @@ import { CacheModule } from "@nestjs/cache-manager";
 import { redisStore } from "cache-manager-ioredis-yet";
 import { UserModule } from "./user/user.module";
 import { OutBoxModule } from "./outBox/outBox.module";
+import { RankUserModule } from "./rankUser/rankUser.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -24,6 +25,7 @@ import { TasksModule } from "./tasks/task.module";
     AuthModule,
     UserModule,
     OutBoxModule,
+    RankUserModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

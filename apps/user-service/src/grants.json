@@ -90,32 +90,26 @@
     "attributes": "*"
   },
   {
-    "role": "admin",
-    "resource": "OutBox",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "OutBox",
+    "role": "user",
+    "resource": "RankUser",
     "action": "create:any",
     "attributes": "*"
   },
   {
-    "role": "admin",
-    "resource": "OutBox",
+    "role": "user",
+    "resource": "RankUser",
     "action": "update:any",
     "attributes": "*"
   },
   {
-    "role": "admin",
-    "resource": "OutBox",
+    "role": "user",
+    "resource": "RankUser",
     "action": "delete:any",
     "attributes": "*"
   },
   {
-    "role": "admin",
-    "resource": "OutBox",
+    "role": "user",
+    "resource": "RankUser",
     "action": "read:any",
     "attributes": "*"
   }
