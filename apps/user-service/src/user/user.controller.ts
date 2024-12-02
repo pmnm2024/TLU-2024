@@ -18,7 +18,6 @@ export class UserController extends UserControllerBase {
     super(service, rolesBuilder);
   }
 
-
   @Public()
   @common.Post("/register")
   async register(@common.Body() data: UserCreateInput): Promise<User> {

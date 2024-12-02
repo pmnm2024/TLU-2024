@@ -18,147 +18,132 @@ import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
 import * as nestAccessControl from "nest-access-control";
 import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
-import { UserService } from "../user.service";
+import { RankUserService } from "../rankUser.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { UserCreateInput } from "./UserCreateInput";
-import { User } from "./User";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
-import { UserUpdateInput } from "./UserUpdateInput";
-import { ResetPasswordInput } from "../ResetPasswordInput";
-import { ResetPasswordOutput } from "../ResetPasswordOutput";
+import { RankUserCreateInput } from "./RankUserCreateInput";
+import { RankUser } from "./RankUser";
+import { RankUserFindManyArgs } from "./RankUserFindManyArgs";
+import { RankUserWhereUniqueInput } from "./RankUserWhereUniqueInput";
+import { RankUserUpdateInput } from "./RankUserUpdateInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
-export class UserControllerBase {
+export class RankUserControllerBase {
   constructor(
-    protected readonly service: UserService,
+    protected readonly service: RankUserService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: User })
+  @swagger.ApiCreatedResponse({ type: RankUser })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "RankUser",
     action: "create",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createUser(@common.Body() data: UserCreateInput): Promise<User> {
-    return await this.service.createUser({
+  async createRankUser(
+    @common.Body() data: RankUserCreateInput
+  ): Promise<RankUser> {
+    return await this.service.createRankUser({
       data: {
         ...data,
 
-        rank: data.rank
+        rankUser: data.rankUser
           ? {
-              connect: data.rank,
+              connect: data.rankUser,
             }
           : undefined,
       },
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        description: true,
         id: true,
-        lastName: true,
-        phone: true,
+        point: true,
+        rankLevel: true,
+        rankName: true,
 
-        rank: {
+        rankUser: {
           select: {
             id: true,
           },
         },
 
-        roles: true,
-        score: true,
-        sex: true,
         updatedAt: true,
-        username: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
-  @swagger.ApiOkResponse({ type: [User] })
-  @ApiNestedQuery(UserFindManyArgs)
+  @swagger.ApiOkResponse({ type: [RankUser] })
+  @ApiNestedQuery(RankUserFindManyArgs)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "RankUser",
     action: "read",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async users(@common.Req() request: Request): Promise<User[]> {
-    const args = plainToClass(UserFindManyArgs, request.query);
-    return this.service.users({
+  async rankUsers(@common.Req() request: Request): Promise<RankUser[]> {
+    const args = plainToClass(RankUserFindManyArgs, request.query);
+    return this.service.rankUsers({
       ...args,
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        description: true,
         id: true,
-        lastName: true,
-        phone: true,
+        point: true,
+        rankLevel: true,
+        rankName: true,
 
-        rank: {
+        rankUser: {
           select: {
             id: true,
           },
         },
 
-        roles: true,
-        score: true,
-        sex: true,
         updatedAt: true,
-        username: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: RankUser })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "RankUser",
     action: "read",
     possession: "own",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async user(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
-    const result = await this.service.user({
+  async rankUser(
+    @common.Param() params: RankUserWhereUniqueInput
+  ): Promise<RankUser | null> {
+    const result = await this.service.rankUser({
       where: params,
       select: {
-        address: true,
         createdAt: true,
-        email: true,
-        firstName: true,
+        description: true,
         id: true,
-        lastName: true,
-        phone: true,
+        point: true,
+        rankLevel: true,
+        rankName: true,
 
-        rank: {
+        rankUser: {
           select: {
             id: true,
           },
         },
 
-        roles: true,
-        score: true,
-        sex: true,
         updatedAt: true,
-        username: true,
       },
     });
     if (result === null) {
@@ -171,52 +156,47 @@ export class UserControllerBase {
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: RankUser })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "RankUser",
     action: "update",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updateUser(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() data: UserUpdateInput
-  ): Promise<User | null> {
+  async updateRankUser(
+    @common.Param() params: RankUserWhereUniqueInput,
+    @common.Body() data: RankUserUpdateInput
+  ): Promise<RankUser | null> {
     try {
-      return await this.service.updateUser({
+      return await this.service.updateRankUser({
         where: params,
         data: {
           ...data,
 
-          rank: data.rank
+          rankUser: data.rankUser
             ? {
-                connect: data.rank,
+                connect: data.rankUser,
               }
             : undefined,
         },
         select: {
-          address: true,
           createdAt: true,
-          email: true,
-          firstName: true,
+          description: true,
           id: true,
-          lastName: true,
-          phone: true,
+          point: true,
+          rankLevel: true,
+          rankName: true,
 
-          rank: {
+          rankUser: {
             select: {
               id: true,
             },
           },
 
-          roles: true,
-          score: true,
-          sex: true,
           updatedAt: true,
-          username: true,
         },
       });
     } catch (error) {
@@ -230,42 +210,37 @@ export class UserControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: RankUser })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "RankUser",
     action: "delete",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deleteUser(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
+  async deleteRankUser(
+    @common.Param() params: RankUserWhereUniqueInput
+  ): Promise<RankUser | null> {
     try {
-      return await this.service.deleteUser({
+      return await this.service.deleteRankUser({
         where: params,
         select: {
-          address: true,
           createdAt: true,
-          email: true,
-          firstName: true,
+          description: true,
           id: true,
-          lastName: true,
-          phone: true,
+          point: true,
+          rankLevel: true,
+          rankName: true,
 
-          rank: {
+          rankUser: {
             select: {
               id: true,
             },
           },
 
-          roles: true,
-          score: true,
-          sex: true,
           updatedAt: true,
-          username: true,
         },
       });
     } catch (error) {
@@ -276,39 +251,5 @@ export class UserControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/information")
-  @swagger.ApiOkResponse({
-    type: String,
-  })
-  @swagger.ApiNotFoundResponse({
-    type: errors.NotFoundException,
-  })
-  @swagger.ApiForbiddenResponse({
-    type: errors.ForbiddenException,
-  })
-  async Information(
-    @common.Body()
-    body: string
-  ): Promise<string> {
-    return this.service.Information(body);
-  }
-
-  @common.Post("/reset-password")
-  @swagger.ApiOkResponse({
-    type: ResetPasswordOutput,
-  })
-  @swagger.ApiNotFoundResponse({
-    type: errors.NotFoundException,
-  })
-  @swagger.ApiForbiddenResponse({
-    type: errors.ForbiddenException,
-  })
-  async ResetPassword(
-    @common.Body()
-    body: ResetPasswordInput
-  ): Promise<ResetPasswordOutput> {
-    return this.service.ResetPassword(body);
   }
 }
