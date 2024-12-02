@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "${RABBITMQ_AMQP_PORT}:${RABBITMQ_AMQP_PORT}"     # RabbitMQ AMQP port
+      - "${RABBITMQ_UI_PORT}:${RABBITMQ_UI_PORT}"         # RabbitMQ Management UI
+    restart: always
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"  # Redis Port
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    restart: always
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "kong"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kong:
+    image: kong
+    container_name: kong
+    depends_on:
+      - postgres
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: postgres
+      KONG_PG_USER: ${POSTGRES_USER}
+      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: "0.0.0.0:${KONG_ADMIN_PORT}"
+      KONG_PROXY_LISTEN: "0.0.0.0:${KONG_PROXY_PORT}"
+    ports:
+      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"           # Kong Proxy Port
+      - "${KONG_PROXY_PORT_SSL}:${KONG_PROXY_PORT_SSL}"   # Kong Proxy SSL Port
+      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"           # Kong Admin Port
+      - "${KONG_ADMIN_PORT_SSL}:${KONG_ADMIN_PORT_SSL}"   # Kong Admin SSL Port
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true  # Sử dụng mạng Docker bên ngoài
+
+volumes:
+  redis-data:
+    driver: local
+  postgres-data:
+    driver: local
