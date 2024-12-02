@@ -1,3 +1,4 @@
+import { RabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { Module } from "@nestjs/common";
 import { SupportRequestModule } from "./supportRequest/supportRequest.module";
 import { SupportRequestTypeModule } from "./supportRequestType/supportRequestType.module";
@@ -13,6 +14,7 @@ import { ConfigModule } from "@nestjs/config";
 @Module({
   controllers: [],
   imports: [
+    RabbitMQModule,
     SupportRequestModule,
     SupportRequestTypeModule,
     SupportRequestDetailModule,
