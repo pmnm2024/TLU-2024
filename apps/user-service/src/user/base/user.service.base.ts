@@ -10,7 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, User as PrismaUser } from "@prisma/client";
+import {
+  Prisma,
+  User as PrismaUser,
+  RankUser as PrismaRankUser,
+} from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 import { ResetPasswordInput } from "../ResetPasswordInput";
@@ -60,6 +64,17 @@ export class UserServiceBase {
   }
   async deleteUser(args: Prisma.UserDeleteArgs): Promise<PrismaUser> {
     return this.prisma.user.delete(args);
+  }
+
+  async getRank(parentId: string): Promise<PrismaRankUser | null> {
+    return this.prisma.user
+      .findUnique({
+        where: { id: parentId },
+      })
+      .rank();
+  }
+  async Information(args: string): Promise<string> {
+    throw new Error("Not implemented");
   }
   async ResetPassword(args: ResetPasswordInput): Promise<ResetPasswordOutput> {
     throw new Error("Not implemented");

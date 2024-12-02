@@ -25,6 +25,7 @@ const CREATE_INPUT = {
   lastName: "exampleLastName",
   password: "examplePassword",
   phone: "examplePhone",
+  score: 42,
   updatedAt: new Date(),
   username: "exampleUsername",
 };
@@ -36,6 +37,7 @@ const CREATE_RESULT = {
   lastName: "exampleLastName",
   password: "examplePassword",
   phone: "examplePhone",
+  score: 42,
   updatedAt: new Date(),
   username: "exampleUsername",
 };
@@ -48,6 +50,7 @@ const FIND_MANY_RESULT = [
     lastName: "exampleLastName",
     password: "examplePassword",
     phone: "examplePhone",
+    score: 42,
     updatedAt: new Date(),
     username: "exampleUsername",
   },
@@ -60,6 +63,7 @@ const FIND_ONE_RESULT = {
   lastName: "exampleLastName",
   password: "examplePassword",
   phone: "examplePhone",
+  score: 42,
   updatedAt: new Date(),
   username: "exampleUsername",
 };
