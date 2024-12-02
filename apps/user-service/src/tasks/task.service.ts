@@ -11,7 +11,7 @@ export class TasksService {
   @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron() {
     try {
-      // await this.outBoxService.processOutboxEvents();
+      await this.outBoxService.processOutboxEvents();
       this.logger.debug("START CRONJOB!!!")
     } catch (error) {
       this.logger.debug(error)

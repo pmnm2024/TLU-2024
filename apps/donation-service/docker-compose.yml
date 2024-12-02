@@ -64,27 +64,6 @@ services:
       - mongo_config:/data/configdb # Lưu trữ cấu hình MongoDB
     networks:
       - service_d_network
-#   redis:
-#     container_name: ${REDIS_HOST}
-#     image: redis:7
-#     ports:
-#       - ${REDIS_PORT}:6379
-#     volumes:
-#       - redis:/data
-#   rabbitmq:
-#     image: rabbitmq:3-management
-#     environment:
-#       RABBITMQ_DEFAULT_USER: user
-#       RABBITMQ_DEFAULT_PASS: password
-#     ports:
-#       - 5672:5672
-#       - 15672:15672
-# volumes:
-#   mongo: ~
-#   redis:
-#     driver: local
-#     networks:
-#       - app-network
 volumes:
   mongo_data:
     external: false # Volume lưu dữ liệu MongoDB
