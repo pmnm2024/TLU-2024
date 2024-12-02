@@ -1,3 +1,4 @@
+import { RabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { Module } from "@nestjs/common";
 import { WarehouseModule } from "./warehouse/warehouse.module";
 import { OutBoxModule } from "./outBox/outBox.module";
@@ -11,6 +12,7 @@ import { ConfigModule } from "@nestjs/config";
 @Module({
   controllers: [],
   imports: [
+    RabbitMQModule,
     WarehouseModule,
     OutBoxModule,
     HealthModule,
