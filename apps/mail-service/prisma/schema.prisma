@@ -1,0 +1,23 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model HistorySendMail {
+  body      String?
+  createdAt DateTime                   @default(now())
+  email     String?
+  id        String                     @id @default(auto()) @map("_id") @db.ObjectId
+  sentAt    DateTime?
+  status    EnumHistorySendMailStatus?
+  subject   String?
+  updatedAt DateTime                   @updatedAt
+}
+
+enum EnumHistorySendMailStatus {
+  Option1
+}

@@ -1,0 +1,15 @@
+{
+  "name": "express-gateway-plugin-jwt-payload-extractor",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "example": "^0.0.0",
+    "express-gateway": "^1.16.11",
+    "express-gateway-plugin-example": "^1.0.1",
+    "express-gateway-plugin-jwt-decoder": "file:plugins/jwt-decoder",
+    "winston": "^3.17.0"
+  }
+}

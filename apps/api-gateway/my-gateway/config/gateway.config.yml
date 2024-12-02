@@ -1,0 +1,137 @@
+http:
+  port: 9000
+
+https:
+  port: 9876
+  hostname: localhost
+
+apiEndpoints:
+  api:
+    host: "*"
+    paths: "/ip"
+  account:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/user*"
+  register:
+    methods: ["POST"]
+    host: "*"
+    paths: "/api/user*"
+  auth:
+    methods: ["POST"]
+    host: "*"
+    paths: 
+        - "/api/login"
+  notification:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/notifications*"
+ 
+serviceEndpoints:
+  httpbin:
+    url: "https://httpbin.org"
+  accountService:
+    url: "http://user:8000"
+  authService:
+    url: "http://user:8000"
+  notificationService:
+    url: "http://notification:8001"
+
+policies:
+  - cors
+  - log
+  - proxy
+  - request-transformer
+  # - jwt
+  - jwt-decoder-policy
+  - rate-limit
+
+  # - express-gateway-plugin-example
+
+pipelines:
+  bin:
+    apiEndpoints:
+      - api
+    policies:
+      - jwt-decoder-policy:
+          action:
+              secret: 'asasasa'
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin
+              changeOrigin: true
+  account:
+    apiEndpoints:
+      - account
+    policies:
+<<<<<<< config
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
+=======
+      # - cors:
+      #     - action:
+      #         origin: "*"
+      #         methods: "*"
+      #         preflightContinue: false
+      #         optionsSuccessStatus: 204
+>>>>>>> main
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+      - proxy:
+          - action:
+              serviceEndpoint: accountService
+
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  # user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: authService
+  notification:
+    apiEndpoints:
+      - notification
+    policies:
+      - jwt-decoder-policy:
+          action:
+              secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: notificationService

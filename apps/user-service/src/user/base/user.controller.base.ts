@@ -49,7 +49,15 @@ export class UserControllerBase {
   })
   async createUser(@common.Body() data: UserCreateInput): Promise<User> {
     return await this.service.createUser({
-      data: data,
+      data: {
+        ...data,
+
+        rank: data.rank
+          ? {
+              connect: data.rank,
+            }
+          : undefined,
+      },
       select: {
         address: true,
         createdAt: true,
@@ -58,7 +66,15 @@ export class UserControllerBase {
         id: true,
         lastName: true,
         phone: true,
+
+        rank: {
+          select: {
+            id: true,
+          },
+        },
+
         roles: true,
+        score: true,
         sex: true,
         updatedAt: true,
         username: true,
@@ -90,7 +106,15 @@ export class UserControllerBase {
         id: true,
         lastName: true,
         phone: true,
+
+        rank: {
+          select: {
+            id: true,
+          },
+        },
+
         roles: true,
+        score: true,
         sex: true,
         updatedAt: true,
         username: true,
@@ -123,7 +147,15 @@ export class UserControllerBase {
         id: true,
         lastName: true,
         phone: true,
+
+        rank: {
+          select: {
+            id: true,
+          },
+        },
+
         roles: true,
+        score: true,
         sex: true,
         updatedAt: true,
         username: true,
@@ -156,7 +188,15 @@ export class UserControllerBase {
     try {
       return await this.service.updateUser({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          rank: data.rank
+            ? {
+                connect: data.rank,
+              }
+            : undefined,
+        },
         select: {
           address: true,
           createdAt: true,
@@ -165,7 +205,15 @@ export class UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
+
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+
           roles: true,
+          score: true,
           sex: true,
           updatedAt: true,
           username: true,
@@ -206,7 +254,15 @@ export class UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
+
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+
           roles: true,
+          score: true,
           sex: true,
           updatedAt: true,
           username: true,
@@ -220,6 +276,23 @@ export class UserControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/information")
+  @swagger.ApiOkResponse({
+    type: String,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async Information(
+    @common.Body()
+    body: string
+  ): Promise<string> {
+    return this.service.Information(body);
   }
 
   @common.Post("/reset-password")
