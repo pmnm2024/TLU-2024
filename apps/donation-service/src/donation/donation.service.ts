@@ -28,7 +28,7 @@ export class DonationService extends DonationServiceBase {
             userId: args.data.userId,
             email: args.data.email,
             name: args.data.fullName,
-            token: `<!DOCTYPE html>
+            description: `<!DOCTYPE html>
             <html lang="en">
             <head>
               <meta charset="UTF-8">
@@ -46,7 +46,7 @@ export class DonationService extends DonationServiceBase {
         },
       }),
     ]);
-    args.data.status = "Pending";
+    
     return this.prisma.donation.create(args);
   }
 }
