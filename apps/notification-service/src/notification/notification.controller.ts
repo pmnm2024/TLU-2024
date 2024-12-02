@@ -27,4 +27,19 @@ export class NotificationController extends NotificationControllerBase {
       throw error;
     }
   }
+
+  @EventPattern(MyMessageBrokerTopics.Donate)
+  async onHanldeDonate(
+    @Payload()
+    message: RabbitMQMessage
+  ): Promise<void> {
+    try {
+      const { data } = message as any;
+
+      await this.service.addDonation(data);
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
