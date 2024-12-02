@@ -4,17 +4,16 @@ import { CacheModule } from "@nestjs/cache-manager";
 import { redisStore } from "cache-manager-ioredis-yet";
 import { UserModule } from "./user/user.module";
 import { OutBoxModule } from "./outBox/outBox.module";
+import { RankUserModule } from "./rankUser/rankUser.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
-import { ScheduleModule } from '@nestjs/schedule';
-import { TasksModule } from "./tasks/task.module";
 
 @Module({
   controllers: [],
@@ -24,6 +23,7 @@ import { TasksModule } from "./tasks/task.module";
     AuthModule,
     UserModule,
     OutBoxModule,
+    RankUserModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
@@ -55,8 +55,6 @@ import { TasksModule } from "./tasks/task.module";
 
       inject: [ConfigService],
     }),
-    ScheduleModule.forRoot(),
-    TasksModule
   ],
   providers: [],
 })

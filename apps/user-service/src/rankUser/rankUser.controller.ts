@@ -1,14 +1,14 @@
 import * as common from "@nestjs/common";
 import * as swagger from "@nestjs/swagger";
 import * as nestAccessControl from "nest-access-control";
-import { UserService } from "./user.service";
-import { UserControllerBase } from "./base/user.controller.base";
+import { RankUserService } from "./rankUser.service";
+import { RankUserControllerBase } from "./base/rankUser.controller.base";
 
-@swagger.ApiTags("users")
-@common.Controller("users")
-export class UserController extends UserControllerBase {
+@swagger.ApiTags("rankUsers")
+@common.Controller("rankUsers")
+export class RankUserController extends RankUserControllerBase {
   constructor(
-    protected readonly service: UserService,
+    protected readonly service: RankUserService,
     @nestAccessControl.InjectRolesBuilder()
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {

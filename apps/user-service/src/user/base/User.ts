@@ -12,16 +12,22 @@ https://docs.amplication.com/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsJSONValue } from "../../validators";
+
 import {
   IsOptional,
   IsDate,
   IsString,
   MaxLength,
+  ValidateNested,
+  IsInt,
+  Max,
   IsEnum,
 } from "class-validator";
+
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
 import { Type } from "class-transformer";
+import { RankUser } from "../../rankUser/base/RankUser";
 import { EnumUserSex } from "./EnumUserSex";
 
 @ObjectType()
@@ -100,11 +106,32 @@ class User {
   phone!: string | null;
 
   @ApiProperty({
+    required: false,
+    type: () => RankUser,
+  })
+  @ValidateNested()
+  @Type(() => RankUser)
+  @IsOptional()
+  rank?: RankUser | null;
+
+  @ApiProperty({
     required: true,
   })
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: JsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
+  @Max(99999999999)
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  score!: number | null;
 
   @ApiProperty({
     required: false,
