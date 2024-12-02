@@ -1,0 +1,103 @@
+[33m8250285b[m[33m ([m[1;36mHEAD[m[33m)[m update
+[33mfb09581d[m add license
+[33m2d132bb1[m Update README.md
+[33mf07f4352[m[33m ([m[1;33mtag: v1.1.0[m[33m)[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into main
+[33m89f9a7b8[m merge code
+[33m647ad24e[m[33m ([m[1;31mrepo2/main[m[33m)[m Merge pull request #4 from pmnm2024/amplication-user-service
+[33m5fe3618c[m[33m ([m[1;31mrepo2/amplication-user-service[m[33m)[m Amplication build # cm46vmxiq047d14n7hqtxv0c4
+[33mffcd6d55[m Initial commit
+[33mce69e183[m Send mail thank for donation
+[33m9f12f48b[m Merge pull request #35 from pmnm2024/config
+[33mf4efd165[m Merge branch 'main' into config
+[33md1ec4dde[m config watch mode for Window
+[33m0261fc4c[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into main
+[33me7565368[m update
+[33made2ad60[m Merge pull request #34 from pmnm2024/addDonation
+[33mdaa5bda4[m chore:add gateway
+[33m764a5e5a[m[33m ([m[1;31morigin/addDonation[m[33m)[m gửi mail cảm ơn khi quyên góp thành công
+[33mda80ed7e[m Merge pull request #33 from pmnm2024/amplication-donation-service
+[33m1fd44989[m Merge branch 'main' into amplication-donation-service
+[33m8e1914b8[m Amplication build # cm44hc9hh029814n7y3n8h162
+[33m4212fb2a[m Merge pull request #30 from pmnm2024/amplication-donation-service
+[33mc3509f79[m Merge branch 'main' into amplication-donation-service
+[33m24007a92[m Merge pull request #32 from pmnm2024/amplication-notification-service
+[33m809f0b94[m[33m ([m[1;31morigin/amplication-notification-service[m[33m)[m Amplication build # cm44ftkps024914n7zdbp32l1
+[33m086851ae[m Amplication build # cm44ftkpq023x14n7lz5kguqd
+[33m61375df2[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024
+[33mba78211d[m config port
+[33md9b779ed[m Delete apps/relief-item-service directory
+[33m7508c26e[m Delete apps/ware-house directory
+[33me84f1b89[m update
+[33m13c68ba9[m Merge pull request #29 from pmnm2024/amplication-user-service
+[33m33fb001c[m[33m ([m[1;31morigin/amplication-user-service[m[33m)[m Merge branch 'main' into amplication-user-service
+[33m7705c8e5[m update
+[33m530d75fc[m Amplication build # cm42ggnyz01551rig4z05bu67
+[33m807a66f3[m Merge pull request #28 from pmnm2024/amplication-notification-service
+[33m87288d72[m Amplication build # cm42f49kc01i7v6hyf7bvlp9j
+[33mb131df52[m Delete apps/relief-item-service directory
+[33m28f1ef19[m Delete apps/ware-house directory
+[33m40c40351[m Merge pull request #27 from pmnm2024/amplication-warehouse-service
+[33m78893a46[m Merge pull request #21 from pmnm2024/amplication-support-request-service
+[33m82c4cc1e[m Merge branch 'main' into amplication-support-request-service
+[33me954c0b6[m Amplication build # cm41l0sdz00vh1rigoszoeqxp
+[33m299315e6[m Amplication build # cm41l0see00vt1rig70dmr5cf
+[33m8114c105[m Merge pull request #25 from pmnm2024/amplication-notification-service
+[33maa14729e[m Amplication build # cm41241n400lb1rige7zq1gfp
+[33mb5ee8cbb[m Merge pull request #22 from pmnm2024/amplication-user-service
+[33mcdd44b8a[m Amplication build # cm3xvgoo100mjf9za2i3gtbcb
+[33m0e6e47da[m Amplication build # cm3xvc9fy00ltf9zap6vga74t
+[33ma1d71711[m[33m ([m[1;32mfeat/setup-api-gateway[m[33m)[m Merge pull request #23 from pmnm2024/amplication-ware-house
+[33m2d8c63a0[m[33m ([m[1;31morigin/amplication-ware-house[m[33m)[m Amplication build # cm3shndk9053r8ezzm5kqxpxi
+[33m7028f359[m Amplication build # cm3se46gu06rx7fyp21hx3b5n
+[33m7173a86d[m Amplication build # cm3se46gt06rr7fypyovlf0ct
+[33m7a7b70e2[m Merge pull request #20 from pmnm2024/feat/setup-api-gateway
+[33m7c9e1fc4[m[33m ([m[1;31morigin/feat/setup-api-gateway[m[33m)[m update
+[33m51af5d0a[m add api-gateway
+[33m2769fff2[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into main
+[33m9d5e9606[m Merge pull request #14 from pmnm2024/feat/add-logic-user
+[33m621f6fa8[m[33m ([m[1;31morigin/feat/add-logic-user[m[33m, [m[1;32mfeat/add-logic-user[m[33m)[m fix:fix-conflict
+[33mc4ceaa68[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into main
+[33mbee4ba1c[m cant set up service with mysql
+[33m3e051950[m cant set up service with mysql
+[33m61087e2d[m update
+[33mc9591e6e[m set up port for donate and fix support-request docker file
+[33m62b8bd4d[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024
+[33m3e8612fe[m set up port for relief-item and support-request
+[33m904d39e3[m Merge pull request #19 from pmnm2024/amplication-donation-service
+[33m49b576a0[m Amplication build # cm3rjbryj060e7fypwkwq3f19
+[33mee5d7726[m Merge pull request #18 from pmnm2024/amplication-donation-service
+[33mc75a4c73[m Amplication build # cm3risqpj0lgb6p83qjq148xk
+[33m6b6df307[m feat:add-feat-new
+[33m7f8ea18e[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into feat/add-logic-user
+[33m572ae4e3[m Merge pull request #17 from pmnm2024/amplication-mail-service
+[33ma1772ae1[m Amplication build # cm3rgm1ws04g58ezzczqythfo
+[33m946066ff[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into feat/add-logic-user
+[33m720d2e68[m Merge pull request #16 from pmnm2024/amplication-notification-service
+[33m9c556c40[m Merge pull request #15 from pmnm2024/amplication-mail-service
+[33m01477d6c[m Amplication build # cm3rf72v005vy7fypflklh69v
+[33m6332798c[m Amplication build # cm3rf72v005vz7fyp6uwij7i8
+[33m7d969561[m[33m ([m[1;33mtag: v1.0.1[m[33m)[m Merge branch 'main' of https://github.com/pmnm2024/TLU-2024 into main
+[33m9ede8a7f[m chore:add logic service user
+[33mde761cb0[m Merge pull request #13 from pmnm2024/amplication-support-request-service
+[33mc061de2e[m Amplication build # cm3r6p7ba05kj7fyp180tmtpd
+[33m2d3e1d21[m Merge pull request #12 from pmnm2024/amplication-support-request-service
+[33m2ece423a[m Amplication build # cm3r3tk2j042g8ezzsn4b9h9e
+[33m6dfbe218[m Merge pull request #10 from pmnm2024/amplication-support-request-service
+[33m4468ad86[m Amplication build # cm3r2281005im7fyprzwrmy7c
+[33mdaa6f77f[m Merge pull request #9 from pmnm2024/feature/set-up-base
+[33m4a284345[m[33m ([m[1;33mtag: v1.0.0-base-setup[m[33m, [m[1;33mtag: v1.0.0[m[33m, [m[1;31morigin/feature/set-up-base[m[33m, [m[1;32mfeature/set-up-base[m[33m)[m update
+[33me08b20f6[m Merge pull request #8 from pmnm2024/amplication-support-request-service
+[33m1f1de307[m Amplication build # cm3q6gncb02xa8ezzgz9atazx
+[33mbba37a83[m Merge pull request #7 from pmnm2024/amplication-relief-item-service
+[33mf7debc57[m[33m ([m[1;31morigin/amplication-relief-item-service[m[33m)[m Amplication build # cm3q3pwvv0k226p83ttxmyl40
+[33mf23d55a5[m Merge pull request #6 from pmnm2024/amplication-user-service
+[33m58088a52[m Amplication build # cm3px29l90jf66p83mqfjdfmd
+[33m3ffd582e[m Merge pull request #4 from pmnm2024/amplication-notification-service
+[33m6e0fad18[m Merge pull request #5 from pmnm2024/amplication-user-service
+[33mf69ab446[m Amplication build # cm3pwvdf601tq8ezz38oaq7ob
+[33m09f60ca9[m Amplication build # cm3pwvdf601tl8ezz6erid4uc
+[33m38e76b5f[m Merge pull request #2 from pmnm2024/amplication-notification-service
+[33m57e85107[m Merge pull request #3 from pmnm2024/amplication-user-service
+[33m39252d3b[m Amplication build # cm3pwnjqv045f7fypueaaxrd2
+[33me4902e38[m Amplication build # cm3pwnjqu04597fypct631xrl
+[33mf912762e[m Initial commit
