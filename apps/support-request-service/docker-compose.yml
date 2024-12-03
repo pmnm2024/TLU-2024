@@ -9,7 +9,9 @@ services:
       - ${PORT}:8006
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27021/${DB_NAME}?authSource=admin
+      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
+      RABBITMQ_URLS: ${RABBITMQ_URLS}
+      RABBITMQ_SUBSCRIBE_GROUP: ${RABBITMQ_SUBSCRIBE_GROUP}
     depends_on:
       - migrate
     restart: on-failure
@@ -18,6 +20,7 @@ services:
       - /app/node_modules
     networks:
       - app-network
+      - service_e_network
   migrate:
     build:
       context: .
@@ -33,9 +36,9 @@ services:
         condition: service_healthy
   db:
     image: mongo
-    ports:
+    # ports:
 
-      - ${DB_PORT}:27017
+    #   - ${DB_PORT}:27017
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
@@ -61,7 +64,7 @@ services:
       - mongo_data:/data/db # Lưu dữ liệu MongoDB tại volume `mongo_data`
       - mongo_config:/data/configdb # Lưu trữ cấu hình MongoDB
     networks:
-      - app-network
+      - service_e_network
 volumes:
   mongo_data:
     external: false # Volume lưu dữ liệu MongoDB
@@ -70,4 +73,6 @@ volumes:
 networks:
   app-network:
     external: true
+  service_e_network:
+    driver: bridge  
 
