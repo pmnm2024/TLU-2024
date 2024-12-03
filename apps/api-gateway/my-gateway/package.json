@@ -1,5 +1,5 @@
 {
-  "name": "express-gateway-plugin-jwt-payload-extractor",
+  "name": "@PNMM2024/API-GATEWAY",
   "description": "Express Gateway Instance Bootstraped from Command Line",
   "repository": {},
   "license": "UNLICENSED",
@@ -10,6 +10,7 @@
     "express-gateway": "^1.16.11",
     "express-gateway-plugin-example": "^1.0.1",
     "express-gateway-plugin-jwt-decoder": "file:plugins/jwt-decoder",
+    "express-gateway-plugin-logging": "file:plugins/logging",
     "winston": "^3.17.0"
   }
 }
