@@ -117,6 +117,7 @@ class SupportRequestWhereInput {
   @Field(() => IntNullableFilter, {
     nullable: true,
   })
+
   point?: IntNullableFilter;
 
   @ApiProperty({
@@ -140,6 +141,7 @@ class SupportRequestWhereInput {
     nullable: true,
   })
   status?: "Pending" | "Processed" | "Refused";
+
 
   @ApiProperty({
     required: false,

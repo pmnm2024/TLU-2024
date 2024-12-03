@@ -127,6 +127,7 @@ class SupportRequestOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+
   point?: SortOrder;
 
   @ApiProperty({

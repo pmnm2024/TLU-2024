@@ -140,7 +140,9 @@ class SupportRequest {
   @Field(() => EnumSupportRequestStatus, {
     nullable: true,
   })
+
   status?: "Pending" | "Processed" | "Refused";
+
 
   @ApiProperty({
     required: true,

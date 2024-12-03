@@ -13,4 +13,12 @@ export class RabbitMQController {
     @Ctx()
     context: RmqContext
   ): Promise<void> {}
+
+  @EventPattern("donate")
+  async onDonate(
+    @Payload()
+    message: RabbitMQMessage,
+    @Ctx()
+    context: RmqContext
+  ): Promise<void> {}
 }
