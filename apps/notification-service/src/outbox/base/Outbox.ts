@@ -18,7 +18,6 @@ import {
   IsOptional,
   IsInt,
   Max,
-  IsBoolean,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { IsJSONValue } from "../../validators";
@@ -90,14 +89,15 @@ class Outbox {
 
   @ApiProperty({
     required: false,
-    type: Boolean,
+    type: String,
   })
-  @IsBoolean()
+  @IsString()
+  @MaxLength(256)
   @IsOptional()
-  @Field(() => Boolean, {
+  @Field(() => String, {
     nullable: true,
   })
-  status!: boolean | null;
+  status!: string | null;
 
   @ApiProperty({
     required: true,
