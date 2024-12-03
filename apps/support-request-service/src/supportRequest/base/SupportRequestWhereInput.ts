@@ -117,6 +117,17 @@ class SupportRequestWhereInput {
   @Field(() => IntNullableFilter, {
     nullable: true,
   })
+  point?: IntNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: IntNullableFilter,
+  })
+  @Type(() => IntNullableFilter)
+  @IsOptional()
+  @Field(() => IntNullableFilter, {
+    nullable: true,
+  })
   quantity?: IntNullableFilter;
 
   @ApiProperty({
@@ -128,7 +139,7 @@ class SupportRequestWhereInput {
   @Field(() => EnumSupportRequestStatus, {
     nullable: true,
   })
-  status?: "Pending" | "Processed";
+  status?: "Pending" | "Processed" | "Refused";
 
   @ApiProperty({
     required: false,
