@@ -1,4 +1,3 @@
-
 # Base image
 FROM node:20.18.0
 
@@ -29,4 +28,5 @@ ENV NODE_ENV=development
 
 # Lệnh khởi chạy ứng dụng trong chế độ dev
 CMD [ "npm", "run", "start:watch" ]
+
 

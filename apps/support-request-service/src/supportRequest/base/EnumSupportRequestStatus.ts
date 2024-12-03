@@ -14,6 +14,7 @@ import { registerEnumType } from "@nestjs/graphql";
 export enum EnumSupportRequestStatus {
   Pending = "Pending",
   Processed = "Processed",
+  Refused = "Refused",
 }
 
 registerEnumType(EnumSupportRequestStatus, {
