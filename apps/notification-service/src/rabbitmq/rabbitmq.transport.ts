@@ -19,8 +19,13 @@ export class RabbitMQ extends ServerRMQ implements CustomTransportStrategy {
     channel.consume(
       groupId,
       async (msg: any) => {
-        await this.handleMessage(msg, channel);
-        channel.ack(msg);
+        try {
+          await this.handleMessage(msg, channel);
+          channel.ack(msg);
+        } catch (error) {
+          console.log(error);
+          channel.nack(msg, false, true)
+        }
       },
       {
         noAck: false,
