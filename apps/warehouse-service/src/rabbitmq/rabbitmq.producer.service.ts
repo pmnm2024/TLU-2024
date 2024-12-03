@@ -2,13 +2,14 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ClientRMQ, RmqRecordBuilder } from "@nestjs/microservices";
 import { RabbitMQMessage } from "./RabbitMQMessage";
 import { RabbitMQMessageHeaders } from "./RabbitMQMessageHeaders";
+import { AllMessageBrokerTopics } from "./topics";
 
 @Injectable()
 export class RabbitMQProducerService {
   constructor(@Inject("RABBITMQ_CLIENT") private rabbitMQClient: ClientRMQ) {}
 
   async emitMessage(
-    topic: string,
+    topic: AllMessageBrokerTopics,
     message: RabbitMQMessage,
     headers?: RabbitMQMessageHeaders,
     priority?: number

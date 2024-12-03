@@ -19,6 +19,7 @@ RUN npm run prisma:generate
 # initialize the database
 # RUN npm run db:init
 
+
 # Expose cổng để kết nối đến container
 ENV PORT=8002
 EXPOSE ${PORT}
