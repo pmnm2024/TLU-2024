@@ -11,6 +11,7 @@ export class NotificationService extends NotificationServiceBase {
     super(prisma);
   }
 
+
   // async publishMessage(data: any) {
   //   await this.rabbitProducer.emitMessage(MyMessageBrokerTopics.SendMail,
   //     data
