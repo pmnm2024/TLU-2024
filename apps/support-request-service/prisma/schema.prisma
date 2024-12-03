@@ -17,6 +17,7 @@ model SupportRequest {
   fullname             String
   id                   String                   @id @default(auto()) @map("_id") @db.ObjectId
   phone                String
+  point                Int?
   quantity             Int?
   status               EnumSupportRequestStatus
   supportRequestTypeId String
@@ -56,4 +57,5 @@ model OutBox {
 enum EnumSupportRequestStatus {
   Pending
   Processed
+  Refused
 }

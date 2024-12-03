@@ -17,8 +17,8 @@ import {
   IsDate,
   IsOptional,
   IsInt,
-  Min,
   Max,
+  Min,
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
@@ -112,6 +112,18 @@ class SupportRequest {
     type: Number,
   })
   @IsInt()
+  @Max(99999999999)
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  point!: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
   @Min(-999999999)
   @Max(999999999)
   @IsOptional()
@@ -128,7 +140,9 @@ class SupportRequest {
   @Field(() => EnumSupportRequestStatus, {
     nullable: true,
   })
-  status?: "Pending" | "Processed";
+
+  status?: "Pending" | "Processed" | "Refused";
+
 
   @ApiProperty({
     required: true,

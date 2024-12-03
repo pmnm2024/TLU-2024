@@ -68,12 +68,6 @@ pipelines:
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
-      - cors:
-          - action:
-              origin: "*"
-              methods: "*"
-              preflightContinue: false
-              optionsSuccessStatus: 204
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
