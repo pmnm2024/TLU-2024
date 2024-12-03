@@ -39,7 +39,6 @@ services:
     # ports:
 
     #   - ${DB_PORT}:27017
-
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -75,5 +74,3 @@ networks:
     external: true
   service_e_network:
     driver: bridge  
-
-

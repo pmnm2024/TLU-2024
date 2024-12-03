@@ -9,6 +9,7 @@ export class SupportRequestController extends SupportRequestControllerBase {
   constructor(protected readonly service: SupportRequestService) {
     super(service);
   }
+
   @Public()
   @common.Post("/handleSupportRequest")
   async forgotPassword(@common.Request() req: any,@common.Body("id") id: string,@common.Body("status") status: string) {
