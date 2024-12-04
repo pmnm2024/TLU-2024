@@ -17,7 +17,7 @@ export class JwtStrategy extends JwtStrategyBase {
   }
 
   async validate(payload: any): Promise<UserInfo> {
-    
+    const { jti, username } = payload
     const isBlacklisted = await this.cacheManager.get(`blacklist:${jti}`);
     if (isBlacklisted) {
       throw new UnauthorizedException('Token đã bị vô hiệu hóa');

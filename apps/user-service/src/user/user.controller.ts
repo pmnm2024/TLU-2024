@@ -23,7 +23,15 @@ export class UserController extends UserControllerBase {
   async register(@common.Body() data: UserCreateInput): Promise<User> {
     try {
       const payLoad = {
-        data: data,
+        data: {
+          ...data,
+
+          rank: data.rank
+            ? {
+              connect: data.rank,
+            }
+            : undefined,
+        },
         select: {
           address: true,
           createdAt: true,
@@ -32,7 +40,15 @@ export class UserController extends UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
+
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+
           roles: true,
+          score: true,
           sex: true,
           updatedAt: true,
           username: true,
