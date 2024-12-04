@@ -16,8 +16,8 @@ import {
   MaxLength,
   IsOptional,
   IsInt,
-  Min,
   Max,
+  Min,
   IsEnum,
 } from "class-validator";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
@@ -94,6 +94,18 @@ class SupportRequestCreateInput {
     type: Number,
   })
   @IsInt()
+  @Max(99999999999)
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  point?: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
   @Min(-999999999)
   @Max(999999999)
   @IsOptional()
@@ -108,7 +120,7 @@ class SupportRequestCreateInput {
   })
   @IsEnum(EnumSupportRequestStatus)
   @Field(() => EnumSupportRequestStatus)
-  status!: "Pending" | "Processed";
+  status!: "Pending" | "Processed" | "Refused";
 
   @ApiProperty({
     required: true,
