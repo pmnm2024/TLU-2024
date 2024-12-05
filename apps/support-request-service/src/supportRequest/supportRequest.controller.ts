@@ -12,10 +12,9 @@ export class SupportRequestController extends SupportRequestControllerBase {
 
   @Public()
   @common.Post("/handleSupportRequest")
-  async forgotPassword(@common.Request() req: any,@common.Body("id") id: string,@common.Body("status") status: string) {
+  async handleSupportRequest(@common.Body("warehouse") warehouse: any[],@common.Body("id") id: string,@common.Body("status") status: string) {
     try {
-      const { data } = req.warehouse;
-      const result = await this.service.handleSupportRequest(id,status,data)
+      const result = await this.service.handleSupportRequest(id,status,warehouse)
       return result
     } catch (error: any) {
       throw new common.HttpException(
