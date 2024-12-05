@@ -42,4 +42,21 @@ export class NotificationController extends NotificationControllerBase {
       throw error;
     }
   }
+
+
+  @EventPattern(MyMessageBrokerTopics.HandleSupportRequest)
+  async onHandleSupportRequest(
+    @Payload()
+    message: RabbitMQMessage
+  ): Promise<void> {
+    try {
+      const { data } = message as any;
+
+      await this.service.handleSupportRequest(data);
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

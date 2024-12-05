@@ -1,4 +1,3 @@
-import { BadRequestException, Inject, Injectable, forwardRef } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";
@@ -16,18 +15,25 @@ export class UserService extends UserServiceBase {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly passwordService: PasswordService,
-    @Inject(forwardRef(() => AuthService)) private readonly authService: AuthService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
     protected readonly rabbitProducer: RabbitMQProducerService,
     protected configService: ConfigService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {
     super(prisma, passwordService);
   }
 
+  /**
+   * Service method to create a new user.
+   *
+   * @param {Prisma.UserCreateArgs} args - Arguments to create a new user, containing user data like email and password.
+   * @returns {Promise<User>} The created user object.
+   * @throws {BadRequestException} If the email or password is missing or if the email already exists in the database.
+   */
   async createUser(args: Prisma.UserCreateArgs): Promise<User> {
-
     if (!args.data.email || !args) {
-      throw new Error("Please fill full")
+      throw new Error("Please fill full");
     }
 
     const existingUser = await this.prisma.user.findUnique({
@@ -48,9 +54,24 @@ export class UserService extends UserServiceBase {
     });
 
     // Prepare and return the output
-    return createdUser
+
+    return createdUser;
   }
 
+  /**
+   * Initiates the password reset process for a user by generating a reset token and sending it via email.
+   *
+   * This method performs the following actions:
+   * 1. Validates if the email is provided.
+   * 2. Checks if the user with the provided email exists in the database.
+   * 3. Generates a token for password reset using the AuthService.
+   * 4. Saves the token in cache with a TTL of 5 minutes.
+   * 5. Sends an email containing the password reset link.
+   *
+   * @param {string} email - The email address of the user requesting a password reset.
+   * @returns {Promise<ResetPasswordOutput>} A response object confirming the password reset request.
+   * @throws {BadRequestException} If the email is missing or the user is not found in the system.
+   */
   async forgotPassword(email: string): Promise<ResetPasswordOutput> {
     try {
       if (!email) {
@@ -65,12 +86,18 @@ export class UserService extends UserServiceBase {
         throw new BadRequestException("User not found");
       }
 
-      const genateToken = await this.authService.createToken(user.id, user.username, user.password)
+      const genateToken = await this.authService.createToken(
+        user.id,
+        user.username,
+        user.password
+      );
 
       const ttl = 300000; // 5 minute
       await this.cacheManager.set(`auth-token:${user.id}`, genateToken, ttl);
 
-      const urlForgot = `${this.configService.get('URL_SERVICE')}/api/user/reset-password`
+      const urlForgot = `${this.configService.get(
+        "URL_SERVICE"
+      )}/api/user/reset-password`;
 
       await this.prisma.$transaction([
         this.prisma.outBox.create({
@@ -144,11 +171,10 @@ export class UserService extends UserServiceBase {
                   </div>
                 </div>
               </body>
-              </html>`
-
+              </html>`,
             },
             retry: 3,
-            status: "pending"
+            status: "pending",
           },
         }),
       ]);
@@ -162,15 +188,34 @@ export class UserService extends UserServiceBase {
     }
   }
 
-  async resetPassword(userId: string, passwordNew: string) {
+  /**
+   * Resets the user's password by validating the token and updating the password in the database.
+   *
+   * This method performs the following actions:
+   * 1. Validates the provided `userId` to ensure it is present.
+   * 2. Retrieves the stored reset token from cache.
+   * 3. Verifies if the token is valid and not expired.
+   * 4. Fetches the user details from the database.
+   * 5. Decodes the reset token and invalidates it (by adding it to the blacklist).
+   * 6. Hashes the new password and updates it in the database.
+   * 7. Removes the reset token from the cache.
+   *
+   * @param {string} userId - The ID of the user requesting to reset their password.
+   * @param {string} passwordNew - The new password provided by the user.
+   * @returns {Promise<void>} A promise that resolves once the password has been successfully updated.
+   * @throws {BadRequestException} If the `userId` is invalid, the token is expired/invalid, or the user is not found.
+   */
+  async resetPassword(userId: string, passwordNew: string): Promise<void> {
     try {
       if (!userId) {
-        throw new BadRequestException("Hackerr!!!")
+        throw new BadRequestException("Hackerr!!!");
       }
-      const storedToken = await this.cacheManager.get<string>(`auth-token:${userId}`);
+      const storedToken = await this.cacheManager.get<string>(
+        `auth-token:${userId}`
+      );
 
       if (!storedToken) {
-        throw new BadRequestException('Token không hợp lệ hoặc đã hết hạn.');
+        throw new BadRequestException("Token không hợp lệ hoặc đã hết hạn.");
       }
 
       const userCheck = await this.user({
@@ -188,14 +233,21 @@ export class UserService extends UserServiceBase {
           updatedAt: true,
           username: true,
         },
-      })
+      });
 
       if (!userCheck) {
         throw new BadRequestException("User not found");
       }
-      const decodedToken = await this.authService.decodeToken(storedToken) as any;
-      console.log(decodedToken)
-      await this.cacheManager.set(`blacklist:${decodedToken.jti}`, true, 60*60*24);
+
+      const decodedToken = (await this.authService.decodeToken(
+        storedToken
+      )) as any;
+      await this.cacheManager.set(
+        `blacklist:${decodedToken.jti}`,
+        true,
+        60 * 60 * 24
+      );
+
 
       const password = await this.passwordService.hash(passwordNew);
 
@@ -209,8 +261,161 @@ export class UserService extends UserServiceBase {
 
       return;
     } catch (error: any) {
-      throw new BadRequestException(error.message || 'Something went wrong during password reset');
+
+      throw new BadRequestException(
+        error.message || "Something went wrong during password reset"
+      );
     }
   }
 
+  /**
+   * Increments the user's score (points) by updating the `score` field in the database.
+   *
+   * This method performs the following actions:
+   * 1. Validates the provided `userId` and `points` parameters to ensure they are not null or undefined.
+   * 2. Retrieves the user from the database based on the `userId`.
+   * 3. If the user is found, updates the user's score with the provided `points` value.
+   * 4. Returns the updated user data.
+   *
+   * @param {string} userId - The ID of the user whose points are being updated.
+   * @param {number} points - The points to be added to the user's current score.
+   * @returns {Promise<User>} The updated user object with the new score.
+   * @throws {BadRequestException} If the `userId` or `points` are not provided or if the user is not found in the database.
+   */
+  async plusPotins(userId: string, points: number): Promise<User> {
+    try {
+      if (!userId) throw new BadRequestException("User is require");
+
+      if (!points) throw new BadRequestException("Points is require");
+
+      const user = await this.user({
+        where: { id: userId },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          phone: true,
+          roles: true,
+          sex: true,
+          updatedAt: true,
+          username: true,
+          rank: true,
+          rankId: true,
+          score: true,
+        },
+      });
+
+      if (!user) throw new BadRequestException("User not found");
+
+      return await this.updateUser({
+        where: { id: userId },
+        data: {
+          score: user.score ?? 0 + points,
+        },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          phone: true,
+
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+
+          roles: true,
+          score: true,
+          sex: true,
+          updatedAt: true,
+          username: true,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+ * Decrements the user's score by the provided `points` value and updates the user in the database.
+ * 
+ * This method performs the following actions:
+ * 1. Validates the provided `userId` and `points` to ensure they are present.
+ * 2. Retrieves the user from the database using the `userId`.
+ * 3. If the user is found, decreases the user's score by the specified `points` value.
+ * 4. Returns the updated user object with the new score.
+ * 
+ * @param {string} userId - The ID of the user whose score is to be decreased.
+ * @param {number} points - The number of points to subtract from the user's score.
+ * @returns {Promise<User>} The updated user object with the new score and other user details.
+ * @throws {BadRequestException} If the `userId` or `points` are not provided, or if the user is not found in the database.
+ */
+  async minusPoints(userId: string, points: number): Promise<User> {
+    try {
+      if (!userId) throw new BadRequestException("User is required");
+      if (!points) throw new BadRequestException("Points are required");
+
+      const user = await this.user({
+        where: { id: userId },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          phone: true,
+          roles: true,
+          sex: true,
+          updatedAt: true,
+          username: true,
+          rank: true,
+          rankId: true,
+          score: true,
+        },
+      });
+
+      if (!user) throw new BadRequestException("User not found");
+
+      let newScore = 0;
+
+      if (user.score) {
+        newScore = user.score - points;
+      }
+
+      return await this.updateUser({
+        where: { id: userId },
+        data: {
+          score: newScore,
+        },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          phone: true,
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+          roles: true,
+          score: true,
+          sex: true,
+          updatedAt: true,
+          username: true,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
