@@ -22,6 +22,9 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { IsJSONValue } from "../../validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { JsonValue } from "type-fest";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
 
 @ObjectType()
@@ -100,14 +103,13 @@ class SupportRequest {
 
   @ApiProperty({
     required: false,
-    type: String,
   })
-  @IsString()
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => String, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  location!: string | null;
+  location!: JsonValue;
 
   @ApiProperty({
     required: true,

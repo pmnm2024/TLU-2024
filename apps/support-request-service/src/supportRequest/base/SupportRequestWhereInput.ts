@@ -15,6 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, IsEnum } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { JsonFilter } from "../../util/JsonFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
 
@@ -99,14 +100,14 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: JsonFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  location?: StringNullableFilter;
+  location?: JsonFilter;
 
   @ApiProperty({
     required: false,

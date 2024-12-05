@@ -16,7 +16,7 @@ model SupportRequest {
   email                String
   fullname             String
   id                   String                   @id @default(auto()) @map("_id") @db.ObjectId
-  location             String?
+  location             Json?
   phone                String
   point                Int?
   quantity             Int?
