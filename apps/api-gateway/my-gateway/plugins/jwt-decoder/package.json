@@ -1,9 +1,0 @@
-{
-    "name": "express-gateway-plugin-jwt-decoder",
-    "version": "1.0.0",
-    "description": "Decode JWT and add user info to header",
-    "main": "index.js",
-    "dependencies": {
-        "jsonwebtoken": "^8.5.1"
-    }
-}
