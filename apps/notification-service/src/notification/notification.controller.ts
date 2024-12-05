@@ -43,6 +43,7 @@ export class NotificationController extends NotificationControllerBase {
     }
   }
 
+
   @EventPattern(MyMessageBrokerTopics.HandleSupportRequest)
   async onHandleSupportRequest(
     @Payload()
@@ -57,4 +58,5 @@ export class NotificationController extends NotificationControllerBase {
       throw error;
     }
   }
+
 }

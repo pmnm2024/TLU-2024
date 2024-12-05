@@ -22,6 +22,7 @@ export class RabbitMQController {
     context: RmqContext
   ): Promise<void> {}
 
+
   @EventPattern("handle.support.request")
   async onHandleSupportRequest(
     @Payload()
@@ -29,4 +30,5 @@ export class RabbitMQController {
     @Ctx()
     context: RmqContext
   ): Promise<void> {}
+
 }
