@@ -94,8 +94,8 @@ class User {
 
   @ApiProperty({
     required: false,
-  })
 
+  })
   @IsJSONValue()
   @IsOptional()
   @Field(() => GraphQLJSON, {

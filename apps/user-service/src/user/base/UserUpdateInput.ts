@@ -76,6 +76,7 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
+
   })
   @IsJSONValue()
   @IsOptional()

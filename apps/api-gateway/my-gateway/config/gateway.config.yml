@@ -44,7 +44,6 @@ policies:
   - request-transformer
   # - jwt
   - jwt-decoder-policy
-  - log-policy
   - rate-limit
 
   # - express-gateway-plugin-example
@@ -106,21 +105,18 @@ pipelines:
     apiEndpoints:
       - notification
     policies:
-      # - jwt-decoder-policy:
-      #     action:
-      #         secret: 'asasasa'
+      - jwt-decoder-policy:
+          action:
+              secret: 'asasasa'
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
-      - log-policy:
-          - action:
-              logLevel: "debug"
       - request-transformer:
           - action:
               headers:
                 add:
                   requestID: "requestID"
-                  # user: req.user
+                  user: req.user
       - proxy:
           - action:
               serviceEndpoint: notificationService
