@@ -26,6 +26,10 @@ apiEndpoints:
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/notifications*"
+  donation:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/donations*"
  
 serviceEndpoints:
   httpbin:
@@ -36,6 +40,8 @@ serviceEndpoints:
     url: "http://user:8000"
   notificationService:
     url: "http://notification:8001"
+  donationService:
+    url: "http://donation:8005"
 
 policies:
   - cors
@@ -124,3 +130,25 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: notificationService
+  donation:
+    apiEndpoints:
+      - donation
+    policies:
+      - jwt-decoder-policy:
+          action:
+              secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - log-policy:
+          - action:
+              logLevel: "debug"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: donationService

@@ -18,10 +18,10 @@ COPY package.json ./
 RUN npm install 
 # Copy the rest of the application code.
 COPY . .
-
 RUN npm install ./plugins/jwt-decoder
 
 RUN npm install ./plugins/logging
+
 
 
 # Expose the port the application runs on.
