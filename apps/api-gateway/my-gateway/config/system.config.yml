@@ -9,19 +9,26 @@ plugins:
     enabled: true
     secret: "asasasa"
     algorithm: "HS256"
-    header: "x-jwt-data"
-  express-gateway-plugin-logging:
-    enabled: true
-    # level: "info"
-    # format: "json" 
+    header: "x-jwt-data" 
 
 policies:
   - jwt-decoder-policy
-  - log-policy
 crypto:
   cipherKey: sensitiveKey
   algorithm: aes256
   saltRounds: 10
+  
+# Cấu hình logger
+log:
+  level: debug         # Mức độ log: debug, info, warn, error, ...
+  transports:
+    - file:
+        level: debug
+        filename: ./logs/express-gateway.log  # Đường dẫn file log
+        maxsize: 10485760   # Kích thước tối đa của file log (10MB)
+        maxFiles: 5         # Số file log tối đa trước khi bắt đầu ghi đè
+    - console:
+        level: info    
 
 # OAuth2 Settings
 session:
@@ -35,3 +42,6 @@ refreshTokens:
 authorizationCodes:
   timeToExpiry: 300000
 
+# plugins:
+#   jwt-payload-extractor:
+#     secretOrPublicKey: "./certs/token.public.pem" 

@@ -20,6 +20,9 @@ import {
   Min,
   IsEnum,
 } from "class-validator";
+import { IsJSONValue } from "../../validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
 
 @InputType()
@@ -79,6 +82,16 @@ class SupportRequestCreateInput {
   @MaxLength(1000)
   @Field(() => String)
   fullname!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  location?: InputJsonValue;
 
   @ApiProperty({
     required: true,

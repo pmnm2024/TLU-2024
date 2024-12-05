@@ -40,7 +40,6 @@ export class UserController extends UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
-
           rank: {
             select: {
               id: true,

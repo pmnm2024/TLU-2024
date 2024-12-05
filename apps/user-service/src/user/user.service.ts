@@ -1,9 +1,3 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  forwardRef,
-} from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";
@@ -60,6 +54,7 @@ export class UserService extends UserServiceBase {
     });
 
     // Prepare and return the output
+
     return createdUser;
   }
 
@@ -243,6 +238,7 @@ export class UserService extends UserServiceBase {
       if (!userCheck) {
         throw new BadRequestException("User not found");
       }
+
       const decodedToken = (await this.authService.decodeToken(
         storedToken
       )) as any;
@@ -251,6 +247,7 @@ export class UserService extends UserServiceBase {
         true,
         60 * 60 * 24
       );
+
 
       const password = await this.passwordService.hash(passwordNew);
 
@@ -264,6 +261,7 @@ export class UserService extends UserServiceBase {
 
       return;
     } catch (error: any) {
+
       throw new BadRequestException(
         error.message || "Something went wrong during password reset"
       );
