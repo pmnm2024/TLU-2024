@@ -421,32 +421,124 @@ export class UserService extends UserServiceBase {
   }
 
 
-  async recentUsers(location: { lat: number; long: number }): Promise<any> {
+  async recentUsers(data: any): Promise<any> {
     try {
+      console.log(data);
       const users = await this.prisma.user.findRaw({
         filter: {
           nowLocation: {
             $near: {
               $geometry: {
                 type: "Point",
-                coordinates: [location.long, location.lat],
+                coordinates: [data.location.longitude, data.location.latitude],
               },
-              $maxDistance: 5000, 
+              $maxDistance: 5000,
             },
           },
-          status: "Available", // Filter to only get users with 'Available' status
-        }
+          status: "Available",
+        },
+        options: {
+          limit: 10,
+        },
       });
+  
       if (!users || !Array.isArray(users) || users.length === 0) {
         console.log("Không tìm thấy người dùng nào.");
-        return []; 
+        return;
       }
+  
       const emails = users.map((user: any) => user.email);
       
-      console.log(emails);
+      const emailPromises = emails.map((email: string) => {
+        const emailTemplate = `<!DOCTYPE html>
+                              <html lang="en">
+                              <head>
+                                  <meta charset="UTF-8">
+                                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                  <title>Thông Tin Yêu Cầu Hỗ Trợ</title>
+                                  <style>
+                                      body {
+                                          font-family: Arial, sans-serif;
+                                          line-height: 1.6;
+                                          margin: 0;
+                                          padding: 0;
+                                          background-color: #f4f4f4;
+                                      }
+                                      .container {
+                                          max-width: 1200px;
+                                          margin: 20px auto;
+                                          background-color: #fff;
+                                          padding: 20px;
+                                          border-radius: 8px;
+                                          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                      }
+                                      h1 {
+                                          text-align: center;
+                                          color: #333;
+                                      }
+                                      .info {
+                                          margin: 20px 0;
+                                      }
+                                      .info strong {
+                                          font-weight: bold;
+                                      }
+                                      iframe {
+                                          width: 100%;
+                                          height: 450px;
+                                          border: 0;
+                                          border-radius: 8px;
+                                      }
+                                      .address-details {
+                                          margin-top: 20px;
+                                      }
+                                  </style>
+                              </head>
+                              <body>
+                              
+                                  <div class="container">
+                                      <h1>Thông Tin Yêu Cầu Hỗ Trợ</h1>
+                              
+                                      <div class="info">
+                                          <p><strong>Thành phố:</strong> ${data.city}</p>
+                                          <p><strong>Miêu tả:</strong> ${data.descripton}</p>
+                                          <p><strong>Địa chỉ chi tiết:</strong> ${data.detailAddress}</p>
+                                          <p><strong>Quận/Huyện:</strong> ${data.district}</p>
+                                          <p><strong>Email:</strong> ${email}</p>
+                                          <p><strong>Họ và tên:</strong> ${data.fullname}</p>
+                                          <p><strong>Số điện thoại:</strong> ${data.phone}</p>
+                                          <p><strong>Số điểm:</strong> ${data.point}</p>
+                                          <p><strong>Số lượng:</strong> ${data.quantity}</p>
+                                          <p><strong>Phường:</strong> ${data.ward}</p>
+                                      </div>
+                              
+                                      <div class="address-details">
+                                          <h3>Vị trí trên Google Maps</h3>
+                                          <iframe src="https://www.google.com/maps?q=${data.location.latitude},${data.location.longitude}&z=15&output=embed" allowfullscreen></iframe>
+                                      </div>
+                                  </div>
+                              
+                              </body>
+                              </html>`;
+  
+        return this.prisma.outBox.create({
+          data: {
+            eventType: MyMessageBrokerTopics.RecentUsers,
+            payload: {
+              email: email,
+              description: emailTemplate,
+            },
+            retry: 3,
+            status: "pending",
+          },
+        });
+      });
+      
+    const results = await Promise.all(emailPromises);
+    console.log(results);
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
+  
 }
