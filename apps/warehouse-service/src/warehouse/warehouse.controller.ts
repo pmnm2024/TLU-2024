@@ -18,7 +18,7 @@ export class WarehouseController extends WarehouseControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-      console.log(data);
+      // console.log(data);
       await this.service.handleWarehouse(data);
       return;
     } catch (error) {

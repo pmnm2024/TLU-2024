@@ -121,7 +121,22 @@ export class SupportRequestService extends SupportRequestServiceBase {
       throw new Error("Failed to handle support request");
     }
   }
-  
+  async addSupportRequest(
+    args: Prisma.SupportRequestCreateArgs
+  ): Promise<SupportRequest> {
+    if(args.data.supportRequestTypeId == "6754af8d6c317b13bb34d737")
+    await this.prisma.$transaction([
+      this.prisma.outBox.create({
+        data: {
+          eventType: MyMessageBrokerTopics.AddSupportRequest,
+          payload: args.data,
+          retry: 3,
+          status: "pending",
+        },
+      }),
+    ]);
+    return this.prisma.supportRequest.create(args);
+  }
   
   
 

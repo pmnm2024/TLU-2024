@@ -58,5 +58,18 @@ export class NotificationController extends NotificationControllerBase {
       throw error;
     }
   }
-
+  @EventPattern(MyMessageBrokerTopics.RecentUsers)
+  async onRecentUsers(
+    @Payload()
+    message: RabbitMQMessage
+  ): Promise<void> {
+    try {
+      const { data } = message as any;
+      console.log(data);
+      await this.service.recentUsers(data);
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

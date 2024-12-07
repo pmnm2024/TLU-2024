@@ -214,7 +214,6 @@ export class UserControllerBase {
               id: true,
             },
           },
-
           roles: true,
           score: true,
           sex: true,
@@ -259,8 +258,6 @@ export class UserControllerBase {
           lastName: true,
           nowLocation: true,
           phone: true,
-          phone: true,
-          nowLocation: true,
           rank: {
             select: {
               id: true,

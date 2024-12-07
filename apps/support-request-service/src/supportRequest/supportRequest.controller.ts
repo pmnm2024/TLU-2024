@@ -3,6 +3,8 @@ import * as swagger from "@nestjs/swagger";
 import { SupportRequestService } from "./supportRequest.service";
 import { SupportRequestControllerBase } from "./base/supportRequest.controller.base";
 import { Public } from "src/decorators/public.decorator";
+import { SupportRequest } from "./base/SupportRequest";
+import { SupportRequestCreateInput } from "./base/SupportRequestCreateInput";
 @swagger.ApiTags("supportRequests")
 @common.Controller("supportRequests")
 export class SupportRequestController extends SupportRequestControllerBase {
@@ -25,5 +27,33 @@ export class SupportRequestController extends SupportRequestControllerBase {
         error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @common.Post("/addSupportRequest")
+  @swagger.ApiCreatedResponse({ type: SupportRequest })
+  async addSupportRequest(
+    @common.Body() data: SupportRequestCreateInput
+  ): Promise<SupportRequest> {
+    return await this.service.addSupportRequest({
+      data: data,
+      select: {
+        city: true,
+        createdAt: true,
+        descripton: true,
+        detailAddress: true,
+        district: true,
+        email: true,
+        fullname: true,
+        id: true,
+        location: true,
+        phone: true,
+        point: true,
+        quantity: true,
+        status: true,
+        supportRequestTypeId: true,
+        updatedAt: true,
+        ward: true,
+      },
+    });
   }
 }

@@ -6,6 +6,9 @@ import { UserControllerBase } from "./base/user.controller.base";
 import { Public } from "src/decorators/public.decorator";
 import { UserCreateInput } from "./base/UserCreateInput";
 import { User } from "./base/User";
+import { MyMessageBrokerTopics } from "src/rabbitmq/topics";
+import { EventPattern, Payload } from "@nestjs/microservices";
+import { RabbitMQMessage } from "src/rabbitmq/RabbitMQMessage";
 
 
 @swagger.ApiTags("users")
@@ -109,5 +112,18 @@ export class UserController extends UserControllerBase {
       throw error;
     }
   }
-
+  @Public()
+  @EventPattern(MyMessageBrokerTopics.AddSupportRequest)
+  async onAddSupportRequest(
+    @Payload()
+    message: RabbitMQMessage
+  ): Promise<void> {
+    try {
+      const { data } = message as any;
+      await this.service.recentUsers(data);
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
