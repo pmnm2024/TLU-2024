@@ -10,6 +10,7 @@ import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { ConfigService } from "@nestjs/config";
 import { AuthService } from "src/auth/auth.service";
 import { Injectable, Inject, forwardRef, BadRequestException } from '@nestjs/common';
+
 @Injectable()
 export class UserService extends UserServiceBase {
   constructor(
@@ -436,7 +437,12 @@ export class UserService extends UserServiceBase {
           status: "Available", // Filter to only get users with 'Available' status
         }
       });
+      if (!users || !Array.isArray(users) || users.length === 0) {
+        console.log("Không tìm thấy người dùng nào.");
+        return []; 
+      }
       const emails = users.map((user: any) => user.email);
+      
       console.log(emails);
     } catch (error) {
       console.error(error);
