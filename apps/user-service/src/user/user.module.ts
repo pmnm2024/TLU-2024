@@ -5,7 +5,6 @@ import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { TokenService } from "src/auth/token.service";
 import { JwtService } from "@nestjs/jwt";
-
 @Module({
   imports: [UserModuleBase, forwardRef(() => AuthModule)],
   controllers: [UserController],
@@ -13,3 +12,4 @@ import { JwtService } from "@nestjs/jwt";
   exports: [UserService],
 })
 export class UserModule { }
+

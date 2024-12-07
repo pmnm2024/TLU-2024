@@ -9,21 +9,22 @@ generator client {
 
 model User {
   address     Json?
-  createdAt   DateTime     @default(now())
-  email       String?      @unique
+  createdAt   DateTime        @default(now())
+  email       String?         @unique
   firstName   String?
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
   lastName    String?
   nowLocation Json?
   password    String
   phone       String?
-  rank        RankUser?    @relation(fields: [rankId], references: [id])
-  rankId      String?      @unique @db.ObjectId
+  rank        RankUser?       @relation(fields: [rankId], references: [id])
+  rankId      String?         @unique @db.ObjectId
   roles       Json
   score       Int?
   sex         EnumUserSex?
-  updatedAt   DateTime     @updatedAt
-  username    String       @unique
+  status      EnumUserStatus?
+  updatedAt   DateTime        @updatedAt
+  username    String          @unique
 }
 
 model OutBox {
@@ -52,3 +53,9 @@ enum EnumUserSex {
   Male
   Female
 }
+
+enum EnumUserStatus {
+  Unavailable
+  Available
+}
+

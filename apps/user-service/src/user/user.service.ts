@@ -10,7 +10,6 @@ import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { ConfigService } from "@nestjs/config";
 import { AuthService } from "src/auth/auth.service";
 import { Injectable, Inject, forwardRef, BadRequestException } from '@nestjs/common';
-
 @Injectable()
 export class UserService extends UserServiceBase {
   constructor(

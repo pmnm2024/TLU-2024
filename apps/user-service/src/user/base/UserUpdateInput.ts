@@ -26,6 +26,7 @@ import { InputJsonValue } from "../../types";
 import { RankUserWhereUniqueInput } from "../../rankUser/base/RankUserWhereUniqueInput";
 import { Type } from "class-transformer";
 import { EnumUserSex } from "./EnumUserSex";
+import { EnumUserStatus } from "./EnumUserStatus";
 
 @InputType()
 class UserUpdateInput {
@@ -76,7 +77,6 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
-
   })
   @IsJSONValue()
   @IsOptional()
@@ -152,6 +152,17 @@ class UserUpdateInput {
     nullable: true,
   })
   sex?: "Male" | "Female" | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserStatus,
+  })
+  @IsEnum(EnumUserStatus)
+  @IsOptional()
+  @Field(() => EnumUserStatus, {
+    nullable: true,
+  })
+  status?: "Unavailable" | "Available" | null;
 
   @ApiProperty({
     required: false,
