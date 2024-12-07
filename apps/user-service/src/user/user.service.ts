@@ -423,20 +423,22 @@ export class UserService extends UserServiceBase {
 
   async recentUsers(location: { lat: number; long: number }): Promise<any> {
     try {
-      const radiusInKm = 5;
-      const radiusInMeters = radiusInKm * 1000; // Chuyển đổi từ km sang mét
-
-      const result = await this.prisma.$runCommandRaw({
-        geoNear: 'User',  // Tên collection
-        near: { type: "Point", coordinates: [location.long, location.lat] },  // Tọa độ
-        spherical: true,
-        maxDistance: radiusInMeters,  // Bán kính tìm kiếm
-        distanceField: "distance",  // Trường tính toán khoảng cách
-        query: {},  // Các điều kiện bổ sung (nếu cần)
+      const users = await this.prisma.user.findRaw({
+        filter: {
+          nowLocation: {
+            $near: {
+              $geometry: {
+                type: "Point",
+                coordinates: [location.long, location.lat],
+              },
+              $maxDistance: 5000, 
+            },
+          },
+          status: "Available", // Filter to only get users with 'Available' status
+        }
       });
-
-      console.log('Users within 5km:', result);
-      return result;
+      const emails = users.map((user: any) => user.email);
+      console.log(emails);
     } catch (error) {
       console.error(error);
       throw error;
