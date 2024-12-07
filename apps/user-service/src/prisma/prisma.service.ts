@@ -17,7 +17,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     } catch (error) {
       console.error('Database command failed:', error);
     }
-    
   }
 
 }

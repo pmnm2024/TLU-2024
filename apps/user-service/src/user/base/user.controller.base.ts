@@ -76,6 +76,7 @@ export class UserControllerBase {
         roles: true,
         score: true,
         sex: true,
+        status: true,
         updatedAt: true,
         username: true,
       },
@@ -105,8 +106,8 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
-        phone: true,
         nowLocation: true,
+        phone: true,
         rank: {
           select: {
             id: true,
@@ -116,6 +117,7 @@ export class UserControllerBase {
         roles: true,
         score: true,
         sex: true,
+        status: true,
         updatedAt: true,
         username: true,
       },
@@ -146,8 +148,8 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
-        phone: true,
         nowLocation: true,
+        phone: true,
         rank: {
           select: {
             id: true,
@@ -157,6 +159,7 @@ export class UserControllerBase {
         roles: true,
         score: true,
         sex: true,
+        status: true,
         updatedAt: true,
         username: true,
       },
@@ -204,8 +207,8 @@ export class UserControllerBase {
           firstName: true,
           id: true,
           lastName: true,
-          phone: true,
           nowLocation: true,
+          phone: true,
           rank: {
             select: {
               id: true,
@@ -215,6 +218,7 @@ export class UserControllerBase {
           roles: true,
           score: true,
           sex: true,
+          status: true,
           updatedAt: true,
           username: true,
         },
@@ -253,6 +257,8 @@ export class UserControllerBase {
           firstName: true,
           id: true,
           lastName: true,
+          nowLocation: true,
+          phone: true,
           phone: true,
           nowLocation: true,
           rank: {
@@ -263,6 +269,7 @@ export class UserControllerBase {
           roles: true,
           score: true,
           sex: true,
+          status: true,
           updatedAt: true,
           username: true,
         },

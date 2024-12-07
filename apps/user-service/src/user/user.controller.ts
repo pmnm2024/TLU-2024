@@ -7,6 +7,7 @@ import { Public } from "src/decorators/public.decorator";
 import { UserCreateInput } from "./base/UserCreateInput";
 import { User } from "./base/User";
 
+
 @swagger.ApiTags("users")
 @common.Controller("users")
 export class UserController extends UserControllerBase {
@@ -49,6 +50,7 @@ export class UserController extends UserControllerBase {
           roles: true,
           score: true,
           sex: true,
+          status:true,
           updatedAt: true,
           username: true,
         },
@@ -107,4 +109,5 @@ export class UserController extends UserControllerBase {
       throw error;
     }
   }
+
 }

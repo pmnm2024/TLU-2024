@@ -16,6 +16,7 @@ COPY . .
 # generate the prisma client based on the schema
 RUN npm run prisma:generate
 
+
 # initialize the database
 # RUN npm run db:init
 
