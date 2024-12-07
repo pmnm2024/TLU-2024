@@ -5,5 +5,6 @@ export enum MyMessageBrokerTopics {
   ResetPassword = "reset.password",
   HandleSupportRequest = "handle.support.request",
   HandleWarehouse = "handle.warehouse",
+  AddSupportRequest = "add.support.request",
 }
 export type AllMessageBrokerTopics = MyMessageBrokerTopics;
