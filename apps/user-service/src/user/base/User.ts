@@ -29,6 +29,7 @@ import { JsonValue } from "type-fest";
 import { Type } from "class-transformer";
 import { RankUser } from "../../rankUser/base/RankUser";
 import { EnumUserSex } from "./EnumUserSex";
+import { EnumUserStatus } from "./EnumUserStatus";
 
 @ObjectType()
 class User {
@@ -153,6 +154,17 @@ class User {
     nullable: true,
   })
   sex?: "Male" | "Female" | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserStatus,
+  })
+  @IsEnum(EnumUserStatus)
+  @IsOptional()
+  @Field(() => EnumUserStatus, {
+    nullable: true,
+  })
+  status?: "Unavailable" | "Available" | null;
 
   @ApiProperty({
     required: true,

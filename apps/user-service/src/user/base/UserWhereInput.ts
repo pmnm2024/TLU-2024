@@ -19,6 +19,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { RankUserWhereUniqueInput } from "../../rankUser/base/RankUserWhereUniqueInput";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumUserSex } from "./EnumUserSex";
+import { EnumUserStatus } from "./EnumUserStatus";
 
 @InputType()
 class UserWhereInput {
@@ -132,6 +133,17 @@ class UserWhereInput {
     nullable: true,
   })
   sex?: "Male" | "Female";
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserStatus,
+  })
+  @IsEnum(EnumUserStatus)
+  @IsOptional()
+  @Field(() => EnumUserStatus, {
+    nullable: true,
+  })
+  status?: "Unavailable" | "Available";
 
   @ApiProperty({
     required: false,
