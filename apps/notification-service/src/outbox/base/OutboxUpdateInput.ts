@@ -18,7 +18,6 @@ import {
   IsDate,
   IsInt,
   Max,
-  IsBoolean,
 } from "class-validator";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
@@ -74,14 +73,15 @@ class OutboxUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: Boolean,
+    type: String,
   })
-  @IsBoolean()
+  @IsString()
+  @MaxLength(256)
   @IsOptional()
-  @Field(() => Boolean, {
+  @Field(() => String, {
     nullable: true,
   })
-  status?: boolean | null;
+  status?: string | null;
 }
 
 export { OutboxUpdateInput as OutboxUpdateInput };
