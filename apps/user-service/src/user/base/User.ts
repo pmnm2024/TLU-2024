@@ -30,6 +30,7 @@ import { RankUser } from "../../rankUser/base/RankUser";
 import { EnumUserSex } from "./EnumUserSex";
 import { EnumUserStatus } from "./EnumUserStatus";
 
+
 @ObjectType()
 class User {
   @ApiProperty({

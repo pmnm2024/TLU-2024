@@ -80,7 +80,6 @@ export class SupportRequestService extends SupportRequestServiceBase {
           }),
         ]);
         
-  
         return this.prisma.supportRequest.update({
           where: { id: id },
           data: { status: "Processed" },

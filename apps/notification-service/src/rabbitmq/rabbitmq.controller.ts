@@ -31,4 +31,12 @@ export class RabbitMQController {
     context: RmqContext
   ): Promise<void> {}
 
+  @EventPattern("recent.users")
+  async onRecentUsers(
+    @Payload()
+    message: RabbitMQMessage,
+    @Ctx()
+    context: RmqContext
+  ): Promise<void> {}
+
 }

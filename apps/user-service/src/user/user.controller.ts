@@ -19,7 +19,6 @@ export class UserController extends UserControllerBase {
     super(service, rolesBuilder);
   }
 
-
   @Public()
   @common.Post("/register")
   async register(@common.Body() data: UserCreateInput): Promise<User> {
@@ -41,16 +40,17 @@ export class UserController extends UserControllerBase {
           firstName: true,
           id: true,
           lastName: true,
+          nowLocation: true,
           phone: true,
           rank: {
             select: {
               id: true,
             },
           },
-      
           roles: true,
           score: true,
           sex: true,
+          status:true,
           updatedAt: true,
           username: true,
         },
