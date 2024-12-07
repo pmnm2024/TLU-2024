@@ -65,8 +65,8 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
+        nowLocation: true,
         phone: true,
-
         rank: {
           select: {
             id: true,
@@ -106,7 +106,7 @@ export class UserControllerBase {
         id: true,
         lastName: true,
         phone: true,
-
+        nowLocation: true,
         rank: {
           select: {
             id: true,
@@ -147,7 +147,7 @@ export class UserControllerBase {
         id: true,
         lastName: true,
         phone: true,
-
+        nowLocation: true,
         rank: {
           select: {
             id: true,
@@ -205,7 +205,7 @@ export class UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
-
+          nowLocation: true,
           rank: {
             select: {
               id: true,
@@ -254,13 +254,12 @@ export class UserControllerBase {
           id: true,
           lastName: true,
           phone: true,
-
+          nowLocation: true,
           rank: {
             select: {
               id: true,
             },
           },
-
           roles: true,
           score: true,
           sex: true,
