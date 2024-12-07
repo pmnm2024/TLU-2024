@@ -19,4 +19,7 @@ export async function connectMicroservices(app: INestApplication) {
       generateRabbitMQClientOptions(configService, "handle.support.request").options
     )
   });
+  app.connectMicroservice<MicroserviceOptions>({
+    strategy: new RabbitMQ(generateRabbitMQClientOptions(configService, "recent.users").options)
+  });
 }

@@ -21,6 +21,7 @@ import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumUserSex } from "./EnumUserSex";
 import { EnumUserStatus } from "./EnumUserStatus";
 
+
 @InputType()
 class UserWhereInput {
   @ApiProperty({

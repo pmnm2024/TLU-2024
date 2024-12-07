@@ -16,7 +16,6 @@ import { AuthModule } from "./auth/auth.module";
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from "./tasks/task.module";
 
-
 @Module({
   controllers: [],
   imports: [

@@ -57,5 +57,4 @@ export class AuthService {
     const decode = await this.tokenService.decodeToken(token)
     return decode;
   }
-
 }

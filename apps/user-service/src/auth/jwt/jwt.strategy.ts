@@ -6,7 +6,6 @@ import { UserInfo } from "../UserInfo";
 import { Cache } from "cache-manager";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
-
 @Injectable()
 export class JwtStrategy extends JwtStrategyBase {
   constructor(

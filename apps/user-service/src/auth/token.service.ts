@@ -1,4 +1,3 @@
-
 import { ITokenPayload, ITokenService } from "./ITokenService";
 
 import { TokenServiceBase } from "./base/token.service.base";
