@@ -12,7 +12,6 @@ https://docs.amplication.com/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsJSONValue } from "../../validators";
-
 import {
   IsOptional,
   IsDate,

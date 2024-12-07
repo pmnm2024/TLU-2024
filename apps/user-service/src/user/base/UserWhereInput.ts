@@ -87,6 +87,7 @@ class UserWhereInput {
   @Field(() => JsonFilter, {
     nullable: true,
   })
+
   nowLocation?: JsonFilter;
 
   @ApiProperty({
