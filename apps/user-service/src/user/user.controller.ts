@@ -45,7 +45,7 @@ export class UserController extends UserControllerBase {
               id: true,
             },
           },
-
+      
           roles: true,
           score: true,
           sex: true,
@@ -95,6 +95,16 @@ export class UserController extends UserControllerBase {
         },
         error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  @Public()
+  @common.Post("/recent-users")
+  async recentUsers(@common.Body("location") location: { lat: number; long: number }){
+    try{
+        return this.service.recentUsers(location);
+    }catch (error){
+      throw error;
     }
   }
 }
