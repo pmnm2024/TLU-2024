@@ -105,6 +105,7 @@ class UserOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+
   password?: SortOrder;
 
   @ApiProperty({

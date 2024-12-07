@@ -39,7 +39,10 @@ async function main() {
 
   await connectMicroservices(app);
   await app.startAllMicroservices();
-
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Có thể kết thúc chương trình hoặc xử lý tuỳ ý
+  });
   SwaggerModule.setup(swaggerPath, app, document, swaggerSetupOptions);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
