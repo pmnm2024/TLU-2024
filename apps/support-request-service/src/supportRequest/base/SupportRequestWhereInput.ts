@@ -15,6 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, IsEnum } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { JsonFilter } from "../../util/JsonFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { EnumSupportRequestStatus } from "./EnumSupportRequestStatus";
 
@@ -99,6 +100,17 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
+    type: JsonFilter,
+  })
+  @Type(() => JsonFilter)
+  @IsOptional()
+  @Field(() => JsonFilter, {
+    nullable: true,
+  })
+  location?: JsonFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -117,6 +129,7 @@ class SupportRequestWhereInput {
   @Field(() => IntNullableFilter, {
     nullable: true,
   })
+
   point?: IntNullableFilter;
 
   @ApiProperty({
@@ -140,6 +153,7 @@ class SupportRequestWhereInput {
     nullable: true,
   })
   status?: "Pending" | "Processed" | "Refused";
+
 
   @ApiProperty({
     required: false,
