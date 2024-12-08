@@ -72,4 +72,14 @@ export class NotificationController extends NotificationControllerBase {
       throw error;
     }
   }
+
+  @EventPattern(MyMessageBrokerTopics.NotiToAdmin)
+  async onPushNotiToAdmin(@Payload()
+  message: RabbitMQMessage) {
+    try {
+      console.log(message)
+    } catch (error) {
+      throw error
+    }
+  }
 }
