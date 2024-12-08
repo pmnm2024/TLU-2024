@@ -53,7 +53,7 @@ export class UserController extends UserControllerBase {
           roles: true,
           score: true,
           sex: true,
-          status:true,
+          status: true,
           updatedAt: true,
           username: true,
         },
@@ -105,13 +105,14 @@ export class UserController extends UserControllerBase {
 
   @Public()
   @common.Post("/recent-users")
-  async recentUsers(@common.Body("location") location: { lat: number; long: number }){
-    try{
-        return this.service.recentUsers(location);
-    }catch (error){
+  async recentUsers(@common.Body("location") location: { lat: number; long: number }) {
+    try {
+      return this.service.recentUsers(location);
+    } catch (error) {
       throw error;
     }
   }
+
   @Public()
   @EventPattern(MyMessageBrokerTopics.AddSupportRequest)
   async onAddSupportRequest(
@@ -122,6 +123,16 @@ export class UserController extends UserControllerBase {
       const { data } = message as any;
       await this.service.recentUsers(data);
       return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Public()
+  @common.Post("/pushNoti")
+  async getAdmin() {
+    try {
+      return this.service.pushNoti();
     } catch (error) {
       throw error;
     }

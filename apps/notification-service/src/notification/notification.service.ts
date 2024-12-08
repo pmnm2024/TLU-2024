@@ -106,7 +106,6 @@ export class NotificationService extends NotificationServiceBase {
     }
   }
 
-
   async handleSupportRequest(data: any) {
     try {
       const { email, description } = data
@@ -193,4 +192,11 @@ export class NotificationService extends NotificationServiceBase {
     }
   }
 
+  async notiToAdmin(data: any) {
+    try {
+
+    } catch (error) {
+
+    }
+  }
 }

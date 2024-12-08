@@ -423,7 +423,6 @@ export class UserService extends UserServiceBase {
 
   async recentUsers(data: any): Promise<any> {
     try {
-      console.log(data);
       const users = await this.prisma.user.findRaw({
         filter: {
           nowLocation: {
@@ -441,14 +440,14 @@ export class UserService extends UserServiceBase {
           limit: 10,
         },
       });
-  
+
       if (!users || !Array.isArray(users) || users.length === 0) {
         console.log("Không tìm thấy người dùng nào.");
         return;
       }
-  
+
       const emails = users.map((user: any) => user.email);
-      
+
       const emailPromises = emails.map((email: string) => {
         const emailTemplate = `<!DOCTYPE html>
                               <html lang="en">
@@ -519,7 +518,7 @@ export class UserService extends UserServiceBase {
                               
                               </body>
                               </html>`;
-  
+
         return this.prisma.outBox.create({
           data: {
             eventType: MyMessageBrokerTopics.RecentUsers,
@@ -532,13 +531,48 @@ export class UserService extends UserServiceBase {
           },
         });
       });
-      
-    const results = await Promise.all(emailPromises);
-    console.log(results);
+
+      const results = await Promise.all(emailPromises);
+      console.log(results);
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-  
+
+  async getAdmin() {
+    try {
+      const user = await this.prisma.user.findMany({
+        where: {
+          roles: {
+           equals: ["admin"]
+          },
+        }
+      })
+      return user;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async pushNoti(){
+    try {
+      const listAdmin = await this.getAdmin()
+
+      await this.prisma.$transaction([
+        this.prisma.outBox.create({
+          data: {
+            eventType: MyMessageBrokerTopics.NotiToAdmin,
+            payload: {
+              listAdmin
+            },
+            retry: 3,
+            status: "pending",
+          },
+        }),
+      ]);
+    } catch (error) {
+      
+    }
+  }
 }
