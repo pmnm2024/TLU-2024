@@ -35,29 +35,32 @@ export class NotificationService extends NotificationServiceBase {
         data: {
           user: userId,
           message: `${userId} reset password send`,
-          title: MyMessageBrokerTopics.ResetPassword
+          title: MyMessageBrokerTopics.ResetPassword,
+          status: false
         },
         // select: {},
       }
 
-      await this.prisma.$transaction([
-        this.prisma.notification.create(
-          payLoad
-        ),
-
-        this.prisma.outbox.create({
-          data: {
-            eventType: MyMessageBrokerTopics.SendMail,
-            payload: {
-              userId: userId,
-              email: email,
-              description: description
-            },
-            retry: 3,
-            status: "pending"
+      const noti = this.prisma.notification.create({
+        data: payLoad,
+      });
+      
+      const outbox = this.prisma.outbox.create({
+        data: {
+          eventType: MyMessageBrokerTopics.SendMail,
+          payload: {
+            userId: userId,
+            email: email,
+            description: description,
+            notificationId: (await noti).id, 
           },
-        }),
-      ]);
+          retry: 3,
+          status: "pending",
+        },
+      });
+      
+      // Thực hiện transaction
+      await this.prisma.$transaction([noti, outbox]);
     } catch (error) {
       throw error
     }
@@ -105,7 +108,6 @@ export class NotificationService extends NotificationServiceBase {
       throw error
     }
   }
-
 
   async handleSupportRequest(data: any) {
     try {
@@ -193,4 +195,13 @@ export class NotificationService extends NotificationServiceBase {
     }
   }
 
+  async notiToAdmin(data: any) {
+    try {
+      const {listAdmin} = data;
+
+
+    } catch (error) {
+
+    }
+  }
 }
