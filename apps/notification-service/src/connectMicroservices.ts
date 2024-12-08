@@ -22,4 +22,8 @@ export async function connectMicroservices(app: INestApplication) {
   app.connectMicroservice<MicroserviceOptions>({
     strategy: new RabbitMQ(generateRabbitMQClientOptions(configService, "recent.users").options)
   });
+
+  app.connectMicroservice<MicroserviceOptions>({
+    strategy: new RabbitMQ(generateRabbitMQClientOptions(configService, "noti.to.admin").options)
+  });
 }
