@@ -77,7 +77,9 @@ export class NotificationController extends NotificationControllerBase {
   async onPushNotiToAdmin(@Payload()
   message: RabbitMQMessage) {
     try {
-      console.log(message)
+      const { data } = message as any;
+      console.log(data);
+      await this.service.notiToAdmin(data);
     } catch (error) {
       throw error
     }
