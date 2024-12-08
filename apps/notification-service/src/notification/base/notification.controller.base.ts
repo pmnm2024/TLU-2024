@@ -24,7 +24,7 @@ import { NotificationWhereUniqueInput } from "./NotificationWhereUniqueInput";
 import { NotificationUpdateInput } from "./NotificationUpdateInput";
 
 export class NotificationControllerBase {
-  constructor(protected readonly service: NotificationService) {}
+  constructor(protected readonly service: NotificationService) { }
   @common.Post()
   @swagger.ApiCreatedResponse({ type: Notification })
   async createNotification(
@@ -47,7 +47,8 @@ export class NotificationControllerBase {
   @common.Get()
   @swagger.ApiOkResponse({ type: [Notification] })
   @ApiNestedQuery(NotificationFindManyArgs)
-  async notifications(@common.Req() request: Request): Promise<Notification[]> {
+  async notifications(@common.Req() request: Request, @common.Request() req: any): Promise<Notification[]> {
+    // console.log("🚀 ~ NotificationControllerBase ~ notifications ~ req:", req)
     const args = plainToClass(NotificationFindManyArgs, request.query);
     return this.service.notifications({
       ...args,
