@@ -12,7 +12,7 @@ export class TokenService extends TokenServiceBase implements ITokenService {
         const payload = {
             sub: id,
             username,
-            password,
+            // password,
             jti: `${id}-${Date.now()}`,
             key: 'test2024'
         };

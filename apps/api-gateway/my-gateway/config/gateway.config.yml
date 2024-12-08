@@ -75,6 +75,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
+                  user: req.user
       - proxy:
           - action:
               serviceEndpoint: accountService

@@ -9,7 +9,10 @@ import { User } from "./base/User";
 import { MyMessageBrokerTopics } from "src/rabbitmq/topics";
 import { EventPattern, Payload } from "@nestjs/microservices";
 import { RabbitMQMessage } from "src/rabbitmq/RabbitMQMessage";
-
+import * as errors from "../errors";
+import { isRecordNotFoundError } from "src/prisma.util";
+import { UserWhereUniqueInput } from "./base/UserWhereUniqueInput";
+import { UserUpdateInput } from "./base/UserUpdateInput";
 
 @swagger.ApiTags("users")
 @common.Controller("users")
@@ -87,8 +90,8 @@ export class UserController extends UserControllerBase {
   @common.Post("/reset-password")
   async resetPassword(@common.Request() req: any, @common.Body("passwordNew") passwordNew: string) {
     try {
-      const { id } = req.user
-      const result = await this.service.resetPassword(id, passwordNew)
+      const user = JSON.parse(req.headers.user);
+      const result = await this.service.resetPassword(user.sub, passwordNew)
       return {
         message: "Reset password successfull"
       }
@@ -104,15 +107,6 @@ export class UserController extends UserControllerBase {
   }
 
   @Public()
-  @common.Post("/recent-users")
-  async recentUsers(@common.Body("location") location: { lat: number; long: number }){
-    try{
-        return this.service.recentUsers(location);
-    }catch (error){
-      throw error;
-    }
-  }
-  @Public()
   @EventPattern(MyMessageBrokerTopics.AddSupportRequest)
   async onAddSupportRequest(
     @Payload()
@@ -126,4 +120,145 @@ export class UserController extends UserControllerBase {
       throw error;
     }
   }
+
+  @Public()
+  @common.Get("/userDetail")
+  async userDetail(@common.Request() req: any){
+    const user = JSON.parse(req.headers.user);
+    const result = await this.service.user({
+      where: { id: user.sub },
+      select: {
+        address: true,
+        createdAt: true,
+        email: true,
+        firstName: true,
+        id: true,
+        lastName: true,
+        nowLocation: true,
+        phone: true,
+        rank: {
+          select: {
+            id: true,
+          },
+        },
+        roles: true,
+        score: true,
+        sex: true,
+        status: true,
+        updatedAt: true,
+        username: true,
+      },
+    });
+    
+    if (!result) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(req.headers.user.sub)}`
+      );
+    }
+    
+    return result;
+  }
+
+  @Public()
+  @common.Post("/nowLocation")
+  async nowLocation(
+    @common.Request() req: any,
+    @common.Body("location") { lat, long }: { lat: number; long: number }
+  ) {
+    if (!lat || !long) {
+      throw new Error("Latitude and longitude are required.");
+    }
+    const user = JSON.parse(req.headers.user);
+    try {
+      return await this.service.updateUser({
+        where: {id: user.sub},
+        data: {
+          nowLocation: {
+            type: "Point",
+            coordinates: [long, lat], 
+          },
+        },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          nowLocation: true,
+          phone: true,
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+          roles: true,
+          score: true,
+          sex: true,
+          status: true,
+          updatedAt: true,
+          username: true,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new errors.NotFoundException(
+          `No resource was found for ${JSON.stringify(user.sub)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @Public()
+  @common.Post('/editUser')
+  async editUser(
+    @common.Request() req: any,
+    @common.Body() data: UserUpdateInput
+  ): Promise<User | null> {
+    const user = JSON.parse(req.headers.user);
+    try {
+      return await this.service.updateUser({
+        where: user.sub,
+        data: {
+          ...data,
+
+          rank: data.rank
+            ? {
+                connect: data.rank,
+              }
+            : undefined,
+        },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          nowLocation: true,
+          phone: true,
+          rank: {
+            select: {
+              id: true,
+            },
+          },
+          roles: true,
+          score: true,
+          sex: true,
+          status: true,
+          updatedAt: true,
+          username: true,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new errors.NotFoundException(
+          `No resource was found for ${JSON.stringify(user.sub)}`
+        );
+      }
+      throw error;
+    }
+  }
+  
 }
