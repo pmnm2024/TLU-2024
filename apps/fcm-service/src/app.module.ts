@@ -1,3 +1,4 @@
+import { RabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { Module } from "@nestjs/common";
 import { FcmModule } from "./fcm/fcm.module";
 import { HealthModule } from "./health/health.module";
@@ -10,6 +11,7 @@ import { ConfigModule } from "@nestjs/config";
 @Module({
   controllers: [],
   imports: [
+    RabbitMQModule,
     FcmModule,
     HealthModule,
     PrismaModule,

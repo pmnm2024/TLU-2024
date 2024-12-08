@@ -9,3 +9,4 @@ export enum MyMessageBrokerTopics {
   SendMail = "send.mail",
   NotiToAdmin = "noti.to.admin",
 }
+export type AllMessageBrokerTopics = MyMessageBrokerTopics;
