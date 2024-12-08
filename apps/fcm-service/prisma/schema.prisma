@@ -6,3 +6,9 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Fcm {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt DateTime @updatedAt
+}
