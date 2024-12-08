@@ -56,7 +56,7 @@ export class UserController extends UserControllerBase {
           roles: true,
           score: true,
           sex: true,
-          status:true,
+          status: true,
           updatedAt: true,
           username: true,
         },
@@ -106,7 +106,6 @@ export class UserController extends UserControllerBase {
     }
   }
 
-  @Public()
   @EventPattern(MyMessageBrokerTopics.AddSupportRequest)
   async onAddSupportRequest(
     @Payload()
@@ -261,4 +260,14 @@ export class UserController extends UserControllerBase {
     }
   }
   
+
+  @common.Post("/pushNoti")
+  async getAdmin() {
+    try {
+      return this.service.pushNoti();
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

@@ -39,4 +39,11 @@ export class RabbitMQController {
     context: RmqContext
   ): Promise<void> {}
 
+  @EventPattern("noti.to.admin")
+  async onNotiToAdmin(
+    @Payload()
+    message: RabbitMQMessage,
+    @Ctx()
+    context: RmqContext
+  ): Promise<void> {}
 }
