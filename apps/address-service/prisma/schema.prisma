@@ -1,0 +1,74 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdministrativeRegion {
+  codeName   String?    @map("code_name")
+  codeNameEn String?    @map("code_name_en")
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  nameEn     String
+  provinces  Province[]
+}
+
+model AdministrativeUnit {
+  codeName    String?    @map("code_name")
+  codeNameEn  String?    @map("code_name_en")
+  districts   District[]
+  fullName    String?    @map("full_name")
+  fullNameEn  String?    @map("full_name_en")
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  provinces   Province[]
+  shortName   String?    @map("short_name")
+  shortNameEn String?    @map("short_name_en")
+  wards       Ward[]
+}
+
+model Province {
+  administrativeRegion   AdministrativeRegion? @relation(fields: [administrativeRegionId], references: [id])
+  administrativeRegionId String?               @db.ObjectId
+  administrativeUnit     AdministrativeUnit?   @relation(fields: [administrativeUnitId], references: [id])
+  administrativeUnitId   String?               @db.ObjectId
+  code                   String
+  codeName               String?               @map("code_name")
+  districts              District[]
+  fullName               String                @map("full_name")
+  fullNameEn             String?               @map("full_name_en")
+  id                     String                @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String
+  nameEn                 String?               @map("name_en")
+}
+
+model District {
+  administrativeUnit   AdministrativeUnit? @relation(fields: [administrativeUnitId], references: [id])
+  administrativeUnitId String?             @db.ObjectId
+  code                 String
+  codeName             String?             @map("code_name")
+  fullName             String?             @map("full_name")
+  fullNameEn           String?             @map("full_name_en")
+  id                   String              @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  nameEn               String?             @map("name_en")
+  province             Province?           @relation(fields: [provinceId], references: [id])
+  provinceId           String?             @db.ObjectId
+  wards                Ward[]
+}
+
+model Ward {
+  administrativeUnit   AdministrativeUnit? @relation(fields: [administrativeUnitId], references: [id])
+  administrativeUnitId String?             @db.ObjectId
+  code                 String
+  codeName             String?             @map("code_name")
+  district             District?           @relation(fields: [districtId], references: [id])
+  districtId           String?             @db.ObjectId
+  fullName             String?             @map("full_name")
+  fullNameEn           String?             @map("full_name_en")
+  id                   String              @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  nameEn               String?             @map("name_en")
+}
