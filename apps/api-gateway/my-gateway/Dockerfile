@@ -13,14 +13,14 @@ RUN npm config set registry https://registry.npmjs.org/ \
 # Copy package.json and package-lock.json.
 COPY package.json ./
 
+# Copy the rest of the application code.
+COPY . .
 # Install dependencies.
 
 RUN npm install 
 
 RUN npm install ./plugins/jwt-decoder
 
-# Copy the rest of the application code.
-COPY . .
 
 # Expose the port the application runs on.
 EXPOSE 9000
