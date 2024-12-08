@@ -10,5 +10,9 @@ generator client {
 model Fcm {
   createdAt DateTime @default(now())
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   String?
+  read      String?
+  title     String?
   updatedAt DateTime @updatedAt
+  userId    String?
 }
