@@ -56,7 +56,7 @@ serviceEndpoints:
   mailService:
     url: "http://mail:8004"
   supportRequestService:
-    url: "http://supportRequest:8006"
+    url: "http://support-request:8006"
   warehouseService:
     url: "http://warehouse:8002"
 policies:
@@ -207,23 +207,23 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: supportRequestService
-    warehouse:
-        apiEndpoints:
-          - warehouse
-        policies:
-          - jwt-decoder-policy:
-                action:
-                    secret: 'asasasa'
-          - log:
-              - action:
-                  message: "${req.method} ${req.originalUrl}"
-          - request-transformer:
-              - action:
-                  headers:
-                    add:
-                      requestID: "requestID"
-                      user: req.user
-          - proxy:
-              - action:
-                  serviceEndpoint: warehouseService
+  warehouse:
+    apiEndpoints:
+      - warehouse
+    policies:
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: warehouseService
 
