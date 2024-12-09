@@ -180,7 +180,7 @@ PORT
 <td>8006:8006</td>
 </tr>
 <tr>
-<td>WarehouseService Service</td>
+<td>Warehouse Service</td>
 <td>8002:8002</td>
 </tr>
 </tbody>
