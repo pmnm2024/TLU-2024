@@ -130,11 +130,14 @@ class UserCreateInput {
   rank?: RankUserWhereUniqueInput | null;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsJSONValue()
-  @Field(() => GraphQLJSON)
-  roles!: InputJsonValue;
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  roles?: InputJsonValue;
 
   @ApiProperty({
     required: false,
