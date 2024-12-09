@@ -51,7 +51,7 @@ export class UserControllerBase {
     return await this.service.createUser({
       data: {
         ...data,
-
+        roles: data.roles ? data.roles : ["user"],
         rank: data.rank
           ? {
               connect: data.rank,

@@ -39,7 +39,7 @@ export class UserController extends UserControllerBase {
       const payLoad = {
         data: {
           ...data,
-
+          roles: data.roles ? data.roles : ["user"],
           rank: data.rank
             ? {
               connect: data.rank,
