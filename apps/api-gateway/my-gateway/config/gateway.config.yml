@@ -26,7 +26,22 @@ apiEndpoints:
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/notifications*"
- 
+  donation:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/donations*"
+  mail:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/mails*"
+  supportRequest:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/supportRequests*"
+  warehouse:
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: "/api/warehouses*"
 serviceEndpoints:
   httpbin:
     url: "https://httpbin.org"
@@ -36,7 +51,14 @@ serviceEndpoints:
     url: "http://user:8000"
   notificationService:
     url: "http://notification:8001"
-
+  donationService:
+    url: "http://donation:8005"
+  mailService:
+    url: "http://mail:8004"
+  supportRequestService:
+    url: "http://support-request:8006"
+  warehouseService:
+    url: "http://warehouse:8002"
 policies:
   - cors
   - log
@@ -44,6 +66,7 @@ policies:
   - request-transformer
   # - jwt
   - jwt-decoder-policy
+  - log-policy
   - rate-limit
 
   # - express-gateway-plugin-example
@@ -106,9 +129,53 @@ pipelines:
     apiEndpoints:
       - notification
     policies:
+      # - jwt-decoder-policy:
+      #     action:
+      #         secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - log-policy:
+          - action:
+              logLevel: "debug"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  # user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: notificationService
+  mail:
+    apiEndpoints:
+      - mail
+    policies:
+      # - jwt-decoder-policy:
+      #     action:
+      #         secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - log-policy:
+          - action:
+              logLevel: "debug"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  # user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: mailService
+  donation:
+    apiEndpoints:
+      - donation
+    policies:
       - jwt-decoder-policy:
-          action:
-              secret: 'asasasa'
+            action:
+                secret: 'asasasa'
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -120,4 +187,43 @@ pipelines:
                   user: req.user
       - proxy:
           - action:
-              serviceEndpoint: notificationService
+              serviceEndpoint: donationService
+  supportRequest:
+    apiEndpoints:
+      - supportRequest
+    policies:
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: supportRequestService
+  warehouse:
+    apiEndpoints:
+      - warehouse
+    policies:
+      - jwt-decoder-policy:
+            action:
+                secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: warehouseService
+
