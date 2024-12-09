@@ -4,7 +4,8 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/m/pmnm2024/smart_tlu 'Commit activity')](https://github.com/pmnm2024/smart_tlu/graphs/commit-activity)
 [![GitHub contributors](https://img.shields.io/github/contributors/pmnm2024/smart_tlu 'Github contributors')](https://github.com/pmnm2024/smart_tlu/graphs/contributors)
 
-# SMART_TLU  [![Documentation]()]
+# SMART_TLU [Documentation](https://pmnm2024.github.io/smart_tlu/)
+
 
 <a href="https://github.com/pmnm2024/smart_tlu/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=%F0%9F%90%9B+Bug+Report%3A+">Bug Report ⚠️
 </a>
@@ -128,6 +129,9 @@ Khi muốn dừng tất cả các service đang chạy:
 ```
 
 > **Lưu ý:** Khi muốn phát triển 1 service riêng vui lòng khởi tạo service bằng Amplication hoặc khởi tạo bằng tay sau đó vui lòng khai báo service đã tạo trong start_all và stop_all.
+#### Chạy docker tren window:
+1. Tạo 1 docker network create app-network
+2. Vào từng service chạy docker compose up -d
 
 ## Cấu trúc thư mục
 
