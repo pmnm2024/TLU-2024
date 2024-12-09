@@ -4,6 +4,9 @@
     "assets": [
       {
         "include": "swagger/**/*"
+      },
+      {
+        "include": "firebase/**/*"
       }
     ]
   }

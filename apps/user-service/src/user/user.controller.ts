@@ -260,7 +260,7 @@ export class UserController extends UserControllerBase {
     }
   }
   
-
+  @Public()
   @common.Post("/pushNoti")
   async getAdmin() {
     try {

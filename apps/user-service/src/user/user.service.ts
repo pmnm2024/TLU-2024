@@ -544,7 +544,7 @@ export class UserService extends UserServiceBase {
       const user = await this.prisma.user.findMany({
         where: {
           roles: {
-           equals: ["admin"]
+            equals: ["admin"]
           },
         }
       })
@@ -554,7 +554,7 @@ export class UserService extends UserServiceBase {
     }
   }
 
-  async pushNoti(){
+  async pushNoti() {
     try {
       const listAdmin = await this.getAdmin()
 
@@ -563,7 +563,8 @@ export class UserService extends UserServiceBase {
           data: {
             eventType: MyMessageBrokerTopics.NotiToAdmin,
             payload: {
-              listAdmin
+              listAdmin,
+              mess: "Có trường hợp khẩn cấp!!!"
             },
             retry: 3,
             status: "pending",
@@ -571,7 +572,7 @@ export class UserService extends UserServiceBase {
         }),
       ]);
     } catch (error) {
-      
+
     }
   }
 }

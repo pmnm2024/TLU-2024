@@ -7,6 +7,8 @@ import { SecretsManagerModule } from "./providers/secrets/secretsManager.module"
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { ConfigModule } from "@nestjs/config";
+import { FirebaseModule } from "./firebase/firebase.module";
+import { WebsocketModule } from "./websocket/websocket.module";
 
 @Module({
   controllers: [],
@@ -20,6 +22,8 @@ import { ConfigModule } from "@nestjs/config";
     ServeStaticModule.forRootAsync({
       useClass: ServeStaticOptionsService,
     }),
+    FirebaseModule,
+    WebsocketModule
   ],
   providers: [],
 })

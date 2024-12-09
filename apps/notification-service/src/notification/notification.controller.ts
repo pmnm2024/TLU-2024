@@ -65,7 +65,6 @@ export class NotificationController extends NotificationControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-      console.log(data);
       await this.service.recentUsers(data);
       return;
     } catch (error) {

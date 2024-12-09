@@ -7,6 +7,5 @@ export enum MyMessageBrokerTopics {
   RecentUsers = "recent.users",
   ResetPassword = "reset.password",
   SendMail = "send.mail",
-  NotiToAdmin = "noti.to.admin",
 }
 export type AllMessageBrokerTopics = MyMessageBrokerTopics;
