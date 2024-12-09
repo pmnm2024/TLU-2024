@@ -1,3 +1,9 @@
+[![Github license](https://img.shields.io/github/license/pmnm2024/smart_tlu 'Github license')](https://github.com/CTU-LinguTechies/VN-Law-Advisor/blob/main/LICENSE)
+[![Open issues](https://img.shields.io/github/issues/pmnm2024/smart_tlu 'Open issues')](https://github.com/pmnm2024/smart_tlu/issues)
+[![Open Pull Requests](https://img.shields.io/github/issues-pr/pmnm2024/smart_tlu 'Open Pull Requests')](https://github.com/pmnm2024/smart_tlu/pulls)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/pmnm2024/smart_tlu 'Commit activity')](https://github.com/pmnm2024/smart_tlu/graphs/commit-activity)
+[![GitHub contributors](https://img.shields.io/github/contributors/pmnm2024/smart_tlu 'Github contributors')](https://github.com/pmnm2024/smart_tlu/graphs/contributors)
+
 # Amplication - Low Code Platform
 
 Amplication là một nền tảng low-code giúp các nhà phát triển tạo ứng dụng nhanh chóng mà không cần phải viết quá nhiều mã. Nó cho phép bạn tạo API, cơ sở dữ liệu, và giao diện người dùng một cách tự động.
