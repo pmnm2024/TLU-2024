@@ -1,0 +1,15 @@
+services:
+  apigateway:
+    build:
+      context: .
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory inside the container
+      - /app/node_modules 
+    networks:
+      - app-network
+networks:
+  app-network:
+    external: true  
+

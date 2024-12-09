@@ -10,13 +10,13 @@ apiEndpoints:
     host: "*"
     paths: "/ip"
   account:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    methods: ["GET", "PUT", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/user*"
   register:
     methods: ["POST"]
     host: "*"
-    paths: "/api/user*"
+    paths: "/api/users/register"
   auth:
     methods: ["POST"]
     host: "*"
@@ -87,6 +87,12 @@ pipelines:
     apiEndpoints:
       - account
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
@@ -102,7 +108,31 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: accountService
-
+  register:
+    apiEndpoints:
+      - register
+    policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
+      # - jwt-decoder-policy:
+      #       action:
+      #           secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  # user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: accountService
   auth:
     apiEndpoints:
       - auth

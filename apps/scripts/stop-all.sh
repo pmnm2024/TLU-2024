@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Dừng từng service
-SERVICES=("user-service" "mail-service" "langchain" "fcm-service" "notification-service")
+SERVICES=("api-gateway/my-gateway" "user-service" "mail-service" "langchain" "fcm-service" "notification-service")
 echo "Stopping all services..."
 for service in "${SERVICES[@]}"; do
   echo "Stopping service: $service..."

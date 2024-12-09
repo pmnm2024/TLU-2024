@@ -4,31 +4,28 @@ FROM node:20.5-alpine
 # Set the working directory.
 WORKDIR /app
 
-RUN npm config set registry https://registry.npmjs.org/ \
-  && npm config set fetch-retry-mintimeout 600000 \
-  && npm config set fetch-retry-maxtimeout 1200000 \
-  && npm config set fetch-timeout 1800000 \
-  && npm cache clean --force
-
-# Copy package.json and package-lock.json.
+# Copy main package.json and package-lock.json.
 COPY package.json ./
 
-# Install dependencies.
+# Install main dependencies.
+RUN npm install
 
-RUN npm install 
+# Copy plugins' package.json and package-lock.json.
+COPY plugins/jwt-decoder/package.json plugins/jwt-decoder/package-lock.json ./plugins/jwt-decoder/
+COPY plugins/logging/package.json plugins/logging/package-lock.json ./plugins/logging/
+
+# Install plugin dependencies in a single RUN command.
+RUN npm install ./plugins/jwt-decoder \
+    && npm install ./plugins/logging
+
 # Copy the rest of the application code.
 COPY . .
 
-RUN npm install ./plugins/jwt-decoder
-
-RUN npm install ./plugins/logging
-
+# Set environment variable to production.
+ENV NODE_ENV=production
 
 # Expose the port the application runs on.
 EXPOSE 9000
-
-# Set the environment variable to production.
-# ENV NODE_ENV=production
 
 # Command to run the application.
 CMD ["node", "server.js"]

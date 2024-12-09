@@ -24,18 +24,6 @@ services:
     networks:
       - app-network
 
-  apigateway:
-    build:
-      context: ../api-gateway/my-gateway
-      dockerfile: Dockerfile
-    ports:
-      - "9000:9000"
-    volumes:
-      - ../api-gateway/my-gateway:/app
-    environment:
-      - NODE_ENV=production
-    networks:
-      - app-network
   # postgres:
   #   image: postgres:13
   #   container_name: postgres

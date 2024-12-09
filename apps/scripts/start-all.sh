@@ -21,7 +21,7 @@ echo "Waiting for dependencies to be ready..."
 sleep 10  # Điều chỉnh thời gian chờ nếu cần
 
 # Khởi động các service khác nếu cần
-SERVICES=("user-service" "mail-service" "langchain" "fcm-service" "notification-service")
+SERVICES=("api-gateway/my-gateway" "user-service" "mail-service" "langchain" "fcm-service" "notification-service")
 # SERVICES=("fcm-service")
 for service in "${SERVICES[@]}"; do
   echo "Starting service: $service..."

@@ -6,11 +6,6 @@
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
-    "example": "^0.0.0",
-    "express-gateway": "^1.16.11",
-    "express-gateway-plugin-example": "^1.0.1",
-    "express-gateway-plugin-jwt-decoder": "file:plugins/jwt-decoder",
-    "express-gateway-plugin-logging": "file:plugins/logging",
-    "winston": "^3.17.0"
+    "express-gateway": "^1.16.11"
   }
 }
