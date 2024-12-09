@@ -180,7 +180,7 @@ PORT
 <td>8006:8006</td>
 </tr>
 <tr>
-<td>WarehouseService Service</td>
+<td>Warehouse Service</td>
 <td>8002:8002</td>
 </tr>
 </tbody>
@@ -197,7 +197,7 @@ Nếu bạn muốn đóng góp cho dự án, hãy đọc [CONTRIBUTING.md](.gith
 
 Chúng tôi rất trân trọng mọi đóng góp từ các bạn. Đừng ngần ngại tạo pull request và gửi đến dự án.
 
-Theo dõi ChangeLog tại đây [CHANGELOG.md](.github/CHANGELOG.md)
+Theo dõi ChangeLog tại đây [CHANGELOG.md](CHANGELOG.md)
 ## Liên hệ
 -   Nguyễn Đình Tư: nguyendinhtu11022002@gmail.com
 -   Nguyễn Lê Tuấn Anh: tadzltv22082004@gmail.com
