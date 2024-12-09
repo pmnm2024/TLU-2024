@@ -129,6 +129,9 @@ Khi muốn dừng tất cả các service đang chạy:
 ```
 
 > **Lưu ý:** Khi muốn phát triển 1 service riêng vui lòng khởi tạo service bằng Amplication hoặc khởi tạo bằng tay sau đó vui lòng khai báo service đã tạo trong start_all và stop_all.
+#### Chạy docker tren window:
+1. Tạo 1 docker network create app-network
+2. Vào từng service chạy docker compose up -d
 
 ## Cấu trúc thư mục
 
