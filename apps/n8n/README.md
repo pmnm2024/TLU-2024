@@ -30,7 +30,7 @@ n8n start --tunnel
 
 #### Bước 4: Chỉnh sửa các biến trong n8n
 1. Trong n8n chọn Variables
-2. Khởi tạo những variables: Token (được lấy từ YESCALE.io),  URL_APi(url của service langchain đã chạy ở bước trước)
+2. Khởi tạo những variables: Token (được lấy từ YESCALE.io),  URL_APi(url của service langchain đã chạy ở bước trước hoặc có thể xem ở [đây](https://github.com/pmnm2024/smart_tlu/tree/main/apps/langchain))
 
 ## Tác giả
 -   Nguyễn Đình Tư: nguyendinhtu11022002@gmail.com
