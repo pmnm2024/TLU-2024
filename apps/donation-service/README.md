@@ -6,59 +6,79 @@
 
 # Introduction
 
-This service was generated with Amplication. The server-side of the generated project. This component provides the different backend services - i.e., REST API, GraphQL API, authentication, authorization, logging, data validation and the connection to the database. Additional information about the server component and the architecture around it, can be found on the [documentation](https://docs.amplication.com/guides/getting-started) site.
+Dịch vụ này được tạo ra với Amplication. Phía máy chủ của dự án được tạo ra. Thành phần này cung cấp các dịch vụ phụ trợ khác nhau - tức là, REST API, GraphQL API, xác thực, ủy quyền, ghi nhật ký, xác thực dữ liệu và kết nối với cơ sở dữ liệu. Thông tin bổ sung về thành phần máy chủ và kiến ​​trúc xung quanh nó có thể được tìm thấy trên trang web [documentation](https://docs.amplication.com/guides/getting-started).
 
 # Getting started
 
-## Step 1: Configuration
+## Bước 1: Configuration
 
-Configuration for the server component can be provided through the use of environment variables. These can be passed to the application via the use of the `.env` file in the base directory of the generated service. Below a table can be found which show the different variables that can be passed - these are the variables which exist by default, through the use of plugins additional integrations could require additional values. These values are provided default values after generation, change them to the desired values.
+Cấu hình cho thành phần máy chủ có thể được cung cấp thông qua việc sử dụng các biến môi trường. Những biến này có thể được truyền cho ứng dụng thông qua việc sử dụng tệp `.env` trong thư mục cơ sở của dịch vụ được tạo. Dưới đây là bảng hiển thị các biến khác nhau có thể được truyền - đây là các biến tồn tại theo mặc định, thông qua việc sử dụng các plugin, các tích hợp bổ sung có thể yêu cầu các giá trị bổ sung. Các giá trị này được cung cấp các giá trị mặc định sau khi tạo, hãy thay đổi chúng thành các giá trị mong muốn.
 
 | Variable             | Description                                  | Value                                                               |
 | -------------------- | -------------------------------------------- | ------------------------------------------------------------------- |
-| BCRYPT_SALT          | the string used for hashing                  | [random-string]                                                     |
-| COMPOSE_PROJECT_NAME | the identifier of the service plus prefix    | amp_[service-identifier]                                            |
-| PORT                 | the port on which to run the server          | 3000                                                                |
-| DB_URL               | the connection url for the database          | [db-provider]://[username]:[password]@localhost:[db-port]/[db-name] |
-| DB_PORT              | the port used by the database instance       | [db-provider-port]                                                  |
-| DB_USER              | the username used to connect to the database | [username]                                                          |
-| DB_PASSWORD          | the password used to connect to the database | [password]                                                          |
-| DB_NAME              | the name of the database                     | [service-name] / [project-name]                                     |
-| JWT_SECRET_KEY       | the secret used to sign the json-web token   | [secret]                                                            |
-| JWT_EXPIRATION       | the expiration time for the json-web token   | 2d                                                                  |
+| BCRYPT_SALT          | chuỗi được sử dụng để băm                    | [random-string]                                                     |
+| COMPOSE_PROJECT_NAME | mã định danh của dịch vụ cộng với tiền tố    | amp_[service-identifier]                                            |
+| PORT                 | cổng để chạy máy chủ                         | 3000                                                                |
+| DB_URL               | url kết nối cho cơ sở dữ liệu                | [db-provider]://[username]:[password]@localhost:[db-port]/[db-name] |
+| DB_PORT              | cổng được sử dụng bởi phiên bản CSDL         | [db-provider-port]                                                  |
+| DB_USER              | tên người dùng được sử dụng với CSDL         | [username]                                                          |
+| DB_PASSWORD          | mật khẩu để kết nối với CSDL                 | [password]                                                          |
+| DB_NAME              | tên của CSDL                                 | [service-name] / [project-name]                                     |
+| JWT_SECRET_KEY       | mã bí mật để tạo ra jwt                      | [secret]                                                            |
+| JWT_EXPIRATION       | thời gian sống của jwt                       | 2d                                                                  |
 
 > **Note**
-> Amplication generates default values and stores them under the .env file. It is advised to use some form of secrets manager/vault solution when using in production. 
+> Amplication tạo ra các giá trị mặc định và lưu trữ chúng dưới tệp .env. Nên sử dụng một số dạng giải pháp quản lý/vault bí mật khi sử dụng trong sản xuất.
 
-## Step 2.1: Scripts - pre-requisites
+## Bước 2.1: Scripts - pre-requisites
 
-After configuration of the server the next step would be to run the application. Before running the server side of the component, make sure that the different pre-requisites are met - i.e., node.js [^16.x], npm, docker. After the setup of the pre-requisites the server component can be started.
+Sau khi cấu hình máy chủ, bước tiếp theo sẽ là chạy ứng dụng. Trước khi chạy phía máy chủ của thành phần, hãy đảm bảo rằng các điều kiện tiên quyết khác nhau được đáp ứng - tức là node.js [^16.x], npm, docker. Sau khi thiết lập các điều kiện tiên quyết, thành phần máy chủ có thể được khởi động.
 
 ```sh
-# installation of the dependencies
+# cài đặt các phụ thuộc
 $ npm install
 
-# generate the prisma client
+# tạo ra máy khách Prisma
 $ npm run prisma:generate
 ```
 
-## Step 2.2: Scripts - local development
+## Bước 2.2: Scripts - local development
 
 ```sh
-# start the database where the server component will connect to
+# khởi động cơ sở dữ liệu nơi thành phần máy chủ sẽ kết nối tới
 $ npm run docker:dev
 
-# initialize the database
+# khởi tạo cơ sở dữ liệu
 $ npm run db:init
 
-# start the server component
+# bắt đầu thành phần máy chủ
 $ npm run start
 ```
-By default, your app comes with one user with the username "admin" and password "admin".
 
 ## Step 2.2: Scripts - container based development
 
+#### PORT BINDING
+
+-   Sau khi chạy xong, service sẽ được chạy trên các port như sau:
+<table width="100%">
+<thead>
+<th>
+Service
+</th>
+<th>
+PORT
+</th>
+</thead>
+<tbody>
+<tr>
+<td>Donation Service</td>
+<td>8006:8006</td>
+</tr>
+
+</tbody>
+</table>
+
 ```shell
-# start the server component as a docker container
+# khởi động thành phần máy chủ như một container docker
 $ npm run compose:up
 ```
