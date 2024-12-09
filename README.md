@@ -200,7 +200,7 @@ Chúng tôi rất trân trọng mọi đóng góp từ các bạn. Đừng ngầ
 ## Liên hệ
 -   Nguyễn Đình Tư: nguyendinhtu11022002@gmail.com
 -   Nguyễn Lê Tuấn Anh: tadzltv22082004@gmail.com
--   Phạm Nhật Anh: hab2016960@student.ctu.edu.vn
+-   Phạm Nhật Anh: pna120104@gmail.com\
 
 ## License
 This project is licensed under the terms of the [GPL V3](LICENSE) license.
