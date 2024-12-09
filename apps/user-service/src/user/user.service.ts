@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) ATA_TLU.
+ *
+ * This source code is licensed under the GPL V3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { PrismaService } from "../prisma/prisma.service";
 import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";

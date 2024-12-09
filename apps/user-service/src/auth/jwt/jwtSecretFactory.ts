@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) ATA_TLU.
+ *
+ * This source code is licensed under the GPL V3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { JWT_SECRET_KEY_PROVIDER_NAME } from "../../constants";
 import { SecretsManagerService } from "../../providers/secrets/secretsManager.service";
 import { EnumSecretsNameKey } from "../../providers/secrets/secretsNameKey.enum";

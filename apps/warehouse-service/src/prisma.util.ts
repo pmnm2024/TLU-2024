@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) ATA_TLU.
+ *
+ * This source code is licensed under the GPL V3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 export const PRISMA_QUERY_INTERPRETATION_ERROR = "P2016";
 export const PRISMA_RECORD_NOT_FOUND = "RecordNotFound";
 
