@@ -107,15 +107,15 @@ export class NotificationsGateway implements OnGatewayConnection, OnGatewayDisco
     }
 
     async sendNotification(userId: string, notificationData: any) {
-        await this.fmcUservice.createFcm({
+        const result = await this.fmcUservice.createFcm({
             data: {
                 userId,
                 title: notificationData.title,
-                message: notificationData.message,
+                message: notificationData,
                 read: "false",
             }
         });
-
+        console.log(result);
         this.sendNotificationToUser(userId, notificationData);
     }
 

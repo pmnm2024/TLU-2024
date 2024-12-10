@@ -18,7 +18,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Expose port
-EXPOSE 8007
+EXPOSE 8080
 
 # Run the application
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8007"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]

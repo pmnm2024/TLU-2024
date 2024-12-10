@@ -561,17 +561,17 @@ export class UserService extends UserServiceBase {
     }
   }
 
-  async pushNoti() {
+  async pushNoti(phone: string) {
     try {
-      const listAdmin = await this.getAdmin()
-
+      const listAdmin = await this.getAdmin();
+  
       await this.prisma.$transaction([
         this.prisma.outBox.create({
           data: {
             eventType: MyMessageBrokerTopics.NotiToAdmin,
             payload: {
               listAdmin,
-              mess: "Có trường hợp khẩn cấp!!!"
+              mess: `Có trường hợp khẩn cấp!!! Hãy liên lạc vào số điện thoại: ${phone}`, 
             },
             retry: 3,
             status: "pending",
@@ -579,7 +579,8 @@ export class UserService extends UserServiceBase {
         }),
       ]);
     } catch (error) {
-
+      console.error('Error sending notification:', error);
     }
   }
+  
 }

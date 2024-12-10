@@ -6,7 +6,7 @@ services:
   langchain-app:
     build: .
     ports:
-      - "8007:8007"
+      - "8080:8080"
     env_file:
       - .env
     restart: unless-stopped

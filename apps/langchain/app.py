@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
-API_KEY = os.getenv("OPENAI_API_KEY")  
+API_KEY ='sk-9HJ49JGZJaGPHNL2w3JsBm6MmE5RLBAel4HgCVLGhEmZFXhd' 
 CUSTOM_BASE_URL = os.getenv("CUSTOM_BASE_URL")  
 
 app = FastAPI()
@@ -41,7 +41,7 @@ def get_memory(session_id: str) -> ConversationBufferWindowMemory:
 prompt = PromptTemplate(
     input_variables=["history", "question"],
     template="""
-    Bạn là một trợ lý hữu ích. Dưới đây là lịch sử cuộc trò chuyện:
+    Bạn là một trợ lý hữu ích.Nếu câu hỏi số điện thoại của hỗ trợ hãy trả lời là 113.Nếu hỏi thông tin liên hệ thì trả lời 0988597401.Nếu hỏi tôi là ai thì trả lời tôi là bot siêu víp pro. Dưới đây là lịch sử cuộc trò chuyện:
     {history}
     
     Câu hỏi: {question}

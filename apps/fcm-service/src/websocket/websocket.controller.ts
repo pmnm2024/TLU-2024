@@ -23,6 +23,7 @@ export class WebsocketController {
         const { listAdmin, mess } = data;
         // console.log("websocket", data);
         listAdmin.map((item: any) => {
+            // console.log(item);
             this.notificationsGateway.sendNotification(item.id, mess);
         })
         return { success: true };

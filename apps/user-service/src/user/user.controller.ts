@@ -276,9 +276,9 @@ export class UserController extends UserControllerBase {
   
   @Public()
   @common.Post("/pushNoti")
-  async getAdmin() {
+  async getAdmin(@common.Body("phone") phone: string ) {
     try {
-      return this.service.pushNoti();
+      return this.service.pushNoti(phone);
     } catch (error) {
       throw error;
     }

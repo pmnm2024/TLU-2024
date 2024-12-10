@@ -52,7 +52,7 @@ apiEndpoints:
     host: "*"
     paths: "/api/mails*"
   publicSupportRequest:
-    methods: [""POST", "OPTIONS"]
+    methods: ["POST", "OPTIONS"]
     host: "*"
     paths: "/api/supportRequests/addSupportRequests"
   supportRequest:

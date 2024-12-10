@@ -1,5 +1,5 @@
 {
-  "name": "ChatBot",
+  "name": "My workflow",
   "nodes": [
     {
       "parameters": {
@@ -8,10 +8,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1920,
-        240
+        600,
+        460
       ],
-      "id": "418a34e9-f875-43ba-9cb6-bf53be42fa39",
+      "id": "0b91c14f-0803-4cba-b08b-c509a675a5d8",
       "name": "Code"
     },
     {
@@ -23,22 +23,22 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "=Bearer {{$vars.Token}}"
+              "value": "=Bearer sk-9HJ49JGZJaGPHNL2w3JsBm6MmE5RLBAel4HgCVLGhEmZFXhd"
             }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ \n    {\n      \"model\": 'gpt-4o',\n      \"messages\": [\n           {\n                role: \"system\",\n                content: \"Bạn là một trợ lý thông minh. Xác định xem tin nhắn sau có chứa yêu cầu khẩn cấp hay không. Trả lời chỉ với 'emergency' hoặc 'not emergency'\",\n              },\n        { \n        content: $json.chatInput,\n        role: 'user'\n        }\n      ],\n      \"temperature\": 1,\n      \"stream\": false,\n      \"best_of\": 1\n    }\n}}",
+        "jsonBody": "={{ \n    {\n      \"model\": 'gpt-4o',\n      \"messages\": [\n           {\n                role: \"system\",\n                content: \"Bạn là một trợ lý thông minh. Xác định xem tin nhắn sau có chứa yêu cầu khẩn cấp hay không. Trả lời chỉ với 'emergency' hoặc 'not emergency'\",\n              },\n        { \n        content: $('When chat message received').item.json.chatInput,\n        role: 'user'\n        }\n      ],\n      \"temperature\": 1,\n      \"stream\": false,\n      \"best_of\": 1\n    }\n}}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1320,
-        -220
+        0,
+        0
       ],
-      "id": "4870cd03-0b85-4bef-8c79-65f10af1a3b0",
+      "id": "1b99fcaf-ed1c-404c-93ac-2df097550fbf",
       "name": "HTTP Request1"
     },
     {
@@ -69,16 +69,16 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2280,
-        40
+        960,
+        260
       ],
-      "id": "6a8b6455-ac6a-42ad-b4fb-f957deb8727d",
+      "id": "326c520a-7ed5-471c-9eca-56be0d86e493",
       "name": "If"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $vars.URL_APi }}",
+        "url": "http://localhost:8080/ask",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{{ \n\"session_id\": $('When chat message received').item.json.sessionId,\n\"question\":$('When chat message received').item.json.chatInput\n} }}",
@@ -94,17 +94,17 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2800,
-        240
+        1480,
+        460
       ],
-      "id": "7e76ca62-004d-44b1-84bb-c79ea84173ae",
+      "id": "8ae0436b-da71-4966-9574-90776d170680",
       "name": "HTTP Request2",
       "alwaysOutputData": false
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $vars.URL_APi }}",
+        "url": "=http://localhost:8080/ask",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ {\"session_id\":$('When chat message received').item.json.sessionId,\n\"question\":$('When chat message received').item.json.chatInput} }}",
@@ -120,10 +120,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2720,
-        -120
+        1400,
+        100
       ],
-      "id": "d94b3b77-4dd5-434f-8dfc-149ba05fc517",
+      "id": "9e7f9cb9-78e2-40dd-9399-c960e5f7762a",
       "name": "HTTP Request3"
     },
     {
@@ -135,10 +135,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        520,
-        380
+        -1500,
+        580
       ],
-      "id": "01ef1315-8d18-49a7-a9a9-2fcbbbc4aa4c",
+      "id": "fc2736b6-a340-4778-822c-a1e473f02a32",
       "name": "When chat message received",
       "webhookId": "97a196f3-6d21-4df6-bbcb-ba0dbe7376ae"
     },
@@ -159,10 +159,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2940,
-        -120
+        1620,
+        100
       ],
-      "id": "831740fd-dcd0-4056-a2f1-2b18dcc0908e",
+      "id": "9dcfe854-dcf0-4410-b831-5c6e178418c6",
       "name": "Edit Fields"
     },
     {
@@ -182,81 +182,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3120,
-        240
+        1800,
+        460
       ],
-      "id": "72000e3b-acfe-443e-a7c2-c457ba7df228",
+      "id": "4513377b-7116-4eed-a655-8389ff52bf44",
       "name": "Edit Fields7"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "90cdc263-dd34-4be0-9d12-0b9acf5768ff",
-              "name": "text",
-              "value": "={{ $json[''] }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -860,
-        100
-      ],
-      "id": "d0c2631c-d37e-4048-b8de-d919bc125e4c",
-      "name": "Edit Fields8"
-    },
-    {
-      "parameters": {
-        "jsCode": "const items = $input.all();\nconst updatedItems = items.map((item) => {\n  const isPhoneNumber = /^\\d+$/.test(item?.json?.chatInput);\n  return { ...item.json, isPhoneNumber };\n});\nreturn updatedItems;\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        740,
-        380
-      ],
-      "id": "de934bdc-d964-4950-9c9b-3eb914106034",
-      "name": "Code1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "340475fa-71ae-4147-ab5e-0bc63583c504",
-              "leftValue": false,
-              "rightValue": "=",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        940,
-        400
-      ],
-      "id": "ee3673b1-215f-4482-9b77-077ac41aad80",
-      "name": "If1"
     },
     {
       "parameters": {
@@ -275,38 +205,235 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        600
+        540,
+        660
       ],
-      "id": "bd64efee-ad90-4f65-9506-809466b8312b",
+      "id": "4e1a6faa-89a3-4590-9a45-87fcbef01d4d",
       "name": "Edit Fields1"
     },
     {
       "parameters": {
-        "mode": "insert"
+        "operation": "insert",
+        "collection": "Session",
+        "fields": "isPhone,numberPhone,sessionId",
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "type": "n8n-nodes-base.mongoDb",
       "typeVersion": 1.1,
       "position": [
-        1280,
-        280
+        60,
+        820
       ],
-      "id": "a832642d-5a9f-44b1-bed6-103e68f7ede1",
-      "name": "Chat Memory Manager"
+      "id": "7e6d6b4d-5b9a-4c06-a0db-ed9223d0ac10",
+      "name": "MongoDB",
+      "credentials": {
+        "mongoDb": {
+          "id": "eYZbQfogKztMJ0WA",
+          "name": "MongoDB account"
+        }
+      }
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('When chat message received').all()[0].json.chatInput }}"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53d5a2c8-08ef-4516-9fa5-c8153bcbd4dc",
+              "name": "isPhone",
+              "value": "={{$json.isPhone}}",
+              "type": "boolean"
+            },
+            {
+              "id": "34132651-e150-434e-9440-5990bcd23ece",
+              "name": "numberPhone",
+              "value": "={{$json.phoneNumber}}",
+              "type": "string"
+            },
+            {
+              "id": "c57e947d-c927-42c9-b6c8-666e2896c584",
+              "name": "sessionId",
+              "value": "={{ $('When chat message received').item.json.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        1380,
-        420
+        -120,
+        700
       ],
-      "id": "06fe6905-f9c6-43cc-a1ae-23ddccab7f77",
-      "name": "Window Buffer Memory"
+      "id": "cee4f57c-a51e-4b32-8429-ad052e0f404c",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "collection": "Session",
+        "options": {},
+        "query": "={\n  \"sessionId\" : \"{{$json.sessionId}}\",\n  \"isPhone\" : true\n}\n"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.1,
+      "position": [
+        -960,
+        620
+      ],
+      "id": "561b921d-13d3-46fd-aa68-3339947f8755",
+      "name": "MongoDB1",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "credentials": {
+        "mongoDb": {
+          "id": "eYZbQfogKztMJ0WA",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3d0a75bf-9af2-4790-a7ec-988531c5d0eb",
+              "leftValue": "={{ $json.isPhone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        620
+      ],
+      "id": "11e0ab60-8620-4054-a3eb-c88d2233a04f",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  console.log(item.json)\n  const isPhone = item.json.numberPhone  != null ? item.json.isPhone : false; // Kiểm tra null hoặc undefined\n  console.log(\"isPhone:\", isPhone);\n  return { \n    json: { \n      isPhone: isPhone \n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -780,
+        920
+      ],
+      "id": "0d11c9b0-03ff-4e69-8d22-fd66adb18d7e",
+      "name": "IsPhone"
+    },
+    {
+      "parameters": {
+        "jsCode": "const chatInput = $('When chat message received').itemMatching(0).json.chatInput ;\nif (!chatInput) {\n  return [{ json: { isPhone: false, phoneNumber: null, message: \"Không có đầu vào văn bản, vui lòng thử lại.\" } }];\n}\nconst phoneRegex = /\\b\\d{9,15}\\b/g;\nconst phoneNumbers = chatInput.match(phoneRegex);\nif (phoneNumbers) {\n  return phoneNumbers.map(phone => {\n    return { \n      json: { \n        isPhone: true, \n        phoneNumber: phone \n      } \n    };\n  });\n} else {\n  return [{ \n    json: { \n      isPhone: false, \n      phoneNumber: null, \n    } \n  }];\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        940
+      ],
+      "id": "d21ebf53-4280-4a3e-9f47-70abb28c0da2",
+      "name": "getPhone",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/users/pushNoti",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "{{$json.phoneNumber}}"
+            },
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1140,
+        40
+      ],
+      "id": "eda67af8-ae17-4aad-964f-8129d8e1f0f7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "87d62a01-8b54-4d3a-a645-c53af20bea36",
+              "leftValue": "={{ $json.isPhone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        280,
+        820
+      ],
+      "id": "5dd8416f-fedc-44eb-b826-90cc6c7bdb3c",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95773902-c4c5-4f4e-9dfc-d24678f86170",
+              "name": "text",
+              "value": "Ok roi ban nhap cau hoi di",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        920
+      ],
+      "id": "935cfa07-aded-40db-8d48-8cd4c0eecb9c",
+      "name": "Edit Fields4"
     }
   ],
   "pinData": {},
@@ -337,7 +464,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request3",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -377,14 +504,14 @@
       "main": [
         [
           {
-            "node": "Code1",
+            "node": "MongoDB1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code1": {
+    "MongoDB": {
       "main": [
         [
           {
@@ -395,16 +522,84 @@
         ]
       ]
     },
+    "MongoDB1": {
+      "main": [
+        [
+          {
+            "node": "IsPhone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "MongoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "getPhone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IsPhone": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getPhone": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "If1": {
       "main": [
         [
           {
-            "node": "Chat Memory Manager",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "HTTP Request1",
+            "node": "Edit Fields4",
             "type": "main",
             "index": 0
           }
@@ -417,32 +612,16 @@
           }
         ]
       ]
-    },
-    "Chat Memory Manager": {
-      "main": [
-        []
-      ]
-    },
-    "Window Buffer Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "Chat Memory Manager",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7d05afef-d8de-492a-8956-d0711a2bef44",
+  "versionId": "1f814f19-e011-4b3d-8a61-4aa55feb311a",
   "meta": {
-    "instanceId": "ff4974ae6967eee9dfe503b6ff6b2925e4a4b3350a6dff6c2ad44e1a69d56303"
+    "instanceId": "72d05a087dedc42d498b1b8eb58c92e67ada6d297bbc006317156162b2bda2b2"
   },
-  "id": "xG9sOKIjpjB9bzGv",
+  "id": "muSav4FXLGoRb8wR",
   "tags": []
 }
