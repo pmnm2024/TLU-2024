@@ -145,6 +145,17 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  requestCode?: StringFilter;
+
+  @ApiProperty({
+    required: false,
     enum: EnumSupportRequestStatus,
   })
   @IsEnum(EnumSupportRequestStatus)

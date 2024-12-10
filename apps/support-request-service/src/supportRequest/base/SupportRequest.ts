@@ -150,6 +150,15 @@ class SupportRequest {
 
   @ApiProperty({
     required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @Field(() => String)
+  requestCode!: string;
+
+  @ApiProperty({
+    required: true,
     enum: EnumSupportRequestStatus,
   })
   @IsEnum(EnumSupportRequestStatus)
