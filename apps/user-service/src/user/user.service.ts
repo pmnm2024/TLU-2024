@@ -444,7 +444,7 @@ export class UserService extends UserServiceBase {
           status: "Available",
         },
         options: {
-          limit: 10,
+          limit: data.quantity,
         },
       });
 
@@ -505,27 +505,26 @@ export class UserService extends UserServiceBase {
                                       <h1>Thông Tin Yêu Cầu Hỗ Trợ</h1>
                               
                                       <div class="info">
-                                          <p><strong>Thành phố:</strong> ${data.city}</p>
-                                          <p><strong>Miêu tả:</strong> ${data.descripton}</p>
-                                          <p><strong>Địa chỉ chi tiết:</strong> ${data.detailAddress}</p>
-                                          <p><strong>Quận/Huyện:</strong> ${data.district}</p>
-                                          <p><strong>Email:</strong> ${email}</p>
-                                          <p><strong>Họ và tên:</strong> ${data.fullname}</p>
-                                          <p><strong>Số điện thoại:</strong> ${data.phone}</p>
-                                          <p><strong>Số điểm:</strong> ${data.point}</p>
-                                          <p><strong>Số lượng:</strong> ${data.quantity}</p>
-                                          <p><strong>Phường:</strong> ${data.ward}</p>
+                                          <p><strong>Thành phố:</strong> ${data.supportRequest.city}</p>
+                                          <p><strong>Miêu tả:</strong> ${data.supportRequest.descripton}</p>
+                                          <p><strong>Địa chỉ chi tiết:</strong> ${data.supportRequest.detailAddress}</p>
+                                          <p><strong>Quận/Huyện:</strong> ${data.supportRequest.district}</p>
+                                          <p><strong>Email:</strong> ${data.supportRequest.email}</p>
+                                          <p><strong>Họ và tên:</strong> ${data.supportRequest.fullname}</p>
+                                          <p><strong>Số điện thoại:</strong> ${data.supportRequest.phone}</p>
+                                          <p><strong>Số điểm:</strong> ${data.supportRequest.point}</p>
+                                          <p><strong>Số lượng:</strong> ${data.supportRequest.quantity}</p>
+                                          <p><strong>Phường:</strong> ${data.supportRequest.ward}</p>
                                       </div>
                               
                                       <div class="address-details">
                                           <h3>Vị trí trên Google Maps</h3>
-                                          <iframe src="https://www.google.com/maps?q=${data.location.latitude},${data.location.longitude}&z=15&output=embed" allowfullscreen></iframe>
+                                          <iframe src="https://www.google.com/maps?q=${data.supportRequest.location.latitude},${data.supportRequest.location.longitude}&z=15&output=embed" allowfullscreen></iframe>
                                       </div>
                                   </div>
                               
                               </body>
                               </html>`;
-
         return this.prisma.outBox.create({
           data: {
             eventType: MyMessageBrokerTopics.RecentUsers,

@@ -21,9 +21,10 @@ export class SupportRequestController extends SupportRequestControllerBase {
 
   @Public()
   @common.Post("/handleSupportRequest")
-  async handleSupportRequest(@common.Body("warehouse") warehouse: any[],@common.Body("id") id: string,@common.Body("status") status: string) {
+  async handleSupportRequest(@common.Body() data: any) {
+
     try {
-      const result = await this.service.handleSupportRequest(id,status,warehouse)
+      const result = await this.service.handleSupportRequest(data)
       return result
     } catch (error: any) {
       throw new common.HttpException(
@@ -43,6 +44,35 @@ export class SupportRequestController extends SupportRequestControllerBase {
   ): Promise<SupportRequest> {
     return await this.service.addSupportRequest({
       data: data,
+      select: {
+        city: true,
+        createdAt: true,
+        descripton: true,
+        detailAddress: true,
+        district: true,
+        email: true,
+        fullname: true,
+        id: true,
+        location: true,
+        phone: true,
+        point: true,
+        quantity: true,
+        status: true,
+        supportRequestTypeId: true,
+        updatedAt: true,
+        ward: true,
+      },
+    });
+  }
+
+
+
+  @common.Get("/getSupportRequestByUserId")
+  @swagger.ApiOkResponse({ type: [SupportRequest] })
+  async getSupportRequestByUserId( @common.Request() req: any,): Promise<SupportRequest | null> {
+    const user = JSON.parse(req.headers.user);
+    return this.service.supportRequest({
+      where: {id: user.sub},
       select: {
         city: true,
         createdAt: true,

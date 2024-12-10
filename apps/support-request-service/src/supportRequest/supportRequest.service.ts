@@ -22,54 +22,95 @@ export class SupportRequestService extends SupportRequestServiceBase {
   ) {
     super(prisma);
   }
-  async handleSupportRequest(id: string, status: string, warehouse: any[]): Promise<SupportRequest> {
+  async handleSupportRequest(data: any): Promise<SupportRequest> {
     try {
+      const {id,status,warehouse,quantity,description} = data;
       if (!id) {
         throw new BadRequestException("SupportRequestID is required");
       }
-  
+
       const supportRequest = await this.prisma.supportRequest.findUnique({
         where: { id: id },
       });
-      
+
       if (!supportRequest) {
         throw new BadRequestException("SupportRequest not found");
       }
-  
-  
+
+      const supportRequestTypeName = await this.prisma.supportRequestType.findUnique({
+        where: { id: supportRequest.supportRequestTypeId },
+      });
+
+      if (!supportRequestTypeName) {
+        throw new BadRequestException("SupportRequestTypeName not found");
+      }
       if (status === "Processed") {
-        const warehousePayload = warehouse.map(item => ({
-          id: item.wareHouseId,
-          quantity: item.quantity,
-        }));
-    
-        // Xây dựng các truy vấn tạo bản ghi supportRequestDetail
-        const createDetailsQueries = warehouse.map((detail) =>
-          this.prisma.supportRequestDetail.create({
-            data: {
-              ...detail,  
-              supportRequestID: id,  
-            },
-          })
-        );
-        await this.prisma.$transaction([
+        if (supportRequestTypeName.name == "Khẩn cấp") {
           this.prisma.outBox.create({
             data: {
-              eventType: MyMessageBrokerTopics.HandleWarehouse,
+              eventType: MyMessageBrokerTopics.AddSupportRequest,
               payload: {
-                warehouse: warehousePayload,
+                supportRequest, 
+                quantity,  
               },
               retry: 3,
               status: "pending",
             },
-          }),
-          ...createDetailsQueries,
+          })
           this.prisma.outBox.create({
             data: {
               eventType: MyMessageBrokerTopics.HandleSupportRequest,
               payload: {
                 email: supportRequest.email,
                 description: `<!DOCTYPE html>
+              <html lang="en">
+              <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Support Request Processed</title>
+              </head>
+              <body>
+                <h1>Your support request has been processed</h1>
+              </body>
+              </html>`,
+              },
+              retry: 3,
+              status: "pending",
+            },
+          })
+        } else {
+          const warehousePayload = warehouse.map(item => ({
+            id: item.wareHouseId,
+            quantity: item.quantity,
+          }));
+
+          // Xây dựng các truy vấn tạo bản ghi supportRequestDetail
+          const createDetailsQueries = warehouse.map((detail) =>
+            this.prisma.supportRequestDetail.create({
+              data: {
+                ...detail,
+                supportRequestID: id,
+              },
+            })
+          );
+          await this.prisma.$transaction([
+            this.prisma.outBox.create({
+              data: {
+                eventType: MyMessageBrokerTopics.HandleWarehouse,
+                payload: {
+                  warehouse: warehousePayload,
+                },
+                retry: 3,
+                status: "pending",
+              },
+            }),
+            ...createDetailsQueries,
+            this.prisma.outBox.create({
+              data: {
+                eventType: MyMessageBrokerTopics.HandleSupportRequest,
+                payload: {
+                  email: supportRequest.email,
+                  description: `<!DOCTYPE html>
                 <html lang="en">
                 <head>
                   <meta charset="UTF-8">
@@ -80,16 +121,19 @@ export class SupportRequestService extends SupportRequestServiceBase {
                   <h1>Your support request has been processed</h1>
                 </body>
                 </html>`,
+                },
+                retry: 3,
+                status: "pending",
               },
-              retry: 3,
-              status: "pending",
-            },
-          }),
-        ]);
-        
+            }),
+          ]);
+        }
         return this.prisma.supportRequest.update({
           where: { id: id },
-          data: { status: "Processed" },
+          data: { 
+            status: "Processed",
+            descripton: description
+          },
         });
       } else if (status === "Refused") {
         await this.prisma.$transaction([
@@ -115,7 +159,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
             },
           }),
         ]);
-  
+
         return this.prisma.supportRequest.update({
           where: { id: id },
           data: { status: "Refused" },
@@ -131,22 +175,8 @@ export class SupportRequestService extends SupportRequestServiceBase {
   async addSupportRequest(
     args: Prisma.SupportRequestCreateArgs
   ): Promise<SupportRequest> {
-    if(args.data.supportRequestTypeId == "6754af8d6c317b13bb34d737")
-    await this.prisma.$transaction([
-      this.prisma.outBox.create({
-        data: {
-          eventType: MyMessageBrokerTopics.AddSupportRequest,
-          payload: args.data,
-          retry: 3,
-          status: "pending",
-        },
-      }),
-    ]);
     return this.prisma.supportRequest.create(args);
   }
-  
-  
 
-  
 }
 

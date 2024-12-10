@@ -231,7 +231,7 @@ export class UserController extends UserControllerBase {
     const user = JSON.parse(req.headers.user);
     try {
       return await this.service.updateUser({
-        where: user.sub,
+        where: {id: user.sub},
         data: {
           ...data,
 

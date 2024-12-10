@@ -47,6 +47,7 @@ apiEndpoints:
     paths: 
         - "/api/donations"
         - "/api/donations/:id"
+        - "/api/donations/getDonationByUserId"
   mail:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -54,7 +55,9 @@ apiEndpoints:
   publicSupportRequest:
     methods: ["POST", "OPTIONS"]
     host: "*"
-    paths: "/api/supportRequests/addSupportRequests"
+    paths: 
+        - "/api/supportRequests/addSupportRequests"
+        - "/api/supportRequestDetails/getDetail/{id}"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -63,6 +66,7 @@ apiEndpoints:
         - "/api/supportRequests/handleSupportRequest"
         - "/api/supportRequests/:id"
         - "/api/supportRequestTypes*"
+        - "/api/supportRequests/getSupportRequestByUserId"
   warehouse:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
