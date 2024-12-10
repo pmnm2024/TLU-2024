@@ -47,13 +47,16 @@ class SupportRequest {
   createdAt!: Date;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
-  @Field(() => String)
-  descripton!: string;
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  descripton!: string | null;
 
   @ApiProperty({
     required: false,

@@ -49,7 +49,7 @@ class SupportRequestUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  descripton?: string;
+  descripton?: string | null;
 
   @ApiProperty({
     required: false,
