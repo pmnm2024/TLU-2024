@@ -147,6 +147,18 @@ class SupportRequestUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  requestCode?: string;
+
+  @ApiProperty({
+    required: false,
     enum: EnumSupportRequestStatus,
   })
   @IsEnum(EnumSupportRequestStatus)
