@@ -46,10 +46,10 @@ export class UserService extends UserServiceBase {
 
     const existingUser = await this.prisma.user.findUnique({
       where: { email: args.data.email }, // Assuming 'email' is unique
-    });
+    });``
 
     if (existingUser) {
-      throw new Error("Email is already in use");
+      throw new BadRequestException("Email is already in use");
     }
 
     const createdUser = await this.prisma.user.create({
