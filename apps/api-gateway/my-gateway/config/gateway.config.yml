@@ -54,9 +54,10 @@ apiEndpoints:
     host: "*"
     paths: "/api/mails*"
   publicSupportRequest:
-    methods: ["POST", "OPTIONS"]
+    methods: ["POST", "OPTIONS", "GET"]
     host: "*"
     paths: 
+        - "/api/supportRequests/byName"
         - "/api/supportRequests/addSupportRequest"
         - "/api/supportRequestDetails/getDetail/{id}"
         - "/api/supportRequests/getSupportRequestByUserId"

@@ -204,25 +204,53 @@ export class SupportRequestService extends SupportRequestServiceBase {
 
   async getByNameSupportTypes(name: string) {
     try {
-      const supportType = await this.prisma.supportRequestType.findFirst({
-        where: {
-          name
-        }
-      })
+      let supportType;
 
-      if (!supportType) {
-        throw new BadRequestException("SupportType not found")
-      }
-      const result = await this.prisma.supportRequest.findMany({
-        where: {
-          supportRequestTypeId: supportType.id
+      if (name === "Khẩn cấp") {
+        // Tìm kiếm khi name là "Khẩn cấp"
+        supportType = await this.prisma.supportRequestType.findFirst({
+          where: {
+            name
+          }
+        });
+
+        if (!supportType) {
+          throw new BadRequestException("SupportType not found");
         }
-      })
-      return result
+
+        // Tìm tất cả các yêu cầu hỗ trợ với supportRequestTypeId
+        const result = await this.prisma.supportRequest.findMany({
+          where: {
+            supportRequestTypeId: supportType.id
+          }
+        });
+
+        return result;
+      } else {
+        // Tìm tất cả các yêu cầu hỗ trợ mà không có tên là "Khẩn cấp"
+        const supportTypes = await this.prisma.supportRequestType.findMany({
+          where: {
+            name: {
+              not: "Khẩn cấp" // Lọc các loại hỗ trợ có tên khác "Khẩn cấp"
+            }
+          }
+        });
+
+        const result = await this.prisma.supportRequest.findMany({
+          where: {
+            supportRequestTypeId: {
+              in: supportTypes.map(type => type.id) // Lọc theo các supportRequestTypeId
+            }
+          }
+        });
+
+        return result;
+      }
     } catch (error) {
-      throw error
+      throw error;
     }
   }
+
 
 }
 
