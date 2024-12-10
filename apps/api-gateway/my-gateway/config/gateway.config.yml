@@ -9,36 +9,62 @@ apiEndpoints:
   api:
     host: "*"
     paths: "/ip"
-  account:
-    methods: ["GET", "PUT", "DELETE", "OPTIONS"]
-    host: "*"
-    paths: "/api/user*"
-  register:
+  publicAccount:
     methods: ["POST", "OPTIONS"]
     host: "*"
-    paths: "/api/users/register"
-  auth:
-    methods: ["POST", "PATCH", "OPTIONS"]
+    paths:  
+      - "/api/users/register"
+      - "/api/users/forgot-password"
+  account:
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
-    paths: "/api/login"
+    paths: 
+      - "/api/users"
+      - "/api/users/:id"
+      - "/api/users/reset-password"
+      - "/api/users/nowLocaion"
+      - "/api/users/editUser"
+      - "/api/users/pushNoti"
+      - "/api/users/userDetail"
+      - "/api/users/rankUsesr*"
+  auth:
+    methods: ["POST"]
+    host: "*"
+    paths: 
+        - "/api/login"
   notification:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/notifications*"
-  donation:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  publicDonation:
+    methods: ["POST", "OPTIONS"]
     host: "*"
-    paths: "/api/donations*"
+    paths: 
+        - "/api/donations/addDonaton"
+  donation:
+    methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: 
+        - "/api/donations"
+        - "/api/donations/:id"
   mail:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/mails*"
-  supportRequest:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  publicSupportRequest:
+    methods: [""POST", "OPTIONS"]
     host: "*"
-    paths: "/api/supportRequests*"
+    paths: "/api/supportRequests/addSupportRequests"
+  supportRequest:
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
+    host: "*"
+    paths: 
+        - "/api/supportRequests"
+        - "/api/supportRequests/handleSupportRequest"
+        - "/api/supportRequests/:id"
+        - "/api/supportRequestTypes*"
   warehouse:
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
     paths: "/api/warehouses*"
 serviceEndpoints:
@@ -107,51 +133,9 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: accountService
-  register:
+  publicAccount:
     apiEndpoints:
-      - register
-  policies:
-      - cors:
-          - action:
-              origin: "*"
-              credentials: true
-              methods: GET,POST,PUT,DELETE,OPTIONS
-              allowedHeaders:
-                [
-                  "Content-type",
-                  "Authorization",
-                  "Origin",
-                  "Access-Control-Allow-Origin",
-                  "Accept",
-                  "Options",
-                ]
-              exposedHeaders:
-                [
-                  "Content-type",
-                  "Authorization",
-                  "Origin",
-                  "Access-Control-Allow-Origin",
-                  "Accept",
-                  "Options",
-                ]
-              #exposedHeaders : ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Origin', 'Accept', 'X-Requested-With', 'Content-Type', 'Access-Control-Request-Method', 'Access-Control-Request-Headers','Authorization', 'Access-Control-Allow-Origin','X-TEST']
-              preflightContinue: false
-              optionsSuccessStatus: 204
-              #maxAge: 600
-      - log:
-          - action:
-              message: "${req.method} ${req.originalUrl}"
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  requestID: "requestID"
-      - proxy:
-          - action:
-              serviceEndpoint: authService
-  auth:
-    apiEndpoints:
-      - auth
+      - publicAccount
     policies:
       - cors:
           - action:
@@ -162,6 +146,28 @@ pipelines:
       # - jwt-decoder-policy:
       #       action:
       #           secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  # user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: accountService
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -237,6 +243,21 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: donationService
+  publicDonation:
+    apiEndpoints:
+      - publicDonation
+    policies:
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+      - proxy:
+          - action:
+              serviceEndpoint: donationService
   supportRequest:
     apiEndpoints:
       - supportRequest
@@ -244,6 +265,22 @@ pipelines:
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
+      - log:
+          - action:
+              message: "${req.method} ${req.originalUrl}"
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  requestID: "requestID"
+                  user: req.user
+      - proxy:
+          - action:
+              serviceEndpoint: supportRequestService
+  publicSupportRequest:
+    apiEndpoints:
+      - publicSupportRequest
+    policies:
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
