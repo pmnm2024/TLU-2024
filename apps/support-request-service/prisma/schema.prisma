@@ -20,6 +20,7 @@ model SupportRequest {
   phone                String
   point                Int?
   quantity             Int?
+  requestCode          String                   @unique
   status               EnumSupportRequestStatus
   supportRequestTypeId String
   updatedAt            DateTime                 @updatedAt
