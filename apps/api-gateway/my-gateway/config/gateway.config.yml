@@ -22,13 +22,14 @@ apiEndpoints:
       - "/api/users"
       - "/api/users/:id"
       - "/api/users/reset-password"
+      - "/api/users/reset-passwordv2"
       - "/api/users/nowLocaion"
       - "/api/users/editUser"
       - "/api/users/pushNoti"
       - "/api/users/userDetail"
       - "/api/users/rankUsesr*"
   auth:
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     host: "*"
     paths: 
         - "/api/login"
@@ -40,8 +41,7 @@ apiEndpoints:
     methods: ["GET","POST", "OPTIONS"]
     host: "*"
     paths: 
-        - "/api/donations/addDonaton"
-        - "/api/donations/getDonationByUserId"
+        - "/api/donations/addDonation"
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -319,7 +319,7 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  user: req.user
+                  # user: req.user
       - proxy:
           - action:
               serviceEndpoint: supportRequestService
