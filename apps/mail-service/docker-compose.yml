@@ -13,25 +13,23 @@ services:
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
-    depends_on:
-      - migrate
     restart: on-failure
     networks:
       - app-network
       - service_c_network
-  migrate:
-    build:
-      context: .
-      args:
-        NPM_LOG_LEVEL: notice
-    command: npm run db:init
-    working_dir: /app/server
-    environment:
-      BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
-    depends_on:
-      db:
-        condition: service_healthy
+  # migrate:
+  #   build:
+  #     context: .
+  #     args:
+  #       NPM_LOG_LEVEL: notice
+  #   command: npm run db:init
+  #   working_dir: /app/server
+  #   environment:
+  #     BCRYPT_SALT: ${BCRYPT_SALT}
+  #     DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
   db:
     image: mongo
     # ports:

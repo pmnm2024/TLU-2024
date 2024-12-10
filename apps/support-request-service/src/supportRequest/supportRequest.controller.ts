@@ -42,37 +42,41 @@ export class SupportRequestController extends SupportRequestControllerBase {
   async addSupportRequest(
     @common.Body() data: SupportRequestCreateInput
   ): Promise<SupportRequest> {
-    return await this.service.addSupportRequest({
-      data: data,
-      select: {
-        city: true,
-        createdAt: true,
-        descripton: true,
-        detailAddress: true,
-        district: true,
-        email: true,
-        fullname: true,
-        id: true,
-        location: true,
-        phone: true,
-        point: true,
-        quantity: true,
-        status: true,
-        supportRequestTypeId: true,
-        updatedAt: true,
-        ward: true,
-      },
-    });
+    try {
+      return await this.service.addSupportRequest({
+        data: data,
+        select: {
+          city: true,
+          createdAt: true,
+          descripton: true,
+          detailAddress: true,
+          district: true,
+          email: true,
+          fullname: true,
+          id: true,
+          location: true,
+          phone: true,
+          point: true,
+          quantity: true,
+          status: true,
+          supportRequestTypeId: true,
+          updatedAt: true,
+          ward: true,
+        },
+      });
+    } catch (error) {
+      throw error
+    }
   }
 
 
 
   @common.Get("/getSupportRequestByUserId")
   @swagger.ApiOkResponse({ type: [SupportRequest] })
-  async getSupportRequestByUserId( @common.Request() req: any,): Promise<SupportRequest | null> {
+  async getSupportRequestByUserId(@common.Request() req: any,): Promise<SupportRequest | null> {
     const user = JSON.parse(req.headers.user);
     return this.service.supportRequest({
-      where: {id: user.sub},
+      where: { id: user.sub },
       select: {
         city: true,
         createdAt: true,

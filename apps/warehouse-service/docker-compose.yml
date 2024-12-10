@@ -12,8 +12,6 @@ services:
       DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27017/${DB_NAME}?authSource=admin
       RABBITMQ_URLS: ${RABBITMQ_URLS}
       RABBITMQ_SUBSCRIBE_GROUP: ${RABBITMQ_SUBSCRIBE_GROUP}
-    depends_on:
-      - migrate
     volumes:
       - .:/app 
       - /app/node_modules
@@ -21,19 +19,19 @@ services:
       - app-network
       - service_f_network
     restart: on-failure
-  migrate:
-    build:
-      context: .
-      args:
-        NPM_LOG_LEVEL: notice
-    command: npm run db:init
-    working_dir: /app/server
-    environment:
-      BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27022/${DB_NAME}?authSource=admin
-    depends_on:
-      db:
-        condition: service_healthy
+  # migrate:
+  #   build:
+  #     context: .
+  #     args:
+  #       NPM_LOG_LEVEL: notice
+  #   command: npm run db:init
+  #   working_dir: /app/server
+  #   environment:
+  #     BCRYPT_SALT: ${BCRYPT_SALT}
+  #     DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:27022/${DB_NAME}?authSource=admin
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
   db:
     image: mongo
     # ports:

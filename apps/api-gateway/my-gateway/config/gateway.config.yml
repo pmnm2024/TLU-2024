@@ -57,9 +57,9 @@ apiEndpoints:
     methods: ["POST", "OPTIONS"]
     host: "*"
     paths: 
-        - "/api/supportRequests/addSupportRequests"
+        - "/api/supportRequests/addSupportRequest"
         - "/api/supportRequestDetails/getDetail/{id}"
-        - "//api/supportRequests/getSupportRequestByUserId"
+        - "/api/supportRequests/getSupportRequestByUserId"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -67,7 +67,7 @@ apiEndpoints:
         - "/api/supportRequests"
         - "/api/supportRequests/handleSupportRequest"
         - "/api/supportRequests/:id"
-        - "/api/supportRequestTypes*"
+        - "/api/supportRequestTypes"
         - "/api/supportRequests/getSupportRequestByUserId"
   warehouse:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]

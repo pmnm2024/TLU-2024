@@ -170,7 +170,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
       }
     } catch (error) {
       console.error(error);
-      throw new Error("Failed to handle support request");
+      throw error
     }
   }
   async addSupportRequest(
