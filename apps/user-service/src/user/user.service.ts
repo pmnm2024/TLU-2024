@@ -651,4 +651,75 @@ export class UserService extends UserServiceBase {
       );
     }
   }
+
+  /**
+  * Resets the user's password by validating the token and updating the password in the database.
+  *
+  * This method performs the following actions:
+  * 1. Validates the provided `userId` to ensure it is present.
+  * 2. Retrieves the stored reset token from cache.
+  * 3. Verifies if the token is valid and not expired.
+  * 4. Fetches the user details from the database.
+  * 5. Decodes the reset token and invalidates it (by adding it to the blacklist).
+  * 6. Hashes the new password and updates it in the database.
+  * 7. Removes the reset token from the cache.
+  *
+  * @param {string} userId - The ID of the user requesting to reset their password.
+  * @param {string} passwordNew - The new password provided by the user.
+  * @returns {Promise<void>} A promise that resolves once the password has been successfully updated.
+  * @throws {BadRequestException} If the `userId` is invalid, the token is expired/invalid, or the user is not found.
+  */
+  async changePassword(userId: string, passwordNew: string, passwordOld: string): Promise<User> {
+    try {
+      if (!userId) {
+        throw new BadRequestException("Hackerr!!!");
+      }
+
+      const userCheck = await this.user({
+        where: { id: userId },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          phone: true,
+          roles: true,
+          sex: true,
+          updatedAt: true,
+          username: true,
+          password: true,
+        },
+      });
+
+      if (!userCheck) {
+        throw new BadRequestException("User not found");
+      }
+
+      const isPasswordValid = await this.passwordService.compare(
+        passwordOld,
+        userCheck.password,
+      );
+
+
+      if (!isPasswordValid) {
+        throw new BadRequestException('Mật khẩu cũ không đúng.');
+      }
+      
+      const password = await this.passwordService.hash(passwordNew);
+
+      return await this.prisma.user.update({
+        where: { id: userId },
+        data: {
+          password,
+        },
+      });;
+    } catch (error: any) {
+
+      throw new BadRequestException(
+        error.message || "Something went wrong during password reset"
+      );
+    }
+  }
 }

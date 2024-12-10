@@ -69,8 +69,6 @@ export class SupportRequestController extends SupportRequestControllerBase {
     }
   }
 
-
-
   @common.Get("/getSupportRequestByUserId")
   @swagger.ApiOkResponse({ type: [SupportRequest] })
   async getSupportRequestByUserId(@common.Request() req: any,): Promise<SupportRequest | null> {
@@ -97,4 +95,6 @@ export class SupportRequestController extends SupportRequestControllerBase {
       },
     });
   }
+
+  
 }

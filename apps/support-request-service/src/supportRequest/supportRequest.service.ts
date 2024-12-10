@@ -24,7 +24,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
   }
   async handleSupportRequest(data: any): Promise<SupportRequest> {
     try {
-      const {id,status,warehouse,quantity,description} = data;
+      const { id, status, warehouse, quantity, description } = data;
       if (!id) {
         throw new BadRequestException("SupportRequestID is required");
       }
@@ -50,8 +50,8 @@ export class SupportRequestService extends SupportRequestServiceBase {
             data: {
               eventType: MyMessageBrokerTopics.AddSupportRequest,
               payload: {
-                supportRequest, 
-                quantity,  
+                supportRequest,
+                quantity,
               },
               retry: 3,
               status: "pending",
@@ -83,7 +83,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
             id: item.wareHouseId,
             quantity: item.quantity,
           }));
-          
+
 
           // Xây dựng các truy vấn tạo bản ghi supportRequestDetail
           const createDetailsQueries = warehouse.map((detail: any) =>
@@ -131,7 +131,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
         }
         return this.prisma.supportRequest.update({
           where: { id: id },
-          data: { 
+          data: {
             status: "Processed",
             descripton: description
           },
@@ -200,6 +200,28 @@ export class SupportRequestService extends SupportRequestServiceBase {
       }),
     ]);
     return this.prisma.supportRequest.create(args);
+  }
+
+  async getByCuuHo(name: string) {
+    try {
+      const supportType = await this.prisma.supportRequestType.findFirst({
+        where: {
+          name
+        }
+      })
+
+      if (!supportType) {
+        throw new BadRequestException("SupportType not found")
+      }
+      const result = await this.prisma.supportRequest.findMany({
+        where: {
+          supportRequestTypeId: supportType.id
+        }
+      })
+      return result
+    } catch (error) {
+      throw error
+    }
   }
 
 }
