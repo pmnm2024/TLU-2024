@@ -37,10 +37,11 @@ apiEndpoints:
     host: "*"
     paths: "/api/notifications*"
   publicDonation:
-    methods: ["POST", "OPTIONS"]
+    methods: ["GET","POST", "OPTIONS"]
     host: "*"
     paths: 
         - "/api/donations/addDonaton"
+        - "/api/donations/getDonationByUserId"
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -58,6 +59,7 @@ apiEndpoints:
     paths: 
         - "/api/supportRequests/addSupportRequests"
         - "/api/supportRequestDetails/getDetail/{id}"
+        - "//api/supportRequests/getSupportRequestByUserId"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -232,6 +234,12 @@ pipelines:
     apiEndpoints:
       - donation
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
@@ -251,6 +259,12 @@ pipelines:
     apiEndpoints:
       - publicDonation
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -266,6 +280,12 @@ pipelines:
     apiEndpoints:
       - supportRequest
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'
@@ -285,6 +305,12 @@ pipelines:
     apiEndpoints:
       - publicSupportRequest
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -301,6 +327,12 @@ pipelines:
     apiEndpoints:
       - warehouse
     policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "*"
+              preflightContinue: false
+              optionsSuccessStatus: 204
       - jwt-decoder-policy:
             action:
                 secret: 'asasasa'

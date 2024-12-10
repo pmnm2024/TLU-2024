@@ -79,13 +79,14 @@ export class SupportRequestService extends SupportRequestServiceBase {
             },
           })
         } else {
-          const warehousePayload = warehouse.map(item => ({
+          const warehousePayload = warehouse.map((item: any) => ({
             id: item.wareHouseId,
             quantity: item.quantity,
           }));
+          
 
           // Xây dựng các truy vấn tạo bản ghi supportRequestDetail
-          const createDetailsQueries = warehouse.map((detail) =>
+          const createDetailsQueries = warehouse.map((detail: any) =>
             this.prisma.supportRequestDetail.create({
               data: {
                 ...detail,
@@ -175,6 +176,29 @@ export class SupportRequestService extends SupportRequestServiceBase {
   async addSupportRequest(
     args: Prisma.SupportRequestCreateArgs
   ): Promise<SupportRequest> {
+    await this.prisma.$transaction([
+      this.prisma.outBox.create({
+        data: {
+          eventType: MyMessageBrokerTopics.HandleSupportRequest,
+          payload: {
+            email: args.data.email,
+            description: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Support Request Refused</title>
+            </head>
+            <body>
+              <h1>Your support request is pending</h1>
+            </body>
+            </html>`,
+          },
+          retry: 3,
+          status: "pending",
+        },
+      }),
+    ]);
     return this.prisma.supportRequest.create(args);
   }
 
