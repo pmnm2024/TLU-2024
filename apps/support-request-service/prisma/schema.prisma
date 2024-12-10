@@ -10,7 +10,7 @@ generator client {
 model SupportRequest {
   city                 String
   createdAt            DateTime                 @default(now())
-  descripton           String
+  descripton           String?
   detailAddress        String?
   district             String
   email                String
