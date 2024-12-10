@@ -202,7 +202,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
     return this.prisma.supportRequest.create(args);
   }
 
-  async getByCuuHo(name: string) {
+  async getByNameSupportTypes(name: string) {
     try {
       const supportType = await this.prisma.supportRequestType.findFirst({
         where: {

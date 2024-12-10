@@ -96,5 +96,13 @@ export class SupportRequestController extends SupportRequestControllerBase {
     });
   }
 
-  
+  @common.Get("/byName")
+  async supportReq(@common.Param('name') name: string) {
+    try {
+      const result = await this.service.getByNameSupportTypes(name)
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
 }
