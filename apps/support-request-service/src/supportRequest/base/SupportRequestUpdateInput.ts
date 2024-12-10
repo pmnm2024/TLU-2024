@@ -155,7 +155,7 @@ class SupportRequestUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  requestCode?: string;
+  requestCode?: string | null;
 
   @ApiProperty({
     required: false,

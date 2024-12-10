@@ -144,14 +144,14 @@ class SupportRequestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringFilter,
+    type: StringNullableFilter,
   })
-  @Type(() => StringFilter)
+  @Type(() => StringNullableFilter)
   @IsOptional()
-  @Field(() => StringFilter, {
+  @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  requestCode?: StringFilter;
+  requestCode?: StringNullableFilter;
 
   @ApiProperty({
     required: false,

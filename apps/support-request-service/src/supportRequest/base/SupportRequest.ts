@@ -149,13 +149,16 @@ class SupportRequest {
   quantity!: number | null;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsString()
   @MaxLength(1000)
-  @Field(() => String)
-  requestCode!: string;
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  requestCode!: string | null;
 
   @ApiProperty({
     required: true,
