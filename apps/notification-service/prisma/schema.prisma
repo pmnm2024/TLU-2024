@@ -24,6 +24,6 @@ model Outbox {
   payload       Json?
   processedDate DateTime?
   retry         Int?
-  status        Boolean?
+  status        String?
   updatedAt     DateTime  @updatedAt
 }
