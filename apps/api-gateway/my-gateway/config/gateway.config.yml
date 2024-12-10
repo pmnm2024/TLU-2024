@@ -14,14 +14,13 @@ apiEndpoints:
     host: "*"
     paths: "/api/user*"
   register:
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     host: "*"
     paths: "/api/users/register"
   auth:
-    methods: ["POST"]
+    methods: ["POST", "PATCH", "OPTIONS"]
     host: "*"
-    paths: 
-        - "/api/login"
+    paths: "/api/login"
   notification:
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     host: "*"
@@ -111,16 +110,34 @@ pipelines:
   register:
     apiEndpoints:
       - register
-    policies:
+  policies:
       - cors:
           - action:
               origin: "*"
-              methods: "*"
+              credentials: true
+              methods: GET,POST,PUT,DELETE,OPTIONS
+              allowedHeaders:
+                [
+                  "Content-type",
+                  "Authorization",
+                  "Origin",
+                  "Access-Control-Allow-Origin",
+                  "Accept",
+                  "Options",
+                ]
+              exposedHeaders:
+                [
+                  "Content-type",
+                  "Authorization",
+                  "Origin",
+                  "Access-Control-Allow-Origin",
+                  "Accept",
+                  "Options",
+                ]
+              #exposedHeaders : ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Origin', 'Accept', 'X-Requested-With', 'Content-Type', 'Access-Control-Request-Method', 'Access-Control-Request-Headers','Authorization', 'Access-Control-Allow-Origin','X-TEST']
               preflightContinue: false
               optionsSuccessStatus: 204
-      # - jwt-decoder-policy:
-      #       action:
-      #           secret: 'asasasa'
+              #maxAge: 600
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
@@ -129,10 +146,9 @@ pipelines:
               headers:
                 add:
                   requestID: "requestID"
-                  # user: req.user
       - proxy:
           - action:
-              serviceEndpoint: accountService
+              serviceEndpoint: authService
   auth:
     apiEndpoints:
       - auth
@@ -143,6 +159,9 @@ pipelines:
               methods: "*"
               preflightContinue: false
               optionsSuccessStatus: 204
+      # - jwt-decoder-policy:
+      #       action:
+      #           secret: 'asasasa'
       - log:
           - action:
               message: "${req.method} ${req.originalUrl}"
