@@ -61,7 +61,7 @@ export class UserController extends UserControllerBase {
               id: true,
             },
           },
-  
+
           roles: true,
           score: true,
           sex: true,
@@ -131,7 +131,7 @@ export class UserController extends UserControllerBase {
 
   @Public()
   @common.Get("/userDetail")
-  async userDetail(@common.Request() req: any){
+  async userDetail(@common.Request() req: any) {
     const user = JSON.parse(req.headers.user);
     const result = await this.service.user({
       where: { id: user.sub },
@@ -159,13 +159,13 @@ export class UserController extends UserControllerBase {
         username: true,
       },
     });
-    
+
     if (!result) {
       throw new errors.NotFoundException(
         `No resource was found for ${JSON.stringify(req.headers.user.sub)}`
       );
     }
-    
+
     return result;
   }
 
@@ -173,19 +173,20 @@ export class UserController extends UserControllerBase {
   @common.Post("/nowLocation")
   async nowLocation(
     @common.Request() req: any,
-    @common.Body("location") { lat, long }: { lat: number; long: number }
+    @common.Body() { lat, long }: { lat: number; long: number }
   ) {
+
     if (!lat || !long) {
       throw new Error("Latitude and longitude are required.");
     }
     const user = JSON.parse(req.headers.user);
     try {
       return await this.service.updateUser({
-        where: {id: user.sub},
+        where: { id: user.sub },
         data: {
           nowLocation: {
             type: "Point",
-            coordinates: [long, lat], 
+            coordinates: [long, lat],
           },
         },
         select: {
@@ -203,7 +204,7 @@ export class UserController extends UserControllerBase {
               id: true,
             },
           },
-  
+
           roles: true,
           score: true,
           sex: true,
@@ -231,14 +232,14 @@ export class UserController extends UserControllerBase {
     const user = JSON.parse(req.headers.user);
     try {
       return await this.service.updateUser({
-        where: {id: user.sub},
+        where: { id: user.sub },
         data: {
           ...data,
 
           rank: data.rank
             ? {
-                connect: data.rank,
-              }
+              connect: data.rank,
+            }
             : undefined,
         },
         select: {
@@ -273,7 +274,7 @@ export class UserController extends UserControllerBase {
       throw error;
     }
   }
-  
+
   @Public()
   @common.Post("/pushNoti")
   async getAdmin(@common.Body("phone") phone: string ) {
@@ -281,6 +282,25 @@ export class UserController extends UserControllerBase {
       return this.service.pushNoti(phone);
     } catch (error) {
       throw error;
+    }
+  }
+
+  @common.Post("/reset-password-v2")
+  async resetPasswordV2(@common.Request() req: any, @common.Body("passwordNew") passwordNew: string, @common.Body("passwordOld") passwordOld: string) {
+    try {
+      const user = JSON.parse(req.headers.user);
+      await this.service.changePassword(user.sub, passwordNew, passwordOld)
+      return {
+        message: "Reset password successfull"
+      }
+    } catch (error: any) {
+      throw new common.HttpException(
+        {
+          status: error.status,
+          error: error.message,
+        },
+        error.status || common.HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

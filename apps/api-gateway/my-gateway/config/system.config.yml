@@ -9,7 +9,6 @@ plugins:
     enabled: true
     secret: "asasasa"
     algorithm: "HS256"
-    header: "x-jwt-data"
   express-gateway-plugin-logging:
     enabled: true
     # level: "info"
