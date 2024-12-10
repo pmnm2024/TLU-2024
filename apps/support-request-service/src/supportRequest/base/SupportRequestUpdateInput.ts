@@ -125,6 +125,7 @@ class SupportRequestUpdateInput {
     type: Number,
   })
   @IsInt()
+
   @Max(99999999999)
   @IsOptional()
   @Field(() => Number, {
@@ -167,6 +168,7 @@ class SupportRequestUpdateInput {
     nullable: true,
   })
   status?: "Pending" | "Processed" | "Refused";
+
 
   @ApiProperty({
     required: false,
