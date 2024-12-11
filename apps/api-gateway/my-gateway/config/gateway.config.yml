@@ -43,6 +43,7 @@ apiEndpoints:
     paths: 
         - "/api/donations/addDonation"
         - "/api/donations/getAll"
+        - "/api/donations"
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
@@ -63,6 +64,7 @@ apiEndpoints:
         - "/api/supportRequests/addSupportRequest"
         - "/api/supportRequestDetails/getDetail/{id}"
         - "/api/supportRequests/getSupportRequestByUserId"
+        - "/api/supportRequestTypes"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"

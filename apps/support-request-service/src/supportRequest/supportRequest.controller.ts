@@ -43,8 +43,9 @@ export class SupportRequestController extends SupportRequestControllerBase {
     @common.Body() data: SupportRequestCreateInput
   ): Promise<SupportRequest> {
     try {
+
       return await this.service.addSupportRequest({
-        data: data,
+        data: { ...data, requestCode: this.service.genRequestCode() },
         select: {
           city: true,
           createdAt: true,

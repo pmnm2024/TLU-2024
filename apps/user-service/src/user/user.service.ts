@@ -669,7 +669,7 @@ export class UserService extends UserServiceBase {
   * @returns {Promise<void>} A promise that resolves once the password has been successfully updated.
   * @throws {BadRequestException} If the `userId` is invalid, the token is expired/invalid, or the user is not found.
   */
-  async changePassword(userId: string, passwordNew: string, passwordOld: string): Promise<User> {
+  async changePasswordV2(userId: string, passwordNew: string, passwordOld: string): Promise<User> {
     try {
       if (!userId) {
         throw new BadRequestException("Hackerr!!!");
