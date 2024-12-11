@@ -71,7 +71,7 @@ export class SupportRequestController extends SupportRequestControllerBase {
     }
   }
 
-  @common.Get("/getSupportRequestByUserId")
+  @common.Get("/getSupportRequestByUserId/:email")
   @swagger.ApiOkResponse({ type: [SupportRequest] })
   async getSupportRequestByUserId(@common.Param("email") email : string) {
     try {
