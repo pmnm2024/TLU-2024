@@ -28,7 +28,7 @@ export class DonationController extends DonationControllerBase {
   async addDonation(@common.Body() data: DonationCreateInput): Promise<Donation> {
     try {
       const payLoad = {
-        data: data,
+        data: { ...data, requestCode: this.service.genRequestCode() },
         select: {
           accountNumber: true,
           amount: true,
@@ -49,6 +49,7 @@ export class DonationController extends DonationControllerBase {
           updatedAt: true,
           userId: true,
           ward: true,
+          donationCode: true
         }
       }
       return await this.service.addDonation(payLoad)
@@ -57,35 +58,14 @@ export class DonationController extends DonationControllerBase {
     }
   }
 
-
   @common.Get("/getDonationByUserId")
   @swagger.ApiOkResponse({ type: [Donation] })
-  async getDonationByUserId(@common.Request() req: any,): Promise<Donation | null> {
-    const user = JSON.parse(req.headers.user);
-    return this.service.donation({
-      where: { id: user.sub },
-      select: {
-        accountNumber: true,
-        amount: true,
-        bank: true,
-        city: true,
-        createdAt: true,
-        description: true,
-        detailAddress: true,
-        district: true,
-        email: true,
-        fullName: true,
-        id: true,
-        paymentMethod: true,
-        phone: true,
-        status: true,
-        supportRequestTypeId: true,
-        supportRequestTypeName: true,
-        updatedAt: true,
-        userId: true,
-        ward: true,
-      },
-    });
+  async getDonationByUserId(@common.Request() req: any,) {
+    try {
+      return await this.service.getByUser(req.body.email)
+    } catch (error) {
+      throw error
+    }
   }
 
   @Public()
