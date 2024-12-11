@@ -43,6 +43,7 @@ apiEndpoints:
     paths: 
         - "/api/donations/addDonation"
         - "/api/donations"
+        - "/api/donations/createdVNPAY"
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
     host: "*"

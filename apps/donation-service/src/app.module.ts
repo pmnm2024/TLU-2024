@@ -19,9 +19,11 @@ import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TasksModule } from "./tasks/task.module";
 import { ScheduleModule } from '@nestjs/schedule';
+
 @Module({
   controllers: [],
   imports: [
+
     RabbitMQModule,
     DonationModule,
     OutBoxModule,
@@ -61,4 +63,4 @@ import { ScheduleModule } from '@nestjs/schedule';
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

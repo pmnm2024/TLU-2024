@@ -264,5 +264,26 @@ export class SupportRequestService extends SupportRequestServiceBase {
 
     return result;
   }
+
+  async getByUser(email: string) {
+    try {
+      if(!email) throw new BadRequestException("Mail is require")
+      const requests = await this.prisma.supportRequest.findMany({
+        where: {
+          email: email
+        }
+      })
+      return requests
+    } catch (error) { 
+      throw error
+    }
+  }
+  // getByUser(userId: string){
+  //   try {
+  //     const supportRequest = await this.prisma
+  //   } catch (error) {
+
+  //   }
+  // }
 }
 

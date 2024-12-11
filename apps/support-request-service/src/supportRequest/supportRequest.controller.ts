@@ -72,29 +72,13 @@ export class SupportRequestController extends SupportRequestControllerBase {
 
   @common.Get("/getSupportRequestByUserId")
   @swagger.ApiOkResponse({ type: [SupportRequest] })
-  async getSupportRequestByUserId(@common.Request() req: any,): Promise<SupportRequest | null> {
-    const user = JSON.parse(req.headers.user);
-    return this.service.supportRequest({
-      where: { id: user.sub },
-      select: {
-        city: true,
-        createdAt: true,
-        descripton: true,
-        detailAddress: true,
-        district: true,
-        email: true,
-        fullname: true,
-        id: true,
-        location: true,
-        phone: true,
-        point: true,
-        quantity: true,
-        status: true,
-        supportRequestTypeId: true,
-        updatedAt: true,
-        ward: true,
-      },
-    });
+  async getSupportRequestByUserId(@common.Request() req: any,) {
+    try {
+      // const user = JSON.parse(req.headers.user);
+      return await this.service.getByUser(req.body.email)
+    } catch (error) {
+      throw error
+    }
   }
 
   @common.Get("/byName")
