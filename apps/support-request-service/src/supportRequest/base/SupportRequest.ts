@@ -154,7 +154,9 @@ class SupportRequest {
   })
   @IsString()
   @MaxLength(1000)
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: true
+  })
   requestCode!: string;
 
   @ApiProperty({

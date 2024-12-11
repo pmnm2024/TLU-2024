@@ -107,6 +107,17 @@ class DonationWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
+  donationCode?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
   email?: StringNullableFilter;
 
   @ApiProperty({

@@ -81,7 +81,7 @@ export class UserService extends UserServiceBase {
    * @throws {BadRequestException} If the email is missing or the user is not found in the system.
    */
   async forgotPassword(email: string): Promise<ResetPasswordOutput> {
-    try {
+    try {Get
       if (!email) {
         throw new BadRequestException("Email is required");
       }

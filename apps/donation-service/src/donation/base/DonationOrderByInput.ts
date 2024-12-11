@@ -116,6 +116,17 @@ class DonationOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  donationCode?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   email?: SortOrder;
 
   @ApiProperty({

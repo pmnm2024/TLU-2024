@@ -174,7 +174,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
     }
   }
   async addSupportRequest(
-    args: Prisma.SupportRequestCreateArgs
+    args: any
   ): Promise<SupportRequest> {
     await this.prisma.$transaction([
       this.prisma.outBox.create({
