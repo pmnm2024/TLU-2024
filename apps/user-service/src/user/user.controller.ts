@@ -114,7 +114,7 @@ export class UserController extends UserControllerBase {
       );
     }
   }
-
+  @Public()
   @EventPattern(MyMessageBrokerTopics.AddSupportRequest)
   async onAddSupportRequest(
     @Payload()
@@ -122,6 +122,7 @@ export class UserController extends UserControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
+      console.log(data);
       await this.service.recentUsers(data);
       return;
     } catch (error) {

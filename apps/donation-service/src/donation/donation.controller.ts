@@ -60,9 +60,9 @@ export class DonationController extends DonationControllerBase {
 
   @common.Get("/getDonationByUserId")
   @swagger.ApiOkResponse({ type: [Donation] })
-  async getDonationByUserId(@common.Request() req: any,) {
+  async getDonationByUserId(@common.Param("email") email : string) {
     try {
-      return await this.service.getByUser(req.body.email)
+      return await this.service.getByUser(email)
     } catch (error) {
       throw error
     }

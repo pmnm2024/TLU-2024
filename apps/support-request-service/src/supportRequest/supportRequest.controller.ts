@@ -73,10 +73,10 @@ export class SupportRequestController extends SupportRequestControllerBase {
 
   @common.Get("/getSupportRequestByUserId")
   @swagger.ApiOkResponse({ type: [SupportRequest] })
-  async getSupportRequestByUserId(@common.Request() req: any,) {
+  async getSupportRequestByUserId(@common.Param("email") email : string) {
     try {
       // const user = JSON.parse(req.headers.user);
-      return await this.service.getByUser(req.body.email)
+      return await this.service.getByUser(email)
     } catch (error) {
       throw error
     }

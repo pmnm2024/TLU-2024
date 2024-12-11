@@ -435,7 +435,7 @@ export class UserService extends UserServiceBase {
             $near: {
               $geometry: {
                 type: "Point",
-                coordinates: [data.location.longitude, data.location.latitude],
+                coordinates: [data.supportRequest.location.longitude, data.supportRequest.location.latitude],
               },
               $maxDistance: 5000,
             },
@@ -443,7 +443,7 @@ export class UserService extends UserServiceBase {
           status: "Available",
         },
         options: {
-          limit: data.quantity,
+          limit: parseInt(data.quantity, 10)
         },
       });
 
