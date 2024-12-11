@@ -29,6 +29,7 @@ apiEndpoints:
       - "/api/users/userDetail"
       - "/api/users/rankUsesr*"
       - "/api/historySupports/byUser"
+      - "/api/users/completed/:id"
       - "/api/historySupports/addUser"
       - "/api/historySupports/bySupportRequest/:id"
   auth:
