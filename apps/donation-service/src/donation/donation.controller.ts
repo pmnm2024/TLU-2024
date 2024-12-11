@@ -149,4 +149,37 @@ export class DonationController extends DonationControllerBase {
       // return res.json(IpnUnknownError);
     }
   }
+
+  @common.Get("/getAll")
+  async getAll(){
+    try {
+      return this.service.donations({
+        select: {
+          accountNumber: true,
+          amount: true,
+          bank: true,
+          city: true,
+          createdAt: true,
+          description: true,
+          detailAddress: true,
+          district: true,
+          email: true,
+          fullName: true,
+          id: true,
+          paymentMethod: true,
+          phone: true,
+          status: true,
+          supportRequestTypeId: true,
+          supportRequestTypeName: true,
+          updatedAt: true,
+          userId: true,
+          ward: true,
+        },
+      });
+    } catch (error) {
+      throw error
+    }
+  }   
+
+  
 }

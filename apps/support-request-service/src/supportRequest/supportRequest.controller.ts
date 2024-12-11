@@ -63,6 +63,7 @@ export class SupportRequestController extends SupportRequestControllerBase {
           supportRequestTypeId: true,
           updatedAt: true,
           ward: true,
+          requestCode:true
         },
       });
     } catch (error) {
@@ -87,6 +88,35 @@ export class SupportRequestController extends SupportRequestControllerBase {
       const result = await this.service.getByNameSupportTypes(name)
       return result
     } catch (error) {
+      throw error
+    }
+  }
+
+  @common.Get("/getAll")
+  async getAll(){
+    try{
+      return this.service.supportRequests({
+        select: {
+          city: true,
+          createdAt: true,
+          descripton: true,
+          detailAddress: true,
+          district: true,
+          email: true,
+          fullname: true,
+          id: true,
+          location: true,
+          phone: true,
+          point: true,
+          quantity: true,
+          requestCode: true,
+          status: true,
+          supportRequestTypeId: true,
+          updatedAt: true,
+          ward: true,
+        },
+      });
+    }catch (error) {
       throw error
     }
   }
