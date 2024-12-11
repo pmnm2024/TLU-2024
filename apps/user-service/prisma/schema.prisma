@@ -50,6 +50,20 @@ model RankUser {
   updatedAt   DateTime @updatedAt
 }
 
+model HistorySupport {
+  city             String?
+  createdAt        DateTime @default(now())
+  description      String?
+  district         String?
+  fullname         String?
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  phone            String?
+  requestSupportId String?
+  updatedAt        DateTime @updatedAt
+  userId           String?
+  ward             String?
+}
+
 enum EnumUserSex {
   Male
   Female

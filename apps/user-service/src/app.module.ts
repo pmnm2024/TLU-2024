@@ -5,6 +5,7 @@ import { redisStore } from "cache-manager-ioredis-yet";
 import { UserModule } from "./user/user.module";
 import { OutBoxModule } from "./outBox/outBox.module";
 import { RankUserModule } from "./rankUser/rankUser.module";
+import { HistorySupportModule } from "./historySupport/historySupport.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -25,6 +26,7 @@ import { TasksModule } from "./tasks/task.module";
     UserModule,
     OutBoxModule,
     RankUserModule,
+    HistorySupportModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
