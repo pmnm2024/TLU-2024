@@ -60,10 +60,10 @@ export class DonationController extends DonationControllerBase {
 
   @common.Get("/getDonationByUserId")
   @swagger.ApiOkResponse({ type: [Donation] })
-  async getDonationByUserId(@common.Request() req: any,): Promise<Donation | null> {
+  async getDonationByUserId(@common.Request() req: any, @common.Param("email") email: string): Promise<Donation | null> {
     const user = JSON.parse(req.headers.user);
     return this.service.donation({
-      where: { id: user.sub },
+      where: { email: email },
       select: {
         accountNumber: true,
         amount: true,
@@ -151,7 +151,7 @@ export class DonationController extends DonationControllerBase {
   }
 
   @common.Get("/getAll")
-  async getAll(){
+  async getAll() {
     try {
       return this.service.donations({
         select: {
@@ -179,7 +179,7 @@ export class DonationController extends DonationControllerBase {
     } catch (error) {
       throw error
     }
-  }   
+  }
 
-  
+
 }
