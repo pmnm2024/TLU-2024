@@ -515,10 +515,7 @@ export class UserService extends UserServiceBase {
                                           <p><strong>Phường:</strong> ${data.supportRequest.ward}</p>
                                       </div>
                               
-                                      <div class="address-details">
-                                          <h3>Vị trí trên Google Maps</h3>
-                                          <iframe src="https://www.google.com/maps?q=${data.supportRequest.location.latitude},${data.supportRequest.location.longitude}&z=15&output=embed" allowfullscreen></iframe>
-                                      </div>
+                                      <a href="" class="button">Nhận nhiệm vụ</a>
                                   </div>
                               
                               </body>
