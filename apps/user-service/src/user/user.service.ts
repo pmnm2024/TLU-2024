@@ -81,7 +81,7 @@ export class UserService extends UserServiceBase {
    * @throws {BadRequestException} If the email is missing or the user is not found in the system.
    */
   async forgotPassword(email: string): Promise<ResetPasswordOutput> {
-    try {Get
+    try {
       if (!email) {
         throw new BadRequestException("Email is required");
       }
@@ -435,7 +435,7 @@ export class UserService extends UserServiceBase {
             $near: {
               $geometry: {
                 type: "Point",
-                coordinates: [data.location.longitude, data.location.latitude],
+                coordinates: [data.supportRequest.location.longitude, data.supportRequest.location.latitude],
               },
               $maxDistance: 5000,
             },
@@ -443,7 +443,7 @@ export class UserService extends UserServiceBase {
           status: "Available",
         },
         options: {
-          limit: data.quantity,
+          limit: parseInt(data.quantity, 10)
         },
       });
 
@@ -512,7 +512,6 @@ export class UserService extends UserServiceBase {
                                           <p><strong>Họ và tên:</strong> ${data.supportRequest.fullname}</p>
                                           <p><strong>Số điện thoại:</strong> ${data.supportRequest.phone}</p>
                                           <p><strong>Số điểm:</strong> ${data.supportRequest.point}</p>
-                                          <p><strong>Số lượng:</strong> ${data.supportRequest.quantity}</p>
                                           <p><strong>Phường:</strong> ${data.supportRequest.ward}</p>
                                       </div>
                               

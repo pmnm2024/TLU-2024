@@ -24,6 +24,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
   }
   async handleSupportRequest(data: any): Promise<SupportRequest> {
     try {
+      // console.log(data);
       const { id, status, warehouse, quantity, description } = data;
       if (!id) {
         throw new BadRequestException("SupportRequestID is required");
@@ -45,18 +46,19 @@ export class SupportRequestService extends SupportRequestServiceBase {
         throw new BadRequestException("SupportRequestTypeName not found");
       }
       if (status === "Processed") {
-        if (supportRequestTypeName.name == "Khẩn cấp") {
-          this.prisma.outBox.create({
+        if (supportRequestTypeName.name ===  "Khẩn cấp") {
+          const payloadData = {
+            supportRequest,
+            quantity,
+          };
+          await this.prisma.outBox.create({
             data: {
               eventType: MyMessageBrokerTopics.AddSupportRequest,
-              payload: {
-                supportRequest,
-                quantity,
-              },
+              payload: payloadData, 
               retry: 3,
               status: "pending",
             },
-          })
+          });
           this.prisma.outBox.create({
             data: {
               eventType: MyMessageBrokerTopics.HandleSupportRequest,

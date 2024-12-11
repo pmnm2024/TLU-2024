@@ -58,7 +58,6 @@ export class NotificationController extends NotificationControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-
       await this.service.handleSupportRequest(data);
       return;
     } catch (error) {
