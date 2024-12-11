@@ -122,7 +122,7 @@ export class UserController extends UserControllerBase {
   ): Promise<void> {
     try {
       const { data } = message as any;
-      console.log(data);
+      // console.log(data);
       await this.service.recentUsers(data);
       return;
     } catch (error) {
