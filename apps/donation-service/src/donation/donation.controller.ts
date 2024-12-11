@@ -12,9 +12,7 @@ import { DonationControllerBase } from "./base/donation.controller.base";
 import { Public } from "src/decorators/public.decorator";
 import { DonationCreateInput } from "./base/DonationCreateInput";
 import { Donation } from "./base/Donation";
-import { ApiNestedQuery } from "src/decorators/api-nested-query.decorator";
-import { DonationFindManyArgs } from "./base/DonationFindManyArgs";
-import { plainToClass } from "class-transformer";
+import e from "express";
 @swagger.ApiTags("donations")
 @common.Controller("donations")
 export class DonationController extends DonationControllerBase {
@@ -85,4 +83,38 @@ export class DonationController extends DonationControllerBase {
       },
     });
   }
+
+
+  @common.Get("/getAll")
+  async getAll(){
+    try {
+      return this.service.donations({
+        select: {
+          accountNumber: true,
+          amount: true,
+          bank: true,
+          city: true,
+          createdAt: true,
+          description: true,
+          detailAddress: true,
+          district: true,
+          email: true,
+          fullName: true,
+          id: true,
+          paymentMethod: true,
+          phone: true,
+          status: true,
+          supportRequestTypeId: true,
+          supportRequestTypeName: true,
+          updatedAt: true,
+          userId: true,
+          ward: true,
+        },
+      });
+    } catch (error) {
+      throw error
+    }
+  }   
+
+  
 }
