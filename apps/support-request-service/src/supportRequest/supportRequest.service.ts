@@ -46,7 +46,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
         throw new BadRequestException("SupportRequestTypeName not found");
       }
       if (status === "Processed") {
-        if (supportRequestTypeName.name ===  "Khẩn cấp") {
+        if (supportRequestTypeName.name === "Khẩn cấp") {
           const payloadData = {
             supportRequest,
             quantity,
@@ -54,7 +54,7 @@ export class SupportRequestService extends SupportRequestServiceBase {
           await this.prisma.outBox.create({
             data: {
               eventType: MyMessageBrokerTopics.AddSupportRequest,
-              payload: payloadData, 
+              payload: payloadData,
               retry: 3,
               status: "pending",
             },
@@ -256,27 +256,34 @@ export class SupportRequestService extends SupportRequestServiceBase {
   }
 
   genRequestCode() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const length = 8;
+    const characters = '0123456789';  // Chỉ sử dụng các chữ số
+    let result = 'ATA';  // Bắt đầu mã với 'ATA'
 
-    for (let i = 0; i < length; i++) {
+    // Lấy 2 chữ số cuối của năm hiện tại
+    const year = new Date().getFullYear().toString().slice(-2);
+
+    // Thêm 2 chữ số cuối năm vào mã
+    result += year;
+
+    // Thêm 5 chữ số ngẫu nhiên vào mã
+    for (let i = 0; i < 5; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
 
     return result;
   }
 
+
   async getByUser(email: string) {
     try {
-      if(!email) throw new BadRequestException("Mail is require")
+      if (!email) throw new BadRequestException("Mail is require")
       const requests = await this.prisma.supportRequest.findMany({
         where: {
           email: email
         }
       })
       return requests
-    } catch (error) { 
+    } catch (error) {
       throw error
     }
   }

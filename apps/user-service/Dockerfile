@@ -10,12 +10,12 @@ COPY package*.json ./
 # Cài đặt tất cả dependencies
 RUN npm install
 
+# generate the prisma client based on the schema
+
 # Copy toàn bộ mã nguồn
 COPY . .
 
-# generate the prisma client based on the schema
-RUN npm run prisma:generate
-
+RUN npx prisma generate
 
 # initialize the database
 # RUN npm run db:init

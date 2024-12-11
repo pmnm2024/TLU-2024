@@ -170,29 +170,31 @@ export class DonationService extends DonationServiceBase {
     }
   }
 
-
-  
   genRequestCode() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const length = 8;
+    const characters = '0123456789';  
+    let result = 'DN'; 
 
-    for (let i = 0; i < length; i++) {
+    const year = new Date().getFullYear().toString().slice(-2);
+
+    result += year;
+
+    for (let i = 0; i < 5; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
 
     return result;
   }
-  async getByUser(email: string) {
+
+  async getByUser(userId: string) {
     try {
-      if(!email) throw new BadRequestException("Mail is require")
+      if (!userId) throw new BadRequestException("Hackerr!!")
       const requests = await this.prisma.donation.findMany({
         where: {
-          email: email
+          userId: userId
         }
       })
       return requests
-    } catch (error) { 
+    } catch (error) {
       throw error
     }
   }

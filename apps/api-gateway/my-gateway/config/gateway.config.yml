@@ -47,6 +47,7 @@ apiEndpoints:
       - "/api/donations/getAll"
       - "/api/donations"
       - "/api/donations/createdVNPAY"
+      - "/api/donations/vnpay-ipn"
 
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]

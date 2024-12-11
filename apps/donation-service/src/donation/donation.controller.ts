@@ -28,7 +28,7 @@ export class DonationController extends DonationControllerBase {
   async addDonation(@common.Body() data: DonationCreateInput): Promise<Donation> {
     try {
       const payLoad = {
-        data: { ...data, requestCode: this.service.genRequestCode() },
+        data: { ...data, donationCode: this.service.genRequestCode() },
         select: {
           accountNumber: true,
           amount: true,
@@ -58,11 +58,15 @@ export class DonationController extends DonationControllerBase {
     }
   }
   // @Public()
-  @common.Get("/getDonationByUserId/:email")
+  @common.Get("/getDonationByUserId")
   @swagger.ApiOkResponse({ type: [Donation] })
-  async getDonationByUserId(@common.Param("email") email : string) {
+  async getDonationByUserId(@common.Req() req: any) {
     try {
-      return await this.service.getByUser(email)
+      const user = JSON.parse(req.headers.user);
+      if (!user) {
+        throw new common.UnauthorizedException()
+      }
+      return await this.service.getByUser(user.sub)
     } catch (error) {
       throw error
     }

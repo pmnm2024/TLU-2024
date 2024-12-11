@@ -1,5 +1,5 @@
 services:
-  fcm-service:
+  fcm:
     build:
       context: .
       args:
