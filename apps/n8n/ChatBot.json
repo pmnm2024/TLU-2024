@@ -135,8 +135,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -1500,
-        580
+        -1340,
+        520
       ],
       "id": "fc2736b6-a340-4778-822c-a1e473f02a32",
       "name": "When chat message received",
@@ -205,8 +205,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        540,
-        660
+        660,
+        920
       ],
       "id": "4e1a6faa-89a3-4590-9a45-87fcbef01d4d",
       "name": "Edit Fields1"
@@ -429,8 +429,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        540,
-        920
+        860,
+        680
       ],
       "id": "935cfa07-aded-40db-8d48-8cd4c0eecb9c",
       "name": "Edit Fields4"

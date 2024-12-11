@@ -310,5 +310,17 @@ export class UserController extends UserControllerBase {
     }
   }
 
-
+  @common.Post("/completed/:id")
+  async completed(@common.Param("id") id:string){
+    try {
+      return this.service.updateUser({
+        where: {id: id},
+        data: {
+          status: "Available"
+        }
+      })
+    } catch (error) {
+        throw error;
+    }
+  }
 }

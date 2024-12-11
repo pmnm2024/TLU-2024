@@ -53,6 +53,29 @@ export class HistorySupportController extends HistorySupportControllerBase {
       },
     });
   }
+  @common.Get("/bySupportRequest/:id")
+  async bySupportRequest(@common.Param("id")id : string){
+    try {
+      return this.service.historySupports({
+        where: {requestSupportId: id},
+        select: {
+          city: true,
+          createdAt: true,
+          description: true,
+          district: true,
+          fullname: true,
+          id: true,
+          phone: true,
+          requestSupportId: true,
+          updatedAt: true,
+          userId: true,
+          ward: true,
+        },
+      })
+    } catch (error) {
+        throw error
+    }
+  }
   @common.Get("/byUser")
   async byUser(
     @common.Request() req: any
