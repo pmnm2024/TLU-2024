@@ -1,0 +1,205 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f11b1fb8-28a0-475a-8515-e2ef9d4df57e",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        240
+      ],
+      "id": "1a63346a-fc74-454d-b8b5-31274bf77695",
+      "name": "Webhook",
+      "webhookId": "f11b1fb8-28a0-475a-8515-e2ef9d4df57e"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.yescale.io/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer sk-9HJ49JGZJaGPHNL2w3JsBm6MmE5RLBAel4HgCVLGhEmZFXhd"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ \n    {\n      \"model\": 'gpt-4o',\n      \"messages\": [\n           {\n                role: \"system\",\n                 \"content\": \"Nhận diện yêu cầu hỗ trợ khẩn cấp trong một tin nhắn và chỉ trả về 1 giá trị là số lượng người xử lý yêu cầu hỗ trợ dựa theo mức độ nghiêm trọng. Nếu không có yêu cầu khẩn cấp, trả về 0.\"\n              },\n        { \n        content: $json.description,\n        role: 'user'\n        }\n      ],\n      \"temperature\": 1,\n      \"stream\": false,\n      \"best_of\": 1\n    }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f78856e7-fd01-4f77-b6d4-30b1c8026290",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lấy toàn bộ dữ liệu từ body của webhook\nconst inputData = $input.all();\n\n// Trích xuất dữ liệu trong body\nconst json = inputData.map(item => item.json.body);\n\nreturn {\n  json: {\n    id: json[0].id,\n    description: json[0].description,\n    token: json[0].token\n  }\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        280
+      ],
+      "id": "13c9c00b-c2e8-4fd3-902a-670e959b4210",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputData = $input.all();\nconst messages = inputData.map(item => item.json.choices[0].message.content);\nreturn messages.map(message => {\n  return {\n    json: {\n      quantity: message\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        280
+      ],
+      "id": "544caafc-8e98-4259-a91e-a9855abfa444",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://oryx-brave-bison.ngrok-free.app/api/supportRequests/handleSupportRequest",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"Authorization\": \"Bearer {{$json.token }}\",\n  \"Content-Type\": \"application/json\"\n}\n",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \n\"id\": \"{{ $json.id }}\",\n\"description\" : \"{{ $json.description }}\",\n\"quantity\": \"{{ $json.quantity }}\",\n\"status\": \"Processed\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        480
+      ],
+      "id": "4858a13d-2854-41b0-ad21-a5b0ccfe36d3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        360,
+        640
+      ],
+      "id": "0bb0a4da-7ede-4899-b4c9-fe42cb91746e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lấy dữ liệu từ cả hai items\nconst data = $input.all();\n\n// Kiểm tra và kết hợp dữ liệu\nconst mergedData = {\n  id: data[1]?.json?.id, \n  description: data[1]?.json?.description,\n  quantity: data[0]?.json?.quantity,\n  token: data[1]?.json?.token\n};\nreturn [\n  {\n    json: mergedData,\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        440
+      ],
+      "id": "f585f061-762a-4d9b-8323-13b90bcbce45",
+      "name": "Code2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3deb7ddd-dc4e-452e-b88c-64f382f7c7a8",
+  "meta": {
+    "instanceId": "633002b4c6e8b57085581c06b0ab93597f15388bf4bff62347e35784969bcc7d"
+  },
+  "id": "LyIX4mwSpMObzX0a",
+  "tags": []
+}
