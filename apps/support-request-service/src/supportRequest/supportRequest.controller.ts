@@ -40,7 +40,7 @@ export class SupportRequestController extends SupportRequestControllerBase {
   @common.Post("/addSupportRequest")
   @swagger.ApiCreatedResponse({ type: SupportRequest })
   async addSupportRequest(
-    @common.Body() data: SupportRequestCreateInput
+    @common.Body() data: any
   ): Promise<SupportRequest> {
     try {
 
