@@ -204,6 +204,8 @@ export class SupportRequestService extends SupportRequestServiceBase {
 
   async getByNameSupportTypes(name: string) {
     try {
+      console.log(name === "Khẩn cấp")
+      console.log(name)
       let supportType;
 
       if (name === "Khẩn cấp") {
@@ -251,6 +253,16 @@ export class SupportRequestService extends SupportRequestServiceBase {
     }
   }
 
+  genRequestCode() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const length = 8;
 
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+
+    return result;
+  }
 }
 

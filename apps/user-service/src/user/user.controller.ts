@@ -289,7 +289,7 @@ export class UserController extends UserControllerBase {
   async resetPasswordV2(@common.Request() req: any, @common.Body("passwordNew") passwordNew: string, @common.Body("passwordOld") passwordOld: string) {
     try {
       const user = JSON.parse(req.headers.user);
-      await this.service.changePassword(user.sub, passwordNew, passwordOld)
+      await this.service.changePasswordV2(user.sub, passwordNew, passwordOld)
       return {
         message: "Reset password successfull"
       }
