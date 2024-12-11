@@ -29,7 +29,7 @@ import { WebsocketModule } from "./websocket/websocket.module";
     ServeStaticModule.forRootAsync({
       useClass: ServeStaticOptionsService,
     }),
-    // FirebaseModule,
+    FirebaseModule,
     WebsocketModule
   ],
   providers: [],

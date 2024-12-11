@@ -15,16 +15,16 @@ import { RabbitMQMessage } from 'src/rabbitmq/RabbitMQMessage';
 export class FirebaseController {
   constructor(private readonly firebaseService: FirebaseService) { }
 
-  // @Post()
-  // async sendNotification(@Body() body: { token: string, message: string }) {
-  //   await this.firebaseService.sendPushNotification(body.token, body.message);
-  // }
-  @EventPattern(MyMessageBrokerTopics.NotiToAdmin)
-  sendNotification(@Payload()
-  message: RabbitMQMessage) {
-    const { data } = message as any;
-    console.log("fcm", data);
-    // this.notificationsGateway.sendNotification(notification);
-    return { success: true };
+  @Post()
+  async sendNotification(@Body() body: { token: string, message: string, userId: string, title: string }) {
+    await this.firebaseService.sendPushNotification(body.token, body.userId, body.message, body.title);
   }
+  // @EventPattern(MyMessageBrokerTopics.NotiToAdmin)
+  // sendNotification(@Payload()
+  // message: RabbitMQMessage) {
+  //   const { data } = message as any;
+  //   console.log("fcm", data);
+  //   // this.notificationsGateway.sendNotification(notification);
+  //   return { success: true };
+  // }
 }

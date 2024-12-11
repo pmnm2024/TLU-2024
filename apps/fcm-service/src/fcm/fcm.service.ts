@@ -42,4 +42,17 @@ export class FcmService extends FcmServiceBase {
       throw error
     }
   }
+
+  async getByUser(id: string) {
+    try {
+      return this.prisma.fcm.findMany({
+        where: {
+          userId: id,
+          // read: "false"
+        }
+      })
+    } catch (error) {
+      throw error
+    }
+  }
 }

@@ -206,7 +206,7 @@ export class NotificationService extends NotificationServiceBase {
     try {
       const {listAdmin} = data;
 
-
+    
     } catch (error) {
 
     }
