@@ -65,7 +65,6 @@ apiEndpoints:
         - "/api/supportRequests/byName"
         - "/api/supportRequests/addSupportRequest"
         - "/api/supportRequestDetails/getDetail/{id}"
-        - "/api/supportRequests/getSupportRequestByUserId/*"
         - "/api/supportRequestTypes"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
@@ -75,7 +74,7 @@ apiEndpoints:
         - "/api/supportRequests/handleSupportRequest"
         - "/api/supportRequests/:id"
         - "/api/supportRequestTypes"
-        - "/api/supportRequests/getSupportRequestByUserId"
+        - "/api/supportRequests/getSupportRequestByUserId/*"
   warehouse:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
