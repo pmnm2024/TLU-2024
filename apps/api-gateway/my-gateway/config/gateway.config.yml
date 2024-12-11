@@ -28,6 +28,8 @@ apiEndpoints:
       - "/api/users/pushNoti"
       - "/api/users/userDetail"
       - "/api/users/rankUsesr*"
+      - "/api/historySupports/byUser"
+      - "/api/historySupports/addUser"
   auth:
     methods: ["POST", "OPTIONS"]
     host: "*"
