@@ -45,13 +45,14 @@ apiEndpoints:
         - "/api/donations/getAll"
         - "/api/donations"
         - "/api/donations/createdVNPAY"
+
   donation:
     methods: ["GET", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
     paths: 
         - "/api/donations"
         - "/api/donations/:id"
-        - "/api/donations/getDonationByUserId"
+        - "/api/donations/getDonationByUserId/*"
   mail:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
     host: "*"
