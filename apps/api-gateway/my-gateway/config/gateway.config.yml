@@ -30,6 +30,7 @@ apiEndpoints:
       - "/api/users/rankUsesr*"
       - "/api/historySupports/byUser"
       - "/api/historySupports/addUser"
+      - "/api/historySupports/bySupportRequest/:id"
   auth:
     methods: ["POST", "OPTIONS"]
     host: "*"
@@ -66,7 +67,7 @@ apiEndpoints:
         - "/api/supportRequests/getAll"
         - "/api/supportRequests/byName"
         - "/api/supportRequests/addSupportRequest"
-        - "/api/supportRequestDetails/getDetail/{id}"
+        - "/api/supportRequestDetails/getDetail/:id"
         - "/api/supportRequestTypes"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]

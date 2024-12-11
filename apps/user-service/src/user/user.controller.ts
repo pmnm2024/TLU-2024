@@ -309,6 +309,4 @@ export class UserController extends UserControllerBase {
       );
     }
   }
-
-
 }
