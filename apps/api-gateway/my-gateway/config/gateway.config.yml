@@ -64,7 +64,7 @@ apiEndpoints:
         - "/api/supportRequests/byName"
         - "/api/supportRequests/addSupportRequest"
         - "/api/supportRequestDetails/getDetail/{id}"
-        - "/api/supportRequests/getSupportRequestByUserId"
+        - "/api/supportRequests/getSupportRequestByUserId/*"
         - "/api/supportRequestTypes"
   supportRequest:
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]

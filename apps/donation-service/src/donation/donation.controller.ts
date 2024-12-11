@@ -58,7 +58,7 @@ export class DonationController extends DonationControllerBase {
     }
   }
 
-  @common.Get("/getDonationByUserId")
+  @common.Get("/getDonationByUserId/:gmail")
   @swagger.ApiOkResponse({ type: [Donation] })
   async getDonationByUserId(@common.Param("email") email : string) {
     try {
@@ -131,7 +131,7 @@ export class DonationController extends DonationControllerBase {
   }
 
   @common.Get("/getAll")
-  async getAll(){
+  async getAll() {
     try {
       return this.service.donations({
         select: {
@@ -159,7 +159,7 @@ export class DonationController extends DonationControllerBase {
     } catch (error) {
       throw error
     }
-  }   
+  }
 
-  
+
 }

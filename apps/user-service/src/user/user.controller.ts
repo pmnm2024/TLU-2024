@@ -133,41 +133,46 @@ export class UserController extends UserControllerBase {
   @Public()
   @common.Get("/userDetail")
   async userDetail(@common.Request() req: any) {
-    const user = JSON.parse(req.headers.user);
-    const result = await this.service.user({
-      where: { id: user.sub },
-      select: {
-        address: true,
-        createdAt: true,
-        email: true,
-        fcmToken: true,
-        firstName: true,
-        id: true,
-        lastName: true,
-        nowLocation: true,
-        phone: true,
-        rank: {
-          select: {
-            id: true,
+    try {
+      const user = JSON.parse(req.headers.user);
+      console.log("🚀 ~ UserController ~ userDetail ~ user:", user.sub)
+      const result = await this.service.user({
+        where: { id: user.sub },
+        select: {
+          address: true,
+          createdAt: true,
+          email: true,
+          fcmToken: true,
+          firstName: true,
+          id: true,
+          lastName: true,
+          nowLocation: true,
+          phone: true,
+          rank: {
+            select: {
+              id: true,
+            },
           },
+
+          roles: true,
+          score: true,
+          sex: true,
+          status: true,
+          updatedAt: true,
+          username: true,
         },
+      });
 
-        roles: true,
-        score: true,
-        sex: true,
-        status: true,
-        updatedAt: true,
-        username: true,
-      },
-    });
+      if (!result) {
+        throw new errors.NotFoundException(
+          `No resource was found for ${JSON.stringify(req.headers.user.sub)}`
+        );
+      }
 
-    if (!result) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(req.headers.user.sub)}`
-      );
+      return result;
+    } catch (error) {
+      throw error
     }
-
-    return result;
   }
 
   @Public()
@@ -278,7 +283,7 @@ export class UserController extends UserControllerBase {
 
   @Public()
   @common.Post("/pushNoti")
-  async getAdmin(@common.Body("phone") phone: string ) {
+  async getAdmin(@common.Body("phone") phone: string) {
     try {
       return this.service.pushNoti(phone);
     } catch (error) {
